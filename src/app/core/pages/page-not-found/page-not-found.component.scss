@@ -1,0 +1,25 @@
+:host {
+  flex: 1 1 auto;
+  width: 100%;
+  overflow: hidden;
+  background-color: rgba(102, 59, 184, 0.1);
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  margin-top: 20px;
+  padding: 15px 10px;
+  background: #663bb8;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  color: #ffffff;
+  cursor: pointer;
+}

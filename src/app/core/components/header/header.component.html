@@ -1,0 +1,36 @@
+<mat-toolbar class="header" appHeaderAnimate>
+    <div class="logo-container" routerLink="/">
+        <img class="logo" src="" alt="">
+        <span class="logo-text">shelve</span>
+    </div>
+
+    <div class="add-btn-container">
+        <button mat-button color="accent" class="add-btn">
+            ADD
+        </button>
+    </div>
+
+    <span class="example-spacer"></span>
+
+    <mat-slide-toggle class="toggle-btn" [(ngModel)]="slideValue" (ngModelChange)="changeLang(slideValue)">
+        LANG
+    </mat-slide-toggle>
+
+    <div class="registr-btns">
+        <button mat-flat-button routerLink='/login'>LOGIN</button>
+
+        <button mat-flat-button color="primary" class="text-white" routerLink='/signup'>SIGNUP</button>
+
+        <button mat-flat-button color="primary" class="text-white" (click)="logout()">LOGOUT</button>
+    </div>
+
+
+    <!--  <div class="logout-btn">
+        <mat-icon class="user-icon" (click)="editProfile()">account_circle</mat-icon>
+        <button mat-button color="accent" (click)="logout()">
+            <div>{{ 'HEADER.LOGOUT'}}</div>
+            <mat-icon>logout</mat-icon>
+        </button>
+    </div> -->
+
+</mat-toolbar>
