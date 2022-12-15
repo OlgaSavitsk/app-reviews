@@ -5,8 +5,9 @@ import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { AuthService } from '@auth/services/auth.service';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from 'src/app/material/material.module';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { ValidationService } from '@core/services/validation.service';
+import { Path } from 'src/app/app.constants';
 
 @Component({
   selector: 'app-signin',
@@ -21,35 +22,46 @@ export class SigninComponent implements OnInit {
   errorMessage$$ = this.errorMessage$.pipe();
 
   private ngUnsubscribe = new Subject();
-  constructor(private authService: AuthService, public validationService: ValidationService) { }
+  constructor(
+    private authService: AuthService,
+    public validationService: ValidationService,
+    private router: Router,
+  ) {}
 
   ngOnInit(): void {
     this.formGroup = new FormGroup({
       username: new FormControl('', [Validators.required]),
-      password: new FormControl('', [Validators.required, Validators.minLength(1)]),
+      password: new FormControl('', [
+        Validators.required,
+        Validators.minLength(1),
+      ]),
     });
-    this.formGroup.valueChanges.pipe(takeUntil(this.ngUnsubscribe)).subscribe(() => {
-      this.validationService.setValidationErrors(this.formGroup);
-    });
+    this.formGroup.valueChanges
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(() => {
+        this.validationService.setValidationErrors(this.formGroup);
+      });
   }
 
   onSubmit(): void {
     if (this.formGroup.valid) {
       this.authService.login(this.formGroup.value).subscribe({
-        next: () => { },
+        next: () => {
+          this.router.navigateByUrl(Path.adminPage);
+        },
         error: (err) => {
           this.errorMessage$.next(err.error.message);
-        }
+        },
       });
     }
   }
 
   google() {
-    window.open("http://localhost:4000/auth/google", '_self')
+    window.open('http://localhost:4000/auth/google', '_self');
   }
 
   github() {
-    window.open("http://localhost:4000/auth/github", '_self')
+    window.open('http://localhost:4000/auth/github', '_self');
   }
 
   ngOnDestroy(): void {

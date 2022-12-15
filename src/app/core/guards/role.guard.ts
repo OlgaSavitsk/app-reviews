@@ -14,7 +14,7 @@ import { UserApiService } from '@core/services/user-api.service';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthGuard implements CanActivate {
+export class RoleGuard implements CanActivate {
   constructor(private router: Router, private userService: UserApiService) { }
 
   canActivate(
@@ -28,7 +28,7 @@ export class AuthGuard implements CanActivate {
     return this.userService.getCurrentUser().pipe(
       take(1),
       map((user) =>
-        user !== null ? true : this.router.parseUrl(Path.loginPage),
+        user!.roles === 'admin' ? true : this.router.parseUrl(Path.mainPage),
       ),
     );
   }

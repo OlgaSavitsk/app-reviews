@@ -7,7 +7,6 @@ import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { ValidationService } from '@core/services/validation.service';
 import { MaterialModule } from 'src/app/material/material.module';
 import { AuthService } from '@auth/services/auth.service';
-import { GoogleLoginProvider, SocialAuthService } from 'angularx-social-login';
 import { Path } from 'src/app/app.constants';
 
 @Component({
@@ -24,46 +23,67 @@ export class SignupComponent implements OnInit, OnDestroy {
   private ngUnsubscribe = new Subject();
   private errorMessage$ = new BehaviorSubject<string>('');
   errorMessage$$ = this.errorMessage$.pipe();
+  //roles = new FormControl({value: false, disabled: true});
 
   constructor(
     private authService: AuthService,
     public validationService: ValidationService,
-    private router: Router) { }
+    private router: Router,
+  ) {}
 
   ngOnInit(): void {
     this.formGroup = new FormGroup({
-      name: new FormControl('', [Validators.required, Validators.minLength(1)]),
+      username: new FormControl('', [
+        Validators.required,
+        Validators.minLength(1),
+      ]),
       login: new FormControl('', [Validators.required]),
-      password: new FormControl('', [Validators.required, Validators.minLength(1)]),
-      roles: new FormControl('admin')
+      password: new FormControl('', [
+        Validators.required,
+        Validators.minLength(1),
+      ]),
     });
-    this.formGroup.valueChanges.pipe(takeUntil(this.ngUnsubscribe)).subscribe(() => {
-      this.validationService.setValidationErrors(this.formGroup);
-    });
+    this.formGroup.valueChanges
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(() => {
+        this.validationService.setValidationErrors(this.formGroup);
+      });
+      if(!this.formGroup.invalid) {
+        this.formGroup.get('roles')?.enable();
+      }
+  }
+
+  setRole(complete: boolean = false) {
+    if (complete) {
+      this.formGroup.addControl('roles', new FormControl('admin'))
+    } else {
+      this.formGroup.removeControl('roles')
+    }
+    return 'admin'
   }
 
   onSubmit(e: Event): void {
-    e.preventDefault()
+    e.preventDefault();
     this.isSpinner = !this.isSpinner;
-    this.authService.signUp(this.formGroup.value).subscribe({
+    this.authService.register(this.formGroup.value).subscribe({
       next: () => {
         this.formGroup.reset();
         this.isSpinner = false;
-        this.router.navigate([Path.loginPage])
+        this.router.navigateByUrl(Path.loginPage);
       },
       error: (err) => {
         this.errorMessage$.next(err.error.message);
         this.isSpinner = false;
-      }
+      },
     });
   }
 
-  google() {
-    window.open("http://localhost:4000/auth/google", '_self')
+  googleLogin() {
+    window.open('http://localhost:4000/auth/google', '_self');
   }
 
-  github() {
-    window.open("http://localhost:4000/auth/github", '_self')
+  githubLogin() {
+    window.open('http://localhost:4000/auth/github', '_self');
   }
 
   ngOnDestroy(): void {

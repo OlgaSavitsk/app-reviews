@@ -1,24 +1,36 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
+import { filter, map, Observable } from 'rxjs';
 
-import { UserAuth, UserInfo } from 'src/app/models/user.interfaces';
+import { UserInfo } from 'src/app/models/user.interfaces';
 import { environment } from 'src/environments/environment';
-import { LocalStorageService } from './localstorage.service';
+import { Store } from '@ngrx/store';
+import * as fromUser from 'src/app/redux/selectors/collection.selector';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserApiService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private store: Store) {}
 
-  getUserById(id: string): Observable<UserInfo> {
-    return this.http.get<UserInfo>(`${environment.BASE_URL}/user/${id}`);
+  getCurrentUser(): Observable<UserInfo | null> {
+    return this.store.select(fromUser.getUserStore).pipe(
+      filter(({ isFetched }) => isFetched),
+      map(({ user }) => user),
+    );
   }
 
-  updateUserStatus(status: UserInfo['status'], id: string): Observable<UserInfo> {
-    return this.http.put<UserInfo>(`${environment.BASE_URL}/user/${id}`, { status });
+  getUserById(id: string): Observable<UserInfo> {
+    return this.http.get<UserInfo>(`user/${id}`);
+  }
+
+  updateUserStatus(
+    status: UserInfo['status'],
+    id: string,
+  ): Observable<UserInfo> {
+    return this.http.put<UserInfo>(`${environment.BASE_URL}/user/${id}`, {
+      status,
+    });
   }
 
   getUsers(): Observable<UserInfo[]> {

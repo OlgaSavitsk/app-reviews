@@ -2,6 +2,7 @@ export enum Path {
   signupPage = 'signup',
   adminPage = 'admin',
   loginPage = 'login',
+  mainPage = 'home'
 }
 
 export const STORAGE_NAME = 'userDate';

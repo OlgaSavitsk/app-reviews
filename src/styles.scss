@@ -17,12 +17,23 @@ body {
 }
 
 .mat-typography,
-.mat-typography h2 {
-    font: 500 16px/20px Montserrat, "Montserrat", sans-serif;
+.mat-typography h1 {
+    font: 400 16px/20px Montserrat, "Montserrat", sans-serif;
     margin: 0;
 }
 
-.mat-mdc-text-field-wrapper,
-.mdc-text-field--filled {
-    height: 50px !important;
+.mat-typography h2 {
+    margin: 0;
+}
+
+.mat-slide-toggle-persistent-ripple {
+    display: none !important;
+}
+
+.mat-mdc-slide-toggle .mdc-switch:enabled .mdc-switch__shadow {
+    background-color: #8462c6;
+}
+
+.mdc-switch__icons {
+    display: none;
 }

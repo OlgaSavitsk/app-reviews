@@ -3,7 +3,7 @@ export interface UserAuth {
   login: string;
   password: string;
   status?: string;
-  role: string[];
+  roles: string;
 }
 
 export interface UserInfo {
@@ -14,7 +14,10 @@ export interface UserInfo {
   updatedAt: string;
   status: string;
   completed: boolean;
-  role: string[];
+  roles: string;
+  photos: {
+    value: string
+  }[]
 }
 
 export interface UserDetails {

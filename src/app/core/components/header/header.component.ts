@@ -1,34 +1,55 @@
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { HeaderAnimateDirective } from '@core/directives/header-animate.directive';
-import { SocialAuthService } from 'angularx-social-login';
+import { UserApiService } from '@core/services/user-api.service';
+import { Store } from '@ngrx/store';
+import { map, Observable } from 'rxjs';
+import { Path } from 'src/app/app.constants';
 
 import { MaterialModule } from 'src/app/material/material.module';
+import { UserInfo } from 'src/app/models/user.interfaces';
+import * as UserAction from 'src/app/redux/actions/user.actions'
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, MaterialModule, HeaderAnimateDirective, RouterModule],
+  imports: [CommonModule, MaterialModule, HeaderAnimateDirective, RouterModule, NgOptimizedImage],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
-export default class HeaderComponent {
+export default class HeaderComponent implements OnInit {
   slideValue: boolean = false;
   lang!: string;
-  constructor(private router: Router) { }
+
+  currentUser$: Observable<UserInfo | null> = this.userService
+    .getCurrentUser()
+    .pipe(map((user: UserInfo | null) => user));
+  isLoggedIn$ = this.userService
+  .getCurrentUser()
+  .pipe(map((user: UserInfo | null) => !!user));;
+
+  constructor(
+    private router: Router,
+    private userService: UserApiService,
+    private store: Store,
+  ) { }
+
+  ngOnInit(): void {
+    console.log(this.currentUser$)   
+  }
 
   changeLang(value: boolean): void {
     if (value) {
-      this.lang = 'en';
+      this.lang = 'EN';
     } else {
-      this.lang = 'ru';
+      this.lang = 'RU';
     }
     //this.translateService.use(this.lang);
   }
 
   logout() {
-    window.open('http://localhost:4200/auth/logout', '_self')
-    //this.socialAuthService.signOut().then(() => this.router.navigate(['signup']))
+    this.store.dispatch(UserAction.ClearData())
+    this.router.navigateByUrl(Path.loginPage);
   }
 }
