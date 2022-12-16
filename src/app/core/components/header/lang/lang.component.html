@@ -1,0 +1,7 @@
+<mat-form-field class="lang-field" fxFlex="60" fxLayoutAlign="center center" appearance="fill">
+  <mat-icon>public</mat-icon>
+  <select matNativeControl  (change)="changeLang($event)" required>
+    <option *ngFor="let language of languageList" [value]="language.code">
+      {{language.label}}</option>
+  </select>
+</mat-form-field>

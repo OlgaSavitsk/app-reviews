@@ -12,8 +12,6 @@ export enum BlockStatus {
   active = 'active',
 }
 
-export const defaultUserName = 'Your Name';
-
 export const displayedColumns: string[] = [
   'check',
   'position',
@@ -23,3 +21,10 @@ export const displayedColumns: string[] = [
   'login',
   'status',
 ];
+
+export enum Language {
+  en,
+  ru,
+  langEn = 'English',
+  langRu = 'Russian', 
+}

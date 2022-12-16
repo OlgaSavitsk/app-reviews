@@ -20,7 +20,7 @@ export const apiInterceptor: HttpInterceptorFn = (
   const store = inject(Store);
   return next(
     request.clone({
-      url: `${environment.BASE_URL}/${request.url}`,
+      //url: `${environment.BASE_URL}/${request.url}`,
     }),
   ).pipe(
     catchError((error: HttpErrorResponse) => {

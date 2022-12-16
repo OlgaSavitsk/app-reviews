@@ -5,9 +5,11 @@ import { HttpClient } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 
 import FooterComponent from '@core/components/footer/footer.component';
-import HeaderComponent from '@core/components/header/header.component';
 import { UserApiService } from '@core/services/user-api.service';
 import * as UserAction from './redux/actions/user.actions';
+import HeaderComponent from '@core/components/header/header/header.component';
+import { SigninComponent } from '@auth/components/login/login.component';
+import { SignupComponent } from '@auth/components/signup/signup.component';
 
 
 @Component({

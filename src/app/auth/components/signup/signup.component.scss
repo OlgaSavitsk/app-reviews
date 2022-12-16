@@ -83,7 +83,7 @@
 }
 
 .border:after {
-  content: 'connect with';
+  content: attr(content);
   position: absolute;
   top: -13px;
   padding: 0 8px;

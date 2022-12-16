@@ -9,14 +9,12 @@
   </div>
   <span class="example-spacer"></span>
 
-  <mat-slide-toggle class="toggle-btn" [(ngModel)]="slideValue" (ngModelChange)="changeLang(slideValue)">{{lang}}
-  </mat-slide-toggle>
-
+  <app-lang></app-lang>
 
   <div fxLayout="row" class="registr-btns" *ngIf="(isLoggedIn$ | async) === false">
-    <button mat-flat-button routerLink='/login'>Login</button>
+    <button mat-flat-button routerLink='/login'>{{ 'HEADER.LOGIN' | translate}}</button>
 
-    <button mat-flat-button color="primary" class="text-white" routerLink='/signup'>Signup</button>
+    <button mat-flat-button color="primary" class="text-white" routerLink='/signup'>{{ 'HEADER.SIGNUP' | translate }}</button>
   </div>
 
   <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="7px" *ngIf="isLoggedIn$ | async">
@@ -29,6 +27,6 @@
       </ng-template>
     </div>
     <span fxLayout="row" *ngIf="currentUser$ | async">{{(currentUser$ | async)!.username}}</span>
-    <button mat-flat-button color="primary" class="text-white" (click)="logout()">LOGOUT</button>
+    <button mat-flat-button color="primary" class="text-white" (click)="logout()">{{ 'HEADER.LOGOUT' | translate}}</button>
   </div>
 </mat-toolbar>

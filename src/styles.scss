@@ -37,3 +37,7 @@ body {
 .mdc-switch__icons {
     display: none;
 }
+
+.mat-focused, .mdc-text-field--focused {
+    background-color: white !important;
+}

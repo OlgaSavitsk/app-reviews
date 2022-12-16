@@ -36,7 +36,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatAutocompleteModule,
     MatProgressSpinnerModule,
     FlexLayoutModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    FormsModule
   ],
 })
 export class MaterialModule { }

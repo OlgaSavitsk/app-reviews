@@ -8,11 +8,18 @@ import { ValidationService } from '@core/services/validation.service';
 import { MaterialModule } from 'src/app/material/material.module';
 import { AuthService } from '@auth/services/auth.service';
 import { Path } from 'src/app/app.constants';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [CommonModule, MaterialModule, RouterModule, NgOptimizedImage],
+  imports: [
+    CommonModule,
+    MaterialModule,
+    RouterModule,
+    NgOptimizedImage,
+    TranslateModule,
+  ],
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss'],
 })
@@ -23,12 +30,13 @@ export class SignupComponent implements OnInit, OnDestroy {
   private ngUnsubscribe = new Subject();
   private errorMessage$ = new BehaviorSubject<string>('');
   errorMessage$$ = this.errorMessage$.pipe();
+  content: any;
   //roles = new FormControl({value: false, disabled: true});
 
   constructor(
     private authService: AuthService,
     public validationService: ValidationService,
-    private router: Router,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -48,18 +56,18 @@ export class SignupComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.validationService.setValidationErrors(this.formGroup);
       });
-      if(!this.formGroup.invalid) {
-        this.formGroup.get('roles')?.enable();
-      }
+    if (!this.formGroup.invalid) {
+      this.formGroup.get('roles')?.enable();
+    }
   }
 
   setRole(complete: boolean = false) {
     if (complete) {
-      this.formGroup.addControl('roles', new FormControl('admin'))
+      this.formGroup.addControl('roles', new FormControl('admin'));
     } else {
-      this.formGroup.removeControl('roles')
+      this.formGroup.removeControl('roles');
     }
-    return 'admin'
+    return 'admin';
   }
 
   onSubmit(e: Event): void {

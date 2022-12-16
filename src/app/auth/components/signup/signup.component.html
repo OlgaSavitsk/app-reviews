@@ -2,11 +2,11 @@
     <mat-card class="register-modal">
         <form fxLayout="column" fxFlexFill class="example-form form" [formGroup]="formGroup"
             (ngSubmit)="onSubmit($event)">
-            <h2>Signup</h2>
+            <h2>{{'HEADER.SIGNUP' | translate}}</h2>
             <mat-error>{{errorMessage$$ | async}}</mat-error>
             <div fxFlexFill fxLayout="column" class="form__container">
                 <mat-form-field fxFlexFill class="example-form" appearance="fill">
-                    <mat-label>Name</mat-label>
+                    <mat-label>{{'AUTH.NAME' | translate}}</mat-label>
                     <input matInput class="form__input" type="text" placeholder="Enter your name"
                         formControlName="username" autocomplete="off">
                     <mat-error *ngIf=" formGroup.get('username')!.invalid">{{validationService.errorMessage}}
@@ -14,7 +14,7 @@
                 </mat-form-field>
 
                 <mat-form-field fxFlexFill class="example-full-width" appearance="fill">
-                    <mat-label>Email</mat-label>
+                    <mat-label>{{'AUTH.EMAIL' | translate}}</mat-label>
                     <input matInput class="form__input" type="email" placeholder="Enter your email"
                         formControlName="login" autocomplete="off">
                     <mat-error *ngIf=" formGroup.get('login')!.invalid">{{validationService.errorMessage}}
@@ -22,7 +22,7 @@
                 </mat-form-field>
 
                 <mat-form-field fxFlexFill class="example-full-width" appearance="fill">
-                    <mat-label>Password</mat-label>
+                    <mat-label>{{'AUTH.PASSWORD' | translate}}</mat-label>
                     <input matInput class="form__input" type="password" placeholder="Enter password"
                         formControlName="password" autocomplete="off">
                     <mat-error *ngIf="formGroup.get('password')!.invalid">{{validationService.errorMessage}}
@@ -35,11 +35,12 @@
             </section>
 
             <button mat-flat-button color="primary" class="form__button"
-                [disabled]="formGroup.invalid">Continue</button>
+                [disabled]="formGroup.invalid">{{'BUTTON.CONTINUE' |
+                translate}}</button>
             <mat-spinner *ngIf="isSpinner"></mat-spinner>
-            <button mat-button class="form__button login-btn" routerLink='/login'>Already have an account?
-                Login</button>
-            <div fxLayoutAlign="center center" fxLayoutGap="30px" fxFlexFill class="border">
+            <button mat-button class="form__button login-btn" routerLink='/login'>{{'AUTH.ROUT_LOGIN' |
+                translate}}</button>
+            <div fxLayoutAlign="center center" fxLayoutGap="30px" fxFlexFill class="border" [attr.content]="'AUTH.CONNECT' | translate">
                 <img src="https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-suite-everything-you-need-know-about-google-newest-0.png"
                     width="40" alt="google logo" (click)="googleLogin()" />
                 <img src="https://www.freepnglogos.com/uploads/512x512-logo-png/512x512-logo-github-icon-35.png"

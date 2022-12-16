@@ -8,9 +8,16 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'src/environments/environment';
 
 import { AppComponent } from './app.component';
-import * as fromUser from './redux/reducers/user.reduser'
+import * as fromUser from './redux/reducers/user.reduser';
 import { UserEffects } from './redux/effects';
 import { NgOptimizedImage } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
+}
 
 @NgModule({
   declarations: [],
@@ -20,12 +27,24 @@ import { NgOptimizedImage } from '@angular/common';
     AppComponent,
     NgOptimizedImage,
     StoreModule.forRoot({ user: fromUser.userReduser }),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: environment.production,
+    }),
     // StoreModule.forFeature('users', reducer),
     EffectsModule.forRoot([UserEffects]),
     // EffectsModule.forFeature([UserEffects]),
-    StoreRouterConnectingModule.forRoot()],
+    StoreRouterConnectingModule.forRoot(),
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient],
+      },
+      defaultLanguage: 'en',
+    }),
+  ],
   providers: [],
   bootstrap: [],
 })
-export class AppModule { }
+export class AppModule {}

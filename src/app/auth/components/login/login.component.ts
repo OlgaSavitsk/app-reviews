@@ -8,11 +8,12 @@ import { MaterialModule } from 'src/app/material/material.module';
 import { Router, RouterModule } from '@angular/router';
 import { ValidationService } from '@core/services/validation.service';
 import { Path } from 'src/app/app.constants';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-signin',
   standalone: true,
-  imports: [CommonModule, MaterialModule, RouterModule],
+  imports: [CommonModule, MaterialModule, RouterModule, TranslateModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })

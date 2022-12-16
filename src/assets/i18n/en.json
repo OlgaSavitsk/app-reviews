@@ -1,0 +1,39 @@
+{
+  "HEADER": {
+    "LOGIN": "Login",
+    "SIGNUP": "Signup",
+    "LOGOUT": "Logout",
+    "ADD_REVIEW": "Add review"
+  },
+  "HOME": {},
+  "AUTH": {
+    "NAME": "Name",
+    "EMAIL": "Email",
+    "PASSWORD": "Password",
+    "CONNECT": "connect with",
+    "ROUT_REGISTR": "Don't have accaunt? Sign Up",
+    "ROUT_LOGIN": "Already have an account? Login"
+  },
+  "REVIEW": {
+    "NEW_REVIEW": {
+      "CREATE": "Create review",
+      "TITLE": "Review title",
+      "DESCRIPTION": "Review description"
+    }
+  },
+  "BUTTON": {
+    "LANG": "EN",
+    "CONTINUE": "Continue",
+    "CREATE": "Create",
+    "ADD_COLUMN": "Add column",
+    "ADD_TASK": "Add task",
+    "SAVE": "Save",
+    "CANCEL": "CANCEL",
+    "UPDATE": "UPDATE",
+    "DELETE": "Delete profile",
+    "CHOOSE": "Choose image",
+    "UPLOAD": "UPLOAD",
+    "DOWNLOAD": "DOWNLOAD",
+    "SEARCH": "Search"
+  }
+}
