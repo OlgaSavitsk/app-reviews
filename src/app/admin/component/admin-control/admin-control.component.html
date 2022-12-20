@@ -1,0 +1,12 @@
+<div class="control">
+    <button mat-stroked-button color="primary" (click)="deleteUser()">
+        <mat-icon>delete</mat-icon>{{'BUTTON.DELETE' | translate}}
+    </button>
+    <mat-form-field class="access-field" appearance="fill">
+        <mat-select  (selectionChange)="changeRole($event.value)" placeholder="{{'ADMIN.ACCESS' | translate}}">
+            <mat-option class="custom_hover" *ngFor="let role of roleList" [value]="role">
+                {{role}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>

@@ -5,7 +5,18 @@
     "LOGOUT": "Logout",
     "ADD_REVIEW": "Add review"
   },
-  "HOME": {},
+  "ADMIN": {
+    "NAME": "Name",
+    "EMAIL": "Email",
+    "CREATEAT": "Registration Data",
+    "LOGINDATE": "Login Data",
+    "STATUS": "Status",
+    "ROLE": "Access",
+    "SELECT": "Select All",
+    "ACCESS": "Select a Role"
+  },
+  "Admin": "Administrator",
+  "User": "User",
   "AUTH": {
     "NAME": "Name",
     "EMAIL": "Email",
@@ -25,12 +36,10 @@
     "LANG": "EN",
     "CONTINUE": "Continue",
     "CREATE": "Create",
-    "ADD_COLUMN": "Add column",
-    "ADD_TASK": "Add task",
     "SAVE": "Save",
     "CANCEL": "CANCEL",
     "UPDATE": "UPDATE",
-    "DELETE": "Delete profile",
+    "DELETE": "Delete",
     "CHOOSE": "Choose image",
     "UPLOAD": "UPLOAD",
     "DOWNLOAD": "DOWNLOAD",

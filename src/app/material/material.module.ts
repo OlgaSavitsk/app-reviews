@@ -15,6 +15,11 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSortModule } from '@angular/material/sort';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSelectModule } from '@angular/material/select';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [],
@@ -37,7 +42,12 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatProgressSpinnerModule,
     FlexLayoutModule,
     MatSlideToggleModule,
-    FormsModule
+    FormsModule,
+    MatSortModule,
+    MatChipsModule,
+    MatTooltipModule,
+    MatSelectModule,
+    MatPaginatorModule,
   ],
 })
-export class MaterialModule { }
+export class MaterialModule {}

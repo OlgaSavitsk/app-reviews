@@ -1,6 +1,4 @@
-import { AdminComponent } from '@admin/admin.component';
 import { Routes } from '@angular/router';
-import { AuthGuard } from '@core/guards/auth.guard';
 import { RoleGuard } from '@core/guards/role.guard';
 
 import { Path } from './app.constants';
@@ -20,7 +18,7 @@ export const appRoutes: Routes = [
   },
   {
     path: Path.adminPage,
-    loadComponent:() => import('./admin/admin.component').then((c) => c.AdminComponent),
+    loadChildren:() => import('@admin/admin.routes').then((m) => m.adminRoutes),
     canActivate: [RoleGuard],
   },
   { path: '**', component: PageNotFoundComponent },

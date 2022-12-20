@@ -23,13 +23,12 @@ import { LangComponent } from '../lang/lang.component';
     RouterModule,
     NgOptimizedImage,
     LangComponent,
-    TranslateModule
+    TranslateModule,
   ],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
 export default class HeaderComponent implements OnInit {
-
   currentUser$: Observable<UserInfo | null> = this.userService
     .getCurrentUser()
     .pipe(map((user: UserInfo | null) => user));
@@ -43,9 +42,7 @@ export default class HeaderComponent implements OnInit {
     private store: Store,
   ) {}
 
-  ngOnInit(): void {
-    console.log(this.currentUser$);
-  }
+  ngOnInit(): void {}
 
   logout() {
     this.store.dispatch(UserAction.ClearData());

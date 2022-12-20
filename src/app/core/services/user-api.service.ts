@@ -1,10 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { filter, map, Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
 
 import { UserInfo } from 'src/app/models/user.interfaces';
-import { environment } from 'src/environments/environment';
-import { Store } from '@ngrx/store';
 import * as fromUser from 'src/app/redux/selectors/collection.selector';
 
 @Injectable({
@@ -20,24 +19,34 @@ export class UserApiService {
     );
   }
 
+  getCurrentUsers(): Observable<UserInfo[]> {
+    return this.store.select(fromUser.getUserStore).pipe(
+      //filter(({ loading }) => loading),
+      map(({ users }) => users),
+    );
+  }
+
   getUserById(id: string): Observable<UserInfo> {
     return this.http.get<UserInfo>(`user/${id}`);
   }
 
-  updateUserStatus(
-    status: UserInfo['status'],
-    id: string,
-  ): Observable<UserInfo> {
-    return this.http.put<UserInfo>(`${environment.BASE_URL}/user/${id}`, {
-      status,
-    });
+  updateUserStatus(user: UserInfo, status: UserInfo['status']) {
+    return this.http.put<UserInfo>(
+      `user/${user.id}`,
+      { status },
+      { withCredentials: true },
+    );
   }
 
   getUsers(): Observable<UserInfo[]> {
-    return this.http.get<UserInfo[]>(`${environment.BASE_URL}/user`);
+    return this.http.get<UserInfo[]>('user', {
+      withCredentials: true,
+    });
   }
 
   deleteUser(id: string) {
-    return this.http.delete(`${environment.BASE_URL}/user/${id}`);
+    return this.http.delete(`user/${id}`, {
+      withCredentials: true,
+    });
   }
 }

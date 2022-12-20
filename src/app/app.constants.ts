@@ -14,12 +14,12 @@ export enum BlockStatus {
 
 export const displayedColumns: string[] = [
   'check',
-  'position',
-  'name',
-  'email',
-  'registration',
+  'username',
   'login',
+  'createdAt',
+  'updatedAt',
   'status',
+  'roles'
 ];
 
 export enum Language {

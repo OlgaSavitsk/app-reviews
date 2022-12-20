@@ -1,44 +1,53 @@
-import { Injectable } from '@angular/core';
-import { AuthService } from '@auth/services/auth.service';
-import { UserDetails, UserInfo } from 'src/app/models/user.interfaces';
-import { Observable } from 'rxjs';
+import { Injectable, ViewChild } from '@angular/core';
+import { SelectionModel } from '@angular/cdk/collections';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+
+import { UserApiService } from '@core/services/user-api.service';
+import { UserInfo } from 'src/app/models/user.interfaces';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SelectControlService {
-  userDetails: UserDetails = {
-    users: [],
-    completed: false,
-  };
-  allComplete: boolean = false;
-  checkedUsers: UserInfo[] = [];
-  userState$!: Observable<UserInfo[]>;
-  currentUser: string = '';
-  completedUser!: boolean;
+  @ViewChild(MatSort) sort!: MatSort;
+ // @ViewChild(MatPaginator) paginator!: MatPaginator;
+  userState: UserInfo[] = [];
+  dataSource: MatTableDataSource<UserInfo> | undefined;
+  selection = new SelectionModel<UserInfo>(true, []);
+  selectedUser!: UserInfo[];
 
-  constructor(public authService: AuthService) { }
+  constructor(private userService: UserApiService) {}
 
-  updateAllComplete(el: any): void {
-    this.allComplete =
-      this.userDetails.users != null && this.userDetails.users.every((t) => t.completed);
-    this.currentUser = el.name;
-    this.completedUser = el.completed;
+  setAdmiUsers() {
+    this.userService.getCurrentUsers().subscribe((users) => {
+      this.userState = users.map((user: UserInfo) => user);
+      this.dataSource = new MatTableDataSource(this.userState);
+    });
   }
 
-  someComplete(): boolean {
-    if (this.userDetails.users == null) {
-      return false;
-    }
-    this.checkedUsers = this.userDetails.users.filter((t) => t.completed);
-    return this.checkedUsers.length > 0 && !this.allComplete;
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource!.data.length;
+    return numSelected === numRows;
   }
 
-  setAll(completed: boolean): void {
-    this.allComplete = completed;
-    if (this.userDetails.users == null) {
+  toggleAllRows() {
+    if (this.isAllSelected()) {
+      this.selection.clear();
       return;
     }
-    this.userDetails.users.forEach((user) => (user.completed = completed));
+    this.selection.select(...this.dataSource!.data);
+  }
+
+  checkboxLabel(row?: UserInfo) {
+    const selectedUser = this.selection.selected;
+    this.selectedUser = selectedUser;
+    if (!row) {
+      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
+    }
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
+      row.id + 1
+    }`;
   }
 }

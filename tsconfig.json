@@ -6,6 +6,7 @@
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
+    "noImplicitAny": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
@@ -24,8 +25,8 @@
       "dom"
     ],
     "paths": {
-      "@shared/*": [
-        "src/app/shared/*"
+      "@redux/*": [
+        "src/app/redux/*"
       ],
       "@core/*": [
         "src/app/core/*"

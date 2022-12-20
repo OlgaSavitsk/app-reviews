@@ -5,15 +5,16 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { environment } from 'src/environments/environment';
-
-import { AppComponent } from './app.component';
-import * as fromUser from './redux/reducers/user.reduser';
-import { UserEffects } from './redux/effects';
 import { NgOptimizedImage } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
+import { environment } from 'src/environments/environment';
+import { AppComponent } from './app.component';
+import * as fromUser from './redux/reducers/user.reduser';
+import { UserEffects } from './redux/effects';
+
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
@@ -31,9 +32,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       maxAge: 25,
       logOnly: environment.production,
     }),
-    // StoreModule.forFeature('users', reducer),
     EffectsModule.forRoot([UserEffects]),
-    // EffectsModule.forFeature([UserEffects]),
     StoreRouterConnectingModule.forRoot(),
     TranslateModule.forRoot({
       loader: {

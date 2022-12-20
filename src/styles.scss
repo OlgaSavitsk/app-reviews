@@ -17,9 +17,14 @@ body {
 }
 
 .mat-typography,
+.mat-mdc-select,
 .mat-typography h1 {
-    font: 400 16px/20px Montserrat, "Montserrat", sans-serif;
+    font: 400 14px/18px Montserrat, "Montserrat", sans-serif;
     margin: 0;
+}
+
+.mdc-button {
+    font: 500 14px/28px Montserrat, "Montserrat", sans-serif;
 }
 
 .mat-typography h2 {
@@ -38,6 +43,16 @@ body {
     display: none;
 }
 
-.mat-focused, .mdc-text-field--focused {
-    background-color: white !important;
+.mat-focused,
+.mdc-text-field--focused {
+    background-color: transparent !important;
+}
+
+.mat-mdc-form-field.mat-focused .mat-mdc-form-field-focus-overlay {
+    opacity: 0 !important;
+}
+
+.mat-sort-header-container:not(.mat-sort-header-sorted) .mat-sort-header-arrow {
+    opacity: 0.54 !important;
+    transform: translateY(0px) !important;
 }

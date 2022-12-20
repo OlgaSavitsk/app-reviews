@@ -18,17 +18,27 @@ export const apiInterceptor: HttpInterceptorFn = (
   next: HttpHandlerFn,
 ): Observable<HttpEvent<unknown>> => {
   const store = inject(Store);
-  return next(
-    request.clone({
-      //url: `${environment.BASE_URL}/${request.url}`,
-    }),
-  ).pipe(
-    catchError((error: HttpErrorResponse) => {
-      console.log(error.status)
-      if (error.status === HttpStatusCode.Unauthorized || error.status === 403) {
-        store.dispatch(UserAction.ClearData());
-      }
-      return throwError(error);
-    }),
-  );
+  if (!request.url.includes('assets/i18n/')) {   
+    return next(
+      request.clone({
+        url: `${environment.BASE_URL}/${request.url}`,
+      }),
+    ).pipe(
+      catchError((error: HttpErrorResponse) => {
+        if (
+          error.status === HttpStatusCode.Unauthorized ||
+          error.status === 403
+        ) {
+          //store.dispatch(UserAction.ClearData());
+          console.log('interceptor')
+        }
+        return throwError(error);
+      }),
+    );
+  } else {
+    return next(
+      request.clone({
+        url: `${request.url}/`,
+      }))
+  }
 };

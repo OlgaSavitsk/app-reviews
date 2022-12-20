@@ -13,7 +13,6 @@ export interface UserInfo {
   createdAt: string;
   updatedAt: string;
   status: string;
-  completed: boolean;
   roles: string;
   photos: {
     value: string
@@ -22,5 +21,4 @@ export interface UserInfo {
 
 export interface UserDetails {
   users: UserInfo[];
-  completed: boolean;
 }
