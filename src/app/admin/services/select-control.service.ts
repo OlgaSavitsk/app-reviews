@@ -1,30 +1,20 @@
-import { Injectable, ViewChild } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
-import { MatSort } from '@angular/material/sort';
+
 import { MatTableDataSource } from '@angular/material/table';
 
-import { UserApiService } from '@core/services/user-api.service';
 import { UserInfo } from 'src/app/models/user.interfaces';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SelectControlService {
-  @ViewChild(MatSort) sort!: MatSort;
- // @ViewChild(MatPaginator) paginator!: MatPaginator;
   userState: UserInfo[] = [];
   dataSource: MatTableDataSource<UserInfo> | undefined;
   selection = new SelectionModel<UserInfo>(true, []);
   selectedUser!: UserInfo[];
 
-  constructor(private userService: UserApiService) {}
-
-  setAdmiUsers() {
-    this.userService.getCurrentUsers().subscribe((users) => {
-      this.userState = users.map((user: UserInfo) => user);
-      this.dataSource = new MatTableDataSource(this.userState);
-    });
-  }
+  constructor() {}
 
   isAllSelected() {
     const numSelected = this.selection.selected.length;

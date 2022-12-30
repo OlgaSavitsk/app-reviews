@@ -1,6 +1,8 @@
 :host {
   display: flex;
   flex: 1 1 auto;
+  max-width: 1200px;
+  width: 100%;
 }
 
 .container {
@@ -9,6 +11,11 @@
   justify-content: center;
   flex-direction: column;
   row-gap: 7px;
+  width: 100%;
+}
+
+.mat-elevation-z8 {
+  width: 100%;
 }
 
 #tac {

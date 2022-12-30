@@ -15,7 +15,7 @@ import { UserApiService } from '@core/services/user-api.service';
   providedIn: 'root',
 })
 export class RoleGuard implements CanActivate {
-  constructor(private router: Router, private userService: UserApiService) { }
+  constructor(private router: Router, private userService: UserApiService) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -28,7 +28,9 @@ export class RoleGuard implements CanActivate {
     return this.userService.getCurrentUser().pipe(
       take(1),
       map((user) =>
-        user?.roles === 'admin' ? true : this.router.parseUrl(Path.mainPage),
+        user?.roles === 'admin'
+          ? true
+          : this.router.parseUrl(Path.mainPage + user?.id),
       ),
     );
   }

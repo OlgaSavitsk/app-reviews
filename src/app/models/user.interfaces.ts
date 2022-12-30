@@ -1,3 +1,5 @@
+import { ReviewInfo } from "./review.interface";
+
 export interface UserAuth {
   username: string;
   login: string;
@@ -16,7 +18,8 @@ export interface UserInfo {
   roles: string;
   photos: {
     value: string
-  }[]
+  }[];
+  reviews: ReviewInfo[]
 }
 
 export interface UserDetails {

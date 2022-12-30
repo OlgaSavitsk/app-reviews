@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MaterialModule } from 'src/app/material/material.module';
 import { UserInfo } from 'src/app/models/user.interfaces';
-import { UserState } from 'src/app/redux/state/custom.state';
+import { UserState } from '@redux/state/user.state';
 import * as UserAction from '../../../redux/actions/user.actions';
 
 @Component({

@@ -15,12 +15,13 @@ import { MatSort, Sort } from '@angular/material/sort';
 
 import { MaterialModule } from 'src/app/material/material.module';
 import { UserInfo } from 'src/app/models/user.interfaces';
-import { BlockStatus, displayedColumns } from '../app.constants';
+import { BlockStatus, displayedColumnsUsers } from '../app.constants';
 import * as UserAction from '@redux/actions/user.actions';
 import { DateAgoPipe } from '@core/pipes/date-ago.pipe';
 import { AdminControlComponent } from './component/admin-control/admin-control.component';
 import { UserApiService } from '@core/services/user-api.service';
-import { UserState } from '@redux/state/custom.state';
+import { UserState } from '@redux/state/user.state';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin',
@@ -39,7 +40,7 @@ import { UserState } from '@redux/state/custom.state';
 export class AdminComponent implements OnInit, AfterContentChecked {
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  displayedColumns = displayedColumns;
+  displayedColumns = displayedColumnsUsers;
   dataSource: MatTableDataSource<UserInfo> | undefined;
   selection = new SelectionModel<UserInfo>(true, []);
   selectedUsers!: UserInfo[];
@@ -48,6 +49,7 @@ export class AdminComponent implements OnInit, AfterContentChecked {
     private store: Store<UserState>,
     private userService: UserApiService,
     private changeDetector: ChangeDetectorRef,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -99,5 +101,9 @@ export class AdminComponent implements OnInit, AfterContentChecked {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
       row.id + 1
     }`;
+  }
+
+  onSelectUser(id: string) {
+    this.router.navigate(['/', 'review', id]);
   }
 }

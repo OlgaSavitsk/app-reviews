@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { catchError, map, tap, of, switchMap, mergeMap } from 'rxjs';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { UserApiService } from '@core/services/user-api.service';
-import * as UserActions from './actions/user.actions';
-import { UserInfo } from '../models/user.interfaces';
+import * as UserActions from '../actions/user.actions';
+import { UserInfo } from '../../models/user.interfaces';
 import { AuthService } from '@auth/services/auth.service';
 
 @Injectable()

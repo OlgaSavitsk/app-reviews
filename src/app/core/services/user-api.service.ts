@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { filter, map, Observable } from 'rxjs';
+import { filter, map, Observable, tap } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { UserInfo } from 'src/app/models/user.interfaces';
@@ -20,17 +20,16 @@ export class UserApiService {
   }
 
   getCurrentUsers(): Observable<UserInfo[]> {
-    return this.store.select(fromUser.getUserStore).pipe(
-      //filter(({ loading }) => loading),
-      map(({ users }) => users),
-    );
+    return this.store
+      .select(fromUser.getUserStore)
+      .pipe(map(({ users }) => users));
   }
 
   getUserById(id: string): Observable<UserInfo> {
-    return this.http.get<UserInfo>(`user/${id}`);
+    return this.http.get<UserInfo>(`user/${id}`, { withCredentials: true });
   }
 
-  updateUserStatus(user: UserInfo, status: UserInfo['status']) {
+  updateUserStatus(user: UserInfo, status: UserInfo['status']): Observable<UserInfo> {
     return this.http.put<UserInfo>(
       `user/${user.id}`,
       { status },

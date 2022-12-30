@@ -56,3 +56,17 @@ body {
     opacity: 0.54 !important;
     transform: translateY(0px) !important;
 }
+
+.mat-mdc-form-field-bottom-align::before {
+    display:none !important;
+}
+
+@media(max-width: 800px) {
+    .table {
+        overflow-x: auto !important;
+    }
+
+    .mat-table {
+        min-width: 800px;
+    }
+}

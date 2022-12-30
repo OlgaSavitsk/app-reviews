@@ -1,8 +1,8 @@
 {
   "HEADER": {
-    "LOGIN": "Login",
-    "SIGNUP": "Signup",
-    "LOGOUT": "Logout",
+    "LOGIN": "Logn In",
+    "SIGNUP": "Sign Up",
+    "LOGOUT": "Sign Out",
     "ADD_REVIEW": "Add review"
   },
   "ADMIN": {
@@ -26,18 +26,53 @@
     "ROUT_LOGIN": "Already have an account? Login"
   },
   "REVIEW": {
+    "NAME": "Review name",
+    "TITLE": "Title",
+    "RAITING": "Rating",
+    "DETAILS": "Details",
+    "CREATEAT": "Data Creation",
+    "ACTION": "Action",
+    "ADD": "Add Review",
+    "DESCRIPTION": "Description",
+    "TAG": "Tags",
+    "CATEGORY": "Category",
+    "VIEW_BUTTON": "View Details",
     "NEW_REVIEW": {
       "CREATE": "Create review",
-      "TITLE": "Review title",
-      "DESCRIPTION": "Review description"
+      "TITLE": "Enter title",
+      "DESCRIPTION": "Enter Your review",
+      "NAME": "Enter name",
+      "TAG": "Select tags",
+      "CATEGORY": "Select a category"
     }
   },
+  "DIALOG": {
+    "ADD_ACTION": "Add",
+    "EDIT_ACTION": "Edit",
+    "EDIT_BUTTON": "Update",
+    "dataAddAction": "Create Review",
+    "dataEditAction": "Edit Review"
+  },
+  "feature": "Feature film",
+  "series": "TV series",
+  "action": "Action",
+  "adventure": "Adventure",
+  "comedy": "Comedy",
+  "drama": "Drama",
+  "horror": "Horror",
+  "musical": "Musical",
+  "biography": "Biography",
+  "sci-fi": "Sci-fi",
+  "triller": "Triller",
+  "family": "Family",
+  "documentary": "Documentary",
   "BUTTON": {
     "LANG": "EN",
     "CONTINUE": "Continue",
     "CREATE": "Create",
     "SAVE": "Save",
-    "CANCEL": "CANCEL",
+    "CANCEL": "Cancel",
+    "CLOSE": "Close",
     "UPDATE": "UPDATE",
     "DELETE": "Delete",
     "CHOOSE": "Choose image",

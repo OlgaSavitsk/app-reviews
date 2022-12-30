@@ -14,7 +14,16 @@ import {
   UpdateUserFailed,
   UpdateUserSuccess,
 } from '../actions/user.actions';
-import { initialUserState } from '../state/custom.state';
+import {
+  GetFile,
+  GetFileSuccess,
+  SaveReview,
+  SaveReviewSuccess,
+  SetFile,
+  SetFileSuccess,
+  UpdateReviewSuccess,
+} from '../actions/review.actions';
+import { initialUserState } from '../state/user.state';
 
 export const userReduser = createReducer(
   initialUserState,
@@ -36,7 +45,6 @@ export const userReduser = createReducer(
     loading: true,
   })),
   on(GetUsersSuccess, (state, { users }) => {
-    console.log('!!!!!');
     return {
       ...state,
       users,
@@ -71,6 +79,99 @@ export const userReduser = createReducer(
     ...state,
     users: state.users.filter((user) => user.id !== id),
   })),
+  on(SaveReview, (state) => ({
+    ...state,
+  })),
+  on(SaveReviewSuccess, (state, { review, userId, file }) => ({
+    ...state,
+    users: state.users.map((user) => {
+      console.log('1', review)
+      if (user.id === userId) {
+        review = {
+          ...review,
+          image: file
+        }
+        console.log('2', review)
+        return Object.assign({}, user, {
+          reviews: [...user.reviews, review],
+        });
+      }
+      return user;
+    }),
+  })),
+  on(UpdateReviewSuccess, (state, { review, reviewId }) => ({
+    ...state,
+    users: state.users.map((user) => {
+      if (
+        Object.values(user.reviews)
+          .map((review) => review.id)
+          .includes(reviewId)
+      ) {
+        return Object.assign({}, user, {
+          reviews: [
+            ...user.reviews.map((oldReview) =>
+              oldReview.id === reviewId ? review : oldReview,
+            ),
+          ],
+        });
+      }
+      return user;
+    }),
+  })),
+
+
+  on(SetFile, (state) => ({
+    ...state,
+  })),
+
+  on(SetFileSuccess, (state, { file, reviewId }) => ({
+    ...state,
+    users: state.users.map((user) => {
+      if (
+        Object.values(user.reviews)
+          .map((review) => review.id)
+          .includes(reviewId)
+      ) {
+        return Object.assign({}, user, {
+          reviews: [
+            ...user.reviews.map((review) =>
+              review.id === reviewId
+                ? { ...review, image: file }
+                : review,
+            ),
+          ],
+        });
+      }
+      return user;
+    }),
+  })),
+
+  // on(GetFile, (state) => ({
+  //   ...state,
+  // })),
+
+  // on(GetFileSuccess, (state, { filePath, reviewId }) => ({
+  //   ...state,
+  //   users: state.users.map((user) => {
+  //     if (
+  //       Object.values(user.reviews)
+  //         .map((review) => review.id)
+  //         .includes(reviewId)
+  //     ) {
+  //       return Object.assign({}, user, {
+  //         reviews: [
+  //           ...user.reviews.map((review) =>
+  //             review.id === reviewId
+  //               ? { ...review, fileUrl: filePath }
+  //               : review,
+  //           ),
+  //         ],
+  //       });
+  //     }
+  //     return user;
+  //   }),
+  // })),
+
   on(ClearData, (state) => ({
     ...state,
     user: null,

@@ -12,9 +12,10 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { environment } from 'src/environments/environment';
 import { AppComponent } from './app.component';
-import * as fromUser from './redux/reducers/user.reduser';
-import { UserEffects } from './redux/effects';
-
+import { UserEffects } from './redux/effects/user.effects';
+import { ReviewEffects } from '@redux/effects/review.effect';
+import { reducers } from '@redux/reducers';
+import { DragDirective } from './core/directives/drag.directive';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
@@ -27,12 +28,12 @@ export function HttpLoaderFactory(http: HttpClient) {
     BrowserAnimationsModule,
     AppComponent,
     NgOptimizedImage,
-    StoreModule.forRoot({ user: fromUser.userReduser }),
+    StoreModule.forRoot(reducers),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production,
     }),
-    EffectsModule.forRoot([UserEffects]),
+    EffectsModule.forRoot([UserEffects, ReviewEffects]),
     StoreRouterConnectingModule.forRoot(),
     TranslateModule.forRoot({
       loader: {

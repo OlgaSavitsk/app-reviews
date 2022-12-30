@@ -17,6 +17,11 @@ export const appRoutes: Routes = [
       import('./auth/auth-routing.module').then((m) => m.authroutes),
   },
   {
+    path: Path.review,
+    loadChildren: () =>
+      import('./review/review.routes').then((m) => m.reviewRoutes),
+  },
+  {
     path: Path.adminPage,
     loadChildren:() => import('@admin/admin.routes').then((m) => m.adminRoutes),
     canActivate: [RoleGuard],

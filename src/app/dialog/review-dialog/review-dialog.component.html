@@ -1,0 +1,81 @@
+<h2 mat-dialog-title>
+  {{dialogData.action}}
+</h2>
+<mat-divider></mat-divider>
+
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="reviewForm" class="form">
+    <div class="file-container">
+      <div class="dropzone" appDrag (files)="fileDropped($event)">
+        <div class="file-wrapper">
+          <img *ngIf="imageSrc; else default" class="image" [src]="imageSrc">
+          <ng-template #default>
+            <img [src]="defaultImage" width="50" height="50">
+          </ng-template>
+        </div>
+      </div>
+      <div>
+        <div>Attach file by dragging & dropping or
+          <a (click)="selectFile.click()" class="browse-btn">browse</a>
+          a file
+        </div>
+      </div>
+      <input multiple type="file" style="display: none;" #selectFile value="select"
+        (change)="onFileSelect($event.target)">
+    </div>
+
+    <div fxFlex fxLayout="column" class="wrapper">
+      <div fxFlexFill fxLayout="column wrap">
+        <mat-form-field fxFlex appearance="fill">
+          <mat-label>{{'REVIEW.NAME' | translate}}</mat-label>
+          <input matInput type="text" placeholder="{{'REVIEW.NEW_REVIEW.NAME' | translate}}" formControlName="name"
+            autocomplete="off" required>
+          <mat-error *ngIf="reviewForm.controls['name'].touched && reviewForm.controls['name'].invalid">
+            <!--  {{validationService.errorMessage}} -->
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field fxFlex appearance="fill">
+          <mat-label>{{'REVIEW.TITLE' | translate}}</mat-label>
+          <input matInput type="text" placeholder="{{'REVIEW.NEW_REVIEW.TITLE' | translate}}" formControlName="title"
+            autocomplete="off" required>
+          <mat-error *ngIf="reviewForm.controls['title'].touched && reviewForm.controls['title'].invalid">
+            <!--  {{validationService.errorMessage}} -->
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field fxFlex appearance="fill">
+          <mat-label>{{'REVIEW.CATEGORY' | translate}}</mat-label>
+          <mat-select formControlName="category" placeholder="{{'REVIEW.NEW_REVIEW.CATEGORY' | translate}}">
+            <mat-option *ngFor="let category of categories" value="category">{{category}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="reviewForm.controls['category'].touched && reviewForm.controls['category'].invalid">
+            <!--  {{validationService.errorMessage}} -->
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field fxFlex appearance="fill">
+          <mat-label>{{'REVIEW.DESCRIPTION' | translate}}</mat-label>
+          <textarea matInput formControlName="description" rows="5"
+            placeholder="{{'REVIEW.NEW_REVIEW.DESCRIPTION' | translate}}"></textarea>
+          <mat-error *ngIf="reviewForm.controls['description'].touched && reviewForm.controls['description'].invalid">
+            <!--  {{validationService.errorMessage}} -->
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field fxFlex appearance="fill">
+          <mat-label>{{'REVIEW.TAG' | translate}}</mat-label>
+          <input matInput type="text" placeholder="{{'REVIEW.NEW_REVIEW.TAG' | translate}}" formControlName="tags"
+            autocomplete="off" required>
+          <mat-error *ngIf="reviewForm.controls['tags'].touched && reviewForm.controls['tags'].invalid">
+            <!--  {{validationService.errorMessage}} -->
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button mat-raised-button color="primary" (click)="submit()">{{action}}</button>
+  <button mat-raised-button color="primary" mat-dialog-close>{{buttonAction}}</button>
+</mat-dialog-actions>
