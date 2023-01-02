@@ -47,35 +47,43 @@
         <mat-form-field fxFlex appearance="fill">
           <mat-label>{{'REVIEW.CATEGORY' | translate}}</mat-label>
           <mat-select formControlName="category" placeholder="{{'REVIEW.NEW_REVIEW.CATEGORY' | translate}}">
-            <mat-option *ngFor="let category of categories" value="category">{{category}}</mat-option>
+            <mat-option *ngFor="let category of categories" [value]="category">{{category}}</mat-option>
           </mat-select>
           <mat-error *ngIf="reviewForm.controls['category'].touched && reviewForm.controls['category'].invalid">
             <!--  {{validationService.errorMessage}} -->
           </mat-error>
         </mat-form-field>
 
-        <mat-form-field fxFlex appearance="fill">
-          <mat-label>{{'REVIEW.DESCRIPTION' | translate}}</mat-label>
-          <textarea matInput formControlName="description" rows="5"
-            placeholder="{{'REVIEW.NEW_REVIEW.DESCRIPTION' | translate}}"></textarea>
-          <mat-error *ngIf="reviewForm.controls['description'].touched && reviewForm.controls['description'].invalid">
-            <!--  {{validationService.errorMessage}} -->
-          </mat-error>
+        <mat-form-field appearance="fill">
+          <mat-label>Score</mat-label>
+          <select matNativeControl required>
+            <option value="volvo">Volvo</option>
+            <option value="saab">Saab</option>
+            <option value="mercedes">Mercedes</option>
+            <option value="audi">Audi</option>
+          </select>
         </mat-form-field>
 
-        <mat-form-field fxFlex appearance="fill">
+
+        <!-- <textarea matInput formControlName="description" rows="15"
+            placeholder="{{'REVIEW.NEW_REVIEW.DESCRIPTION' | translate}}"></textarea> -->
+
+        <app-markdown-editor [control]="reviewForm.controls['description']"></app-markdown-editor>
+
+        <app-tags-select (tagsEventEmiter)="addTags($event)"></app-tags-select>
+
+        <!-- <mat-form-field fxFlex appearance="fill">
           <mat-label>{{'REVIEW.TAG' | translate}}</mat-label>
           <input matInput type="text" placeholder="{{'REVIEW.NEW_REVIEW.TAG' | translate}}" formControlName="tags"
             autocomplete="off" required>
-          <mat-error *ngIf="reviewForm.controls['tags'].touched && reviewForm.controls['tags'].invalid">
-            <!--  {{validationService.errorMessage}} -->
-          </mat-error>
-        </mat-form-field>
+          
+        </mat-form-field> -->
+
       </div>
     </div>
   </form>
 </mat-dialog-content>
-<mat-dialog-actions align="center">
+<mat-dialog-actions [align]="'end'">
   <button mat-raised-button color="primary" (click)="submit()">{{action}}</button>
   <button mat-raised-button color="primary" mat-dialog-close>{{buttonAction}}</button>
 </mat-dialog-actions>

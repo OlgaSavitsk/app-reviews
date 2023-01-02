@@ -18,7 +18,7 @@ export const reviewRoutes: Routes = [
     providers: [
       importProvidersFrom(
         StoreModule.forFeature('review', fromReview.reviewReduser),
-        EffectsModule.forFeature([ReviewEffects]),
+        EffectsModule.forFeature([ReviewEffects])
       ),
     ],
   },

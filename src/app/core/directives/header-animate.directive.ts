@@ -1,16 +1,11 @@
-import {
-  Directive,
-  ElementRef,
-  HostBinding,
-  HostListener,
-} from '@angular/core';
+import { Directive, ElementRef, HostBinding, HostListener } from '@angular/core';
 
 @Directive({
   selector: '[appHeaderAnimate]',
-  standalone: true
+  standalone: true,
 })
 export class HeaderAnimateDirective {
-  constructor(private elementRef: ElementRef) { }
+  constructor(private elementRef: ElementRef) {}
 
   @HostBinding('class.scroll') scrolled!: boolean;
 

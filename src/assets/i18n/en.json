@@ -79,5 +79,12 @@
     "UPLOAD": "UPLOAD",
     "DOWNLOAD": "DOWNLOAD",
     "SEARCH": "Search"
+  },
+  "CONFIRM": {
+    "title": "Data will be deleted permanently",
+    "message": "Do you really want to delete {{param}}?",
+    "paramReview": "review",
+    "CANCEL": "CANCEL",
+    "DELETE": "DELETE"
   }
 }

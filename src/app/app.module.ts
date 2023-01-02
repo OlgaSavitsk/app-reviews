@@ -11,11 +11,10 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { environment } from 'src/environments/environment';
-import { AppComponent } from './app.component';
-import { UserEffects } from './redux/effects/user.effects';
+import { UserEffects } from '@redux/effects/user.effects';
 import { ReviewEffects } from '@redux/effects/review.effect';
 import { reducers } from '@redux/reducers';
-import { DragDirective } from './core/directives/drag.directive';
+import { AppComponent } from './app.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');

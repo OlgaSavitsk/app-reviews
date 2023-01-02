@@ -8,14 +8,13 @@ import { SafeUrl } from '@angular/platform-browser';
 
 import { MaterialModule } from 'src/app/material/material.module';
 import * as ReviewAction from '@redux/actions/review.actions';
-import { ReviewState } from '@redux/state/review.state';
 import { DragDirective, FileHandle } from '@core/directives/drag.directive';
 import { FileService } from 'src/app/review/services/file.service';
-import {
-  defaultFilePath,
-  FILM_CATEGORIES,
-  ReviewDialogAction,
-} from 'src/app/app.constants';
+import { defaultFilePath, FILM_CATEGORIES, ReviewDialogAction } from 'src/app/app.constants';
+import { TagsSelectComponent } from 'src/app/review/components/tags-select/tags-select.component';
+import '@github/markdown-toolbar-element';
+import { MarkdownEditorComponent } from 'src/app/review/components/markdown-editor/markdown-editor.component';
+import { ReviewInfo } from 'src/app/models/review.interface';
 
 @Component({
   selector: 'app-review-dialog',
@@ -26,26 +25,35 @@ import {
     MaterialModule,
     NgOptimizedImage,
     DragDirective,
+    TagsSelectComponent,
+    MarkdownEditorComponent,
   ],
   templateUrl: './review-dialog.component.html',
   styleUrls: ['./review-dialog.component.scss'],
 })
 export class ReviewDialogComponent implements OnInit {
   reviewForm!: FormGroup;
+
   dialogAction = ReviewDialogAction.addDialogAction;
+
   action = this.translateService.instant('DIALOG.ADD_ACTION');
+
   buttonAction = this.translateService.instant('BUTTON.CANCEL');
+
   categories: string[] | undefined;
+
   file: File | undefined;
+
   defaultImage: SafeUrl | undefined;
+
   imageSrc: SafeUrl | undefined;
 
   constructor(
-    private store: Store<ReviewState>,
+    private store: Store,
     @Inject(MAT_DIALOG_DATA) public dialogData: any,
     public dialogRef: MatDialogRef<ReviewDialogComponent>,
     private fileService: FileService,
-    private translateService: TranslateService,
+    private translateService: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -54,10 +62,7 @@ export class ReviewDialogComponent implements OnInit {
       .subscribe((categories) => (this.categories = Object.values(categories)));
     this.renderFileSrc(defaultFilePath);
     this.buildForm();
-    if (
-      this.dialogData.action ===
-      this.translateService.instant('DIALOG.dataEditAction')
-    ) {
+    if (this.dialogData.action === this.translateService.instant('DIALOG.dataEditAction')) {
       this.renderEditData();
     }
   }
@@ -78,13 +83,11 @@ export class ReviewDialogComponent implements OnInit {
     this.buttonAction = this.translateService.instant('BUTTON.CLOSE');
     this.renderFileSrc(this.dialogData.data.filePath);
     this.reviewForm.patchValue(this.dialogData.data);
-    this.fileService
-      .getReviewFile(this.dialogData.data.filePath)
-      .subscribe((file) => {
-        this.reviewForm.patchValue({
-          image: file,
-        });
+    this.fileService.getReviewFile(this.dialogData.data.filePath).subscribe((file) => {
+      this.reviewForm.patchValue({
+        image: file,
       });
+    });
   }
 
   buildForm() {
@@ -99,10 +102,8 @@ export class ReviewDialogComponent implements OnInit {
   }
 
   submit() {
-    this.dialogAction === ReviewDialogAction.editDialogAction
-      ? this.edit()
-      : this.add();
-    this.dialogRef.close();
+    this.dialogAction === ReviewDialogAction.editDialogAction ? this.edit() : this.add();
+    // this.dialogRef.close();
   }
 
   add() {
@@ -117,7 +118,7 @@ export class ReviewDialogComponent implements OnInit {
         review: reviewFormData,
         userId: this.dialogData.data,
         file: this.file!,
-      }),
+      })
     );
   }
 
@@ -132,14 +133,14 @@ export class ReviewDialogComponent implements OnInit {
       ReviewAction.UpdateReview({
         review: reviewFormData,
         reviewId: this.dialogData.data.id,
-      }),
+      })
     );
   }
 
-  prepeareFormData(review: any) {
+  prepeareFormData(review: ReviewInfo) {
     const formData = new FormData();
     formData.set('review', JSON.stringify(review));
-    formData.set('image', this.reviewForm.value['image']);
+    formData.set('image', this.reviewForm.value.image);
     return formData;
   }
 
@@ -156,5 +157,9 @@ export class ReviewDialogComponent implements OnInit {
     this.file = fileHandle.file;
     this.imageSrc = fileHandle.url;
     this.reviewForm.patchValue({ image: this.file });
+  }
+
+  addTags(tags: string[]) {
+    this.reviewForm.patchValue({ tags });
   }
 }

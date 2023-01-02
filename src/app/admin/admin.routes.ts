@@ -13,7 +13,7 @@ export const adminRoutes: Routes = [
     providers: [
       importProvidersFrom(
         StoreModule.forFeature('user', fromUser.userReduser),
-        EffectsModule.forFeature([UserEffects]),
+        EffectsModule.forFeature([UserEffects])
       ),
     ],
   },

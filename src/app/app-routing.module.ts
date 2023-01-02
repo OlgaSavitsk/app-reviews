@@ -13,17 +13,15 @@ export const appRoutes: Routes = [
   },
   {
     path: '',
-    loadChildren: () =>
-      import('./auth/auth-routing.module').then((m) => m.authroutes),
+    loadChildren: () => import('./auth/auth-routing.module').then((m) => m.authroutes),
   },
   {
     path: Path.review,
-    loadChildren: () =>
-      import('./review/review.routes').then((m) => m.reviewRoutes),
+    loadChildren: () => import('./review/review.routes').then((m) => m.reviewRoutes),
   },
   {
     path: Path.adminPage,
-    loadChildren:() => import('@admin/admin.routes').then((m) => m.adminRoutes),
+    loadChildren: () => import('@admin/admin.routes').then((m) => m.adminRoutes),
     canActivate: [RoleGuard],
   },
   { path: '**', component: PageNotFoundComponent },

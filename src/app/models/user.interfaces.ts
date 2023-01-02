@@ -1,4 +1,4 @@
-import { ReviewInfo } from "./review.interface";
+import { ReviewInfo } from './review.interface';
 
 export interface UserAuth {
   username: string;
@@ -17,9 +17,9 @@ export interface UserInfo {
   status: string;
   roles: string;
   photos: {
-    value: string
+    value: string;
   }[];
-  reviews: ReviewInfo[]
+  reviews: ReviewInfo[];
 }
 
 export interface UserDetails {

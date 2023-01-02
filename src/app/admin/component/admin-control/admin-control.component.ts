@@ -4,7 +4,6 @@ import { Store } from '@ngrx/store';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MaterialModule } from 'src/app/material/material.module';
 import { UserInfo } from 'src/app/models/user.interfaces';
-import { UserState } from '@redux/state/user.state';
 import * as UserAction from '../../../redux/actions/user.actions';
 
 @Component({
@@ -16,12 +15,10 @@ import * as UserAction from '../../../redux/actions/user.actions';
 })
 export class AdminControlComponent implements OnInit {
   @Input() selectedUser!: UserInfo[];
+
   roleList!: string[];
 
-  constructor(
-    private translateService: TranslateService,
-    private store: Store<UserState>,
-  ) {}
+  constructor(private translateService: TranslateService, private store: Store) {}
 
   ngOnInit(): void {
     this.translateService
@@ -34,7 +31,7 @@ export class AdminControlComponent implements OnInit {
   deleteUser() {
     if (this.selectedUser.length > 0) {
       this.selectedUser.forEach((user) =>
-        this.store.dispatch(UserAction.DeleteUser({ id: user.id })),
+        this.store.dispatch(UserAction.DeleteUser({ id: user.id }))
       );
     }
   }

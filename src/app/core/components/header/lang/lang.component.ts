@@ -14,9 +14,10 @@ import { MaterialModule } from 'src/app/material/material.module';
 })
 export class LangComponent {
   siteLanguage!: string;
+
   languageList = [
-    { code:  Language[0], label:  Language.langEn },
-    { code:  Language[1], label: Language.langRu },
+    { code: Language[0], label: Language.langEn },
+    { code: Language[1], label: Language.langRu },
   ];
 
   constructor(private translateService: TranslateService) {}

@@ -1,50 +1,42 @@
 import { createReducer, on } from '@ngrx/store';
-import { initialReviewState } from '@redux/state/review.state';
-import { initialUserState } from '@redux/state/user.state';
+import { initialReviewState, ReviewState } from '@redux/state/review.state';
 
 import {
-  DeleteReview,
-  DeleteReviewSuccess,
   GetReviews,
   GetReviewsFailed,
   GetReviewsSuccess,
-  SaveReview,
-  SaveReviewSuccess,
-  UpdateReview,
-  UpdateReviewFailed,
-  UpdateReviewSuccess,
+  GetReviewsTagsSuccess,
 } from '../actions/review.actions';
 
-export const reviewReduser = createReducer(
+export const reviewReduser = createReducer<ReviewState>(
   initialReviewState,
-  on(GetReviews, (state) => ({
-    ...state,
-    loading: true,
-  })),
-  on(GetReviewsSuccess, (state, { reviews }) => ({
-    ...state,
-    reviews,
-    loading: false,
-  })),
+  on(
+    GetReviews,
+    (state): ReviewState => ({
+      ...state,
+      loading: true,
+    })
+  ),
+  on(
+    GetReviewsSuccess,
+    (state, { reviews }): ReviewState => ({
+      ...state,
+      reviews,
+      loading: false,
+    })
+  ),
   on(GetReviewsFailed, (state, { error }) => ({
     ...state,
     loading: false,
     error,
   })),
-  
-  on(UpdateReview, (state) => ({
-    ...state,
-  })),
-  on(UpdateReviewFailed, (state, { error }) => ({
-    ...state,
-    loading: false,
-    error,
-  })),
-  on(DeleteReview, (state) => ({
-    ...state,
-  })),
-  on(DeleteReviewSuccess, (state, { id }) => ({
-    ...state,
-   // reviews: state.reviews.filter((review) => review.id !== id),
-  })),
+
+  on(
+    GetReviewsTagsSuccess,
+    (state, { tags }): ReviewState => ({
+      ...state,
+      tags,
+      loading: false,
+    })
+  )
 );

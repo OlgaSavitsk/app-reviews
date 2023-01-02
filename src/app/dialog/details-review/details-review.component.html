@@ -1,0 +1,52 @@
+<mat-dialog-content fxLayout="column" class="mat-typography">
+  <div fxFlex fxLayout="column" class="wrapper">
+    <div class="date">{{dialogData.data.createdAt | date: 'MMMM d, y'}}&nbsp;|&nbsp;{{dialogData.username}}
+      <span>{{dialogData.data.like}}
+        <mat-icon aria-hidden="false" [ngClass]="{'active': dialogData.data.like}">thumb_up</mat-icon>
+      </span>
+
+    </div>
+    <div fxFlexFill fxLayout="column wrap" fxLayoutGap="15px">
+      <div class="file-wrapper">
+        <img mat-card-image class="image" [src]="imageSrc">
+      </div>
+      <div>
+        <div style="justify-content: space-between;" fxLayout="row">
+          <span>{{dialogData.data.name}}</span>
+          <app-star [rating]="dialogData.data.rating" (ratingEmiter)="addRating($event)"></app-star>
+        </div>
+
+        <div class="tags">Tags: <mat-chip-listbox>
+            <mat-chip-option *ngFor="let tag of dialogData.data.tags">{{tag}}</mat-chip-option>
+          </mat-chip-listbox>
+        </div>
+
+        <h1>{{dialogData.data.title}}</h1>
+        <div fxLayout="column" fxLayoutAlign="center start">
+          <span class="score">Score: {{dialogData.data.score}}/10</span>
+          <div class="description" [innerHTML]="template"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-divider></mat-divider>
+<mat-dialog-actions [align]="'center'">
+  <span>Comments ()</span>
+  <div class="comment">
+    <div fxLayoutAlign="center center">
+      <!-- <img *ngIf="(user$ | async)!.photos; else account" ngSrc="{{(user$ | async)!.photos[0].value}}"
+        [ngStyle]="{borderRadius:'100%'}" width="40" height="40"> -->
+      <ng-template #account>
+        <mat-icon class="user-icon">account_circle</mat-icon>
+      </ng-template>
+    </div>
+    <div>
+      <span>Name</span>
+      <span>Comment</span>
+    </div>
+
+  </div>
+  <!-- <button mat-raised-button color="primary" (click)="submit()">{{action}}</button>
+  <button mat-raised-button color="primary" mat-dialog-close>{{buttonAction}}</button> -->
+</mat-dialog-actions>

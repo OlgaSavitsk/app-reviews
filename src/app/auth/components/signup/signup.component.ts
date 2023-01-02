@@ -8,30 +8,26 @@ import { ValidationService } from '@core/services/validation.service';
 import { MaterialModule } from 'src/app/material/material.module';
 import { AuthService } from '@auth/services/auth.service';
 import { Path } from 'src/app/app.constants';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [
-    CommonModule,
-    MaterialModule,
-    RouterModule,
-    NgOptimizedImage,
-    TranslateModule,
-  ],
+  imports: [CommonModule, MaterialModule, RouterModule, NgOptimizedImage, TranslateModule],
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss'],
 })
 export class SignupComponent implements OnInit, OnDestroy {
   formGroup!: FormGroup;
-  isSpinner: boolean = false;
+
+  isSpinner = false;
 
   private ngUnsubscribe = new Subject();
+
   private errorMessage$ = new BehaviorSubject<string>('');
+
   errorMessage$$ = this.errorMessage$.pipe();
-  content: any;
-  //roles = new FormControl({value: false, disabled: true});
+  // roles = new FormControl({value: false, disabled: true});
 
   constructor(
     private authService: AuthService,
@@ -41,27 +37,19 @@ export class SignupComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.formGroup = new FormGroup({
-      username: new FormControl('', [
-        Validators.required,
-        Validators.minLength(1),
-      ]),
+      username: new FormControl('', [Validators.required, Validators.minLength(1)]),
       login: new FormControl('', [Validators.required]),
-      password: new FormControl('', [
-        Validators.required,
-        Validators.minLength(1),
-      ]),
+      password: new FormControl('', [Validators.required, Validators.minLength(1)]),
     });
-    this.formGroup.valueChanges
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(() => {
-        this.validationService.setValidationErrors(this.formGroup);
-      });
+    this.formGroup.valueChanges.pipe(takeUntil(this.ngUnsubscribe)).subscribe(() => {
+      this.validationService.setValidationErrors(this.formGroup);
+    });
     if (!this.formGroup.invalid) {
       this.formGroup.get('roles')?.enable();
     }
   }
 
-  setRole(complete: boolean = false) {
+  setRole(complete = false) {
     if (complete) {
       this.formGroup.addControl('roles', new FormControl('admin'));
     } else {

@@ -4,10 +4,10 @@ import { bootstrapApplication } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { apiInterceptor } from '@core/interceptors/api.interceptor';
 import { appRoutes } from './app/app-routing.module';
 import { AppComponent } from './app/app.component';
 import { AppModule } from './app/app.module';
-import { apiInterceptor } from '@core/interceptors/api.interceptor';
 
 bootstrapApplication(AppComponent, {
   providers: [

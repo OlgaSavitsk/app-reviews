@@ -15,13 +15,12 @@ import { MatSort, Sort } from '@angular/material/sort';
 
 import { MaterialModule } from 'src/app/material/material.module';
 import { UserInfo } from 'src/app/models/user.interfaces';
-import { BlockStatus, displayedColumnsUsers } from '../app.constants';
 import * as UserAction from '@redux/actions/user.actions';
 import { DateAgoPipe } from '@core/pipes/date-ago.pipe';
-import { AdminControlComponent } from './component/admin-control/admin-control.component';
 import { UserApiService } from '@core/services/user-api.service';
-import { UserState } from '@redux/state/user.state';
 import { Router } from '@angular/router';
+import { AdminControlComponent } from './component/admin-control/admin-control.component';
+import { BlockStatus, displayedColumnsUsers } from '../app.constants';
 
 @Component({
   selector: 'app-admin',
@@ -39,17 +38,22 @@ import { Router } from '@angular/router';
 })
 export class AdminComponent implements OnInit, AfterContentChecked {
   @ViewChild(MatSort) sort!: MatSort;
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+
   displayedColumns = displayedColumnsUsers;
+
   dataSource: MatTableDataSource<UserInfo> | undefined;
+
   selection = new SelectionModel<UserInfo>(true, []);
+
   selectedUsers!: UserInfo[];
 
   constructor(
-    private store: Store<UserState>,
+    private store: Store,
     private userService: UserApiService,
     private changeDetector: ChangeDetectorRef,
-    private router: Router,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -71,11 +75,8 @@ export class AdminComponent implements OnInit, AfterContentChecked {
   }
 
   changeStatus(user: UserInfo): void {
-    let status =
-      user.status === BlockStatus.active
-        ? BlockStatus.blocked
-        : BlockStatus.active;
-    this.store.dispatch(UserAction.UpdateUser({ user: user, status: status }));
+    const status = user.status === BlockStatus.active ? BlockStatus.blocked : BlockStatus.active;
+    this.store.dispatch(UserAction.UpdateUser({ user, status }));
   }
 
   isAllSelected(): boolean {
@@ -98,9 +99,7 @@ export class AdminComponent implements OnInit, AfterContentChecked {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
-      row.id + 1
-    }`;
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id + 1}`;
   }
 
   onSelectUser(id: string) {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 
@@ -17,31 +17,29 @@ import { TranslateModule } from '@ngx-translate/core';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class SigninComponent implements OnInit {
+export class SigninComponent implements OnInit, OnDestroy {
   formGroup!: FormGroup;
+
   private errorMessage$ = new BehaviorSubject<string>('');
+
   errorMessage$$ = this.errorMessage$.pipe();
 
   private ngUnsubscribe = new Subject();
+
   constructor(
     private authService: AuthService,
     public validationService: ValidationService,
-    private router: Router,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     this.formGroup = new FormGroup({
       username: new FormControl('', [Validators.required]),
-      password: new FormControl('', [
-        Validators.required,
-        Validators.minLength(1),
-      ]),
+      password: new FormControl('', [Validators.required, Validators.minLength(1)]),
     });
-    this.formGroup.valueChanges
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(() => {
-        this.validationService.setValidationErrors(this.formGroup);
-      });
+    this.formGroup.valueChanges.pipe(takeUntil(this.ngUnsubscribe)).subscribe(() => {
+      this.validationService.setValidationErrors(this.formGroup);
+    });
   }
 
   onSubmit(): void {

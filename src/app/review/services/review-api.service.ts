@@ -11,11 +11,7 @@ import * as fromUser from '@redux/selectors/collection.selector';
   providedIn: 'root',
 })
 export class ReviewApiService {
-
-  constructor(
-    private http: HttpClient,
-    private store: Store,
-  ) {}
+  constructor(private http: HttpClient, private store: Store) {}
 
   getAllReviews(): Observable<ReviewInfo[]> {
     return this.http.get<ReviewInfo[]>('review', {
@@ -23,18 +19,24 @@ export class ReviewApiService {
     });
   }
 
+  getAllReviewsTags(): Observable<string[]> {
+    return this.http.get<string[]>('review/tags', {
+      withCredentials: true,
+    });
+  }
+
   getCurrentReviews(): Observable<void[]> {
-    return this.store.select(fromUser.getReviewsStore).pipe(
+    return this.store.select(fromUser.selectReviewsStore).pipe(
       map(({ reviews }) =>
         reviews.map((review) => {
           this.store.dispatch(
             ReviewAction.GetFile({
               filePath: review.filePath,
               reviewId: review.id,
-            }),
+            })
           );
-        }),
-      ),
+        })
+      )
     );
   }
 

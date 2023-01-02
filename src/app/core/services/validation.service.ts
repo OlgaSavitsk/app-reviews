@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-import { FormError } from 'src/app/models/forms.interfaces';
-
 @Injectable({
   providedIn: 'root',
 })
 export class ValidationService {
-  errorMessage: string = '';
+  errorMessage = '';
 
   setValidationErrors(group: FormGroup): void {
     Object.keys(group.controls).forEach((key: string) => {

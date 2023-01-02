@@ -1,0 +1,5 @@
+<div class="rating">
+    <ng-container *ngFor="let i of stars">
+        <mat-icon [ngClass]="{'active': i<= rating}" (click)="updateRating(i)">star</mat-icon>
+    </ng-container>
+</div>

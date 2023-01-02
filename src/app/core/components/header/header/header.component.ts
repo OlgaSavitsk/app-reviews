@@ -1,5 +1,5 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { HeaderAnimateDirective } from '@core/directives/header-animate.directive';
 import { UserApiService } from '@core/services/user-api.service';
@@ -28,21 +28,14 @@ import { LangComponent } from '../lang/lang.component';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
-export default class HeaderComponent implements OnInit {
+export default class HeaderComponent {
   currentUser$: Observable<UserInfo | null> = this.userService
     .getCurrentUser()
     .pipe(map((user: UserInfo | null) => user));
-  isLoggedIn$ = this.userService
-    .getCurrentUser()
-    .pipe(map((user: UserInfo | null) => !!user));
 
-  constructor(
-    private router: Router,
-    private userService: UserApiService,
-    private store: Store,
-  ) {}
+  isLoggedIn$ = this.userService.getCurrentUser().pipe(map((user: UserInfo | null) => !!user));
 
-  ngOnInit(): void {}
+  constructor(private router: Router, private userService: UserApiService, private store: Store) {}
 
   logout() {
     this.store.dispatch(UserAction.ClearData());

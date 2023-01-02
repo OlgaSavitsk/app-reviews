@@ -1,4 +1,4 @@
-import { UserInfo } from "src/app/models/user.interfaces";
+import { UserInfo } from 'src/app/models/user.interfaces';
 
 export interface UserState {
   user: UserInfo | null;
@@ -13,5 +13,5 @@ export const initialUserState: UserState = {
   users: [],
   isFetched: false,
   loading: false,
-  isUpdated: false
+  isUpdated: false,
 };

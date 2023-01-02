@@ -10,11 +10,12 @@ import { UserInfo } from 'src/app/models/user.interfaces';
 })
 export class SelectControlService {
   userState: UserInfo[] = [];
-  dataSource: MatTableDataSource<UserInfo> | undefined;
-  selection = new SelectionModel<UserInfo>(true, []);
-  selectedUser!: UserInfo[];
 
-  constructor() {}
+  dataSource: MatTableDataSource<UserInfo> | undefined;
+
+  selection = new SelectionModel<UserInfo>(true, []);
+
+  selectedUser!: UserInfo[];
 
   isAllSelected() {
     const numSelected = this.selection.selected.length;
@@ -36,8 +37,6 @@ export class SelectControlService {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
-      row.id + 1
-    }`;
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id + 1}`;
   }
 }

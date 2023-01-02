@@ -19,19 +19,13 @@ export class RoleGuard implements CanActivate {
 
   canActivate(
     route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot,
-  ):
-    | Observable<boolean | UrlTree>
-    | Promise<boolean | UrlTree>
-    | boolean
-    | UrlTree {
+    state: RouterStateSnapshot
+  ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     return this.userService.getCurrentUser().pipe(
       take(1),
       map((user) =>
-        user?.roles === 'admin'
-          ? true
-          : this.router.parseUrl(Path.mainPage + user?.id),
-      ),
+        user!.roles === 'admin' ? true : this.router.parseUrl(Path.mainPage + user!.id)
+      )
     );
   }
 }
