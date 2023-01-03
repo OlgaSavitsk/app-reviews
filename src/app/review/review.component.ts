@@ -16,28 +16,23 @@ import { UserInfo } from '../models/user.interfaces';
 import { ReviewDialogComponent } from '../dialog/review-dialog/review-dialog.component';
 import { ReviewInfo } from '../models/review.interface';
 import * as ReviewAction from '../redux/actions/review.actions';
-import { StarComponent } from './components/star/star.component';
+import { RatingComponent } from './components/rating/rating.component';
 import { DetailsReviewComponent } from '../dialog/details-review/details-review.component';
 
 @Component({
   selector: 'app-review',
   standalone: true,
-  imports: [CommonModule, MaterialModule, TranslateModule, StarComponent],
+  imports: [CommonModule, MaterialModule, TranslateModule, RatingComponent],
   templateUrl: './review.component.html',
   styleUrls: ['./review.component.scss'],
 })
 export class ReviewComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
-
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-
   displayedColumns = displayedColumnsReviews;
-
   dataSource: MatTableDataSource<ReviewInfo> | undefined;
-
   // responseMessage: string = '';
   userId: string | null = null;
-
   currentUser: UserInfo | undefined;
 
   constructor(
@@ -108,7 +103,7 @@ export class ReviewComponent implements OnInit {
   }
 
   detailsAction(element: ReviewInfo) {
-    this.dialog.open(DetailsReviewComponent, {
+    const dialogRef = this.dialog.open(DetailsReviewComponent, {
       data: {
         // action: this.translateService.instant('DIALOG.dataEditAction'),
         data: element,
@@ -128,9 +123,5 @@ export class ReviewComponent implements OnInit {
           this.store.dispatch(ReviewAction.DeleteReview({ id: element.id }));
         }
       });
-  }
-
-  addRating(ratingValue: number) {
-    console.log(ratingValue);
   }
 }

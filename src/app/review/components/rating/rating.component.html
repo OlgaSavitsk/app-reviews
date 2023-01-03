@@ -1,0 +1,8 @@
+<div class="rating">
+    <span>{{averageRating}}</span>
+    <div>
+        <ng-container *ngFor="let i of stars">
+            <mat-icon [ngClass]="{'active': i<= rating}" (click)="updateRating(i)">star</mat-icon>
+        </ng-container>
+    </div>
+</div>

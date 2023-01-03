@@ -65,3 +65,5 @@ export const FILM_CATEGORIES = [
   'family',
   'documentary',
 ];
+
+export const MARKS = new Array(10).fill(0).map((_, index) => index + 1)

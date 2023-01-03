@@ -36,6 +36,7 @@
     "DESCRIPTION": "Description",
     "TAG": "Tags",
     "CATEGORY": "Category",
+    "SCORE": "Score",
     "VIEW_BUTTON": "View Details",
     "NEW_REVIEW": {
       "CREATE": "Create review",

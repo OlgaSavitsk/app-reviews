@@ -5,29 +5,30 @@ import { SafeUrl } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MaterialModule } from 'src/app/material/material.module';
-import { StarComponent } from 'src/app/review/components/star/star.component';
+import { RatingComponent } from 'src/app/review/components/rating/rating.component';
 import { FileService } from 'src/app/review/services/file.service';
 import * as ReviewAction from '@redux/actions/review.actions';
 import { ReviewControlService } from 'src/app/review/services/review-control.service';
 import { marked } from 'marked';
+import { ReviewInfo } from 'src/app/models/review.interface';
 
 @Component({
   selector: 'app-details-review',
   standalone: true,
-  imports: [CommonModule, TranslateModule, MaterialModule, NgOptimizedImage, StarComponent],
+  imports: [CommonModule, TranslateModule, MaterialModule, NgOptimizedImage, RatingComponent],
   templateUrl: './details-review.component.html',
   styleUrls: ['./details-review.component.scss'],
 })
 export class DetailsReviewComponent implements OnInit {
   imageSrc: SafeUrl | undefined;
-
   allTags: string[] | undefined;
-
   template: string | undefined;
+  tags: string[] = this.dialogData.data.tags;
+  rating!: number;
 
   constructor(
     private store: Store,
-    @Inject(MAT_DIALOG_DATA) public dialogData: any,
+    @Inject(MAT_DIALOG_DATA) public dialogData: { data: ReviewInfo; username: string },
     public dialogRef: MatDialogRef<DetailsReviewComponent>,
     private fileService: FileService,
     private translateService: TranslateService,
@@ -38,6 +39,12 @@ export class DetailsReviewComponent implements OnInit {
     this.renderFileSrc(this.dialogData.data.filePath);
     this.renderTags();
     this.renderDescription();
+    // this.dialogRef.backdropClick().subscribe((isStopped) => {
+    //   if (isStopped.isTrusted) {
+    //    // const dialogData = { ...this.dialogData.data, rating: this.rating };
+    //     this.reviewControlService.addRating(this.dialogData.data);
+    //   }
+    // });
   }
 
   renderFileSrc(filePath: string) {
@@ -55,9 +62,5 @@ export class DetailsReviewComponent implements OnInit {
 
   renderDescription() {
     this.template = marked.parse(this.dialogData.data.description);
-  }
-
-  addRating(ratingValue: number) {
-    console.log(ratingValue);
   }
 }

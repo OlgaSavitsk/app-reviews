@@ -7,7 +7,7 @@ export interface ReviewInfo {
   category: string;
   description: string;
   tags: string[];
-  rating?: string;
+  rating: number;
   img: string;
   createdAt: string;
   action?: string;
@@ -15,4 +15,6 @@ export interface ReviewInfo {
   image: File;
   filePath: string;
   fileUrl: SafeUrl;
+  score: number;
+  like: number;
 }

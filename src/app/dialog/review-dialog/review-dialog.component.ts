@@ -10,7 +10,7 @@ import { MaterialModule } from 'src/app/material/material.module';
 import * as ReviewAction from '@redux/actions/review.actions';
 import { DragDirective, FileHandle } from '@core/directives/drag.directive';
 import { FileService } from 'src/app/review/services/file.service';
-import { defaultFilePath, FILM_CATEGORIES, ReviewDialogAction } from 'src/app/app.constants';
+import { defaultFilePath, FILM_CATEGORIES, MARKS, ReviewDialogAction } from 'src/app/app.constants';
 import { TagsSelectComponent } from 'src/app/review/components/tags-select/tags-select.component';
 import '@github/markdown-toolbar-element';
 import { MarkdownEditorComponent } from 'src/app/review/components/markdown-editor/markdown-editor.component';
@@ -33,24 +33,18 @@ import { ReviewInfo } from 'src/app/models/review.interface';
 })
 export class ReviewDialogComponent implements OnInit {
   reviewForm!: FormGroup;
-
   dialogAction = ReviewDialogAction.addDialogAction;
-
   action = this.translateService.instant('DIALOG.ADD_ACTION');
-
   buttonAction = this.translateService.instant('BUTTON.CANCEL');
-
   categories: string[] | undefined;
-
   file: File | undefined;
-
   defaultImage: SafeUrl | undefined;
-
   imageSrc: SafeUrl | undefined;
+  marks: number[] = MARKS;
 
   constructor(
     private store: Store,
-    @Inject(MAT_DIALOG_DATA) public dialogData: any,
+    @Inject(MAT_DIALOG_DATA) public dialogData: { data: ReviewInfo | string; action: string },
     public dialogRef: MatDialogRef<ReviewDialogComponent>,
     private fileService: FileService,
     private translateService: TranslateService
@@ -67,7 +61,7 @@ export class ReviewDialogComponent implements OnInit {
     }
   }
 
-  renderFileSrc(filePath: string) {
+  renderFileSrc(filePath: string): void {
     this.fileService.getReviewImage(filePath).subscribe((fileUrl) => {
       if (filePath === defaultFilePath) {
         this.defaultImage = fileUrl;
@@ -81,13 +75,15 @@ export class ReviewDialogComponent implements OnInit {
     this.dialogAction = ReviewDialogAction.editDialogAction;
     this.action = this.translateService.instant('DIALOG.EDIT_BUTTON');
     this.buttonAction = this.translateService.instant('BUTTON.CLOSE');
-    this.renderFileSrc(this.dialogData.data.filePath);
-    this.reviewForm.patchValue(this.dialogData.data);
-    this.fileService.getReviewFile(this.dialogData.data.filePath).subscribe((file) => {
-      this.reviewForm.patchValue({
-        image: file,
+    this.renderFileSrc((this.dialogData.data as ReviewInfo).filePath);
+    this.reviewForm.patchValue(this.dialogData.data as ReviewInfo);
+    this.fileService
+      .getReviewFile((this.dialogData.data as ReviewInfo).filePath)
+      .subscribe((file) => {
+        this.reviewForm.patchValue({
+          image: file,
+        });
       });
-    });
   }
 
   buildForm() {
@@ -95,15 +91,17 @@ export class ReviewDialogComponent implements OnInit {
       name: new FormControl('', [Validators.required, Validators.minLength(1)]),
       title: new FormControl('', [Validators.required]),
       category: new FormControl(''),
+      score: new FormControl('', [Validators.required]),
       tags: new FormControl('', [Validators.required]),
       description: new FormControl('', [Validators.required]),
       image: new FormControl(null),
+      like: new FormControl(null),
     });
   }
 
   submit() {
     this.dialogAction === ReviewDialogAction.editDialogAction ? this.edit() : this.add();
-    // this.dialogRef.close();
+    this.dialogRef.close();
   }
 
   add() {
@@ -116,7 +114,7 @@ export class ReviewDialogComponent implements OnInit {
     this.store.dispatch(
       ReviewAction.SaveReview({
         review: reviewFormData,
-        userId: this.dialogData.data,
+        userId: <string>this.dialogData.data,
         file: this.file!,
       })
     );
@@ -126,13 +124,13 @@ export class ReviewDialogComponent implements OnInit {
     const formDataReview = this.reviewForm.value;
     const data = {
       ...formDataReview,
-      id: this.dialogData.data.id,
+      id: (this.dialogData.data as ReviewInfo).id,
     };
     const reviewFormData = this.prepeareFormData(data);
     this.store.dispatch(
       ReviewAction.UpdateReview({
         review: reviewFormData,
-        reviewId: this.dialogData.data.id,
+        reviewId: (this.dialogData.data as ReviewInfo).id,
       })
     );
   }

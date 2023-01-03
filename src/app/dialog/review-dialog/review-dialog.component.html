@@ -55,29 +55,15 @@
         </mat-form-field>
 
         <mat-form-field appearance="fill">
-          <mat-label>Score</mat-label>
-          <select matNativeControl required>
-            <option value="volvo">Volvo</option>
-            <option value="saab">Saab</option>
-            <option value="mercedes">Mercedes</option>
-            <option value="audi">Audi</option>
+          <mat-label>{{'REVIEW.SCORE' | translate}}</mat-label>
+          <select matNativeControl required formControlName="score">
+            <option *ngFor="let mark of marks" [value]="mark">{{mark}}</option>
           </select>
         </mat-form-field>
-
-
-        <!-- <textarea matInput formControlName="description" rows="15"
-            placeholder="{{'REVIEW.NEW_REVIEW.DESCRIPTION' | translate}}"></textarea> -->
 
         <app-markdown-editor [control]="reviewForm.controls['description']"></app-markdown-editor>
 
         <app-tags-select (tagsEventEmiter)="addTags($event)"></app-tags-select>
-
-        <!-- <mat-form-field fxFlex appearance="fill">
-          <mat-label>{{'REVIEW.TAG' | translate}}</mat-label>
-          <input matInput type="text" placeholder="{{'REVIEW.NEW_REVIEW.TAG' | translate}}" formControlName="tags"
-            autocomplete="off" required>
-          
-        </mat-form-field> -->
 
       </div>
     </div>
