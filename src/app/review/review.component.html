@@ -37,7 +37,7 @@
       <ng-container matColumnDef="rating">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>
           {{'REVIEW.RAITING' | translate}}</th>
-        <td mat-cell *matCellDef="let element">
+        <td style="width: 15%;" mat-cell *matCellDef="let element">
           <app-star [data]="element" (ratingEmiter)="addRating($event)"></app-star>
         </td>
       </ng-container>

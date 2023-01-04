@@ -11,6 +11,7 @@ import { Path } from 'src/app/app.constants';
 import { MaterialModule } from 'src/app/material/material.module';
 import { UserInfo } from 'src/app/models/user.interfaces';
 import * as UserAction from 'src/app/redux/actions/user.actions';
+import { GlobalSearchComponent } from 'src/app/review/components/global-search/global-search.component';
 import { LangComponent } from '../lang/lang.component';
 
 @Component({
@@ -24,6 +25,7 @@ import { LangComponent } from '../lang/lang.component';
     NgOptimizedImage,
     LangComponent,
     TranslateModule,
+    GlobalSearchComponent
   ],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],

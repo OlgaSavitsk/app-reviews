@@ -1,6 +1,10 @@
 import { SafeUrl } from '@angular/platform-browser';
 
-export interface ReviewInfo {
+interface IObjectKeys {
+  [key: string]: any;
+}
+
+export interface ReviewInfo extends IObjectKeys {
   id: string;
   name: string;
   title: string;

@@ -1,5 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { ReviewState } from '@redux/state/review.state';
+import { SearchReviewState } from '@redux/state/search.state';
 import { UserInfo } from 'src/app/models/user.interfaces';
 import { UserState } from '../state/user.state';
 
@@ -37,4 +38,11 @@ export const selectTags = createSelector(selectReviewsStore, (state: ReviewState
 export const selectLoadingReview = createSelector(
   selectReviewsStore,
   (state: ReviewState) => state.loading
+);
+
+export const selectSearchReviewStore = createFeatureSelector<SearchReviewState>('searchReview');
+
+export const selectCurrentSearchReview = createSelector(
+  selectSearchReviewStore,
+  (state: SearchReviewState) => state.reviews
 );

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, map } from 'rxjs';
@@ -60,5 +60,18 @@ export class ReviewApiService {
     return this.http.delete<ReviewInfo[]>(`review/${id}`, {
       withCredentials: true,
     });
+  }
+
+  getSearchReviews(searchValue: string): Observable<ReviewInfo[]> {
+   
+    return this.getSearchData(searchValue).pipe(
+      map((reviews: ReviewInfo[]) => reviews));
+  }
+
+  private getSearchData(searchValue: string): Observable<ReviewInfo[]> {
+    const params = new HttpParams()
+      .set('search', searchValue)
+       console.log('456', searchValue)
+    return this.http.get<ReviewInfo[]>('review', { params });
   }
 }

@@ -3,6 +3,7 @@ import { Routes } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { ReviewEffects } from '@redux/effects/review.effect';
+import { SearchReviewEffects } from '@redux/effects/search-review.effect';
 import * as fromReview from '../redux/reducers/review.reducer';
 import { ReviewComponent } from './review.component';
 
@@ -18,7 +19,7 @@ export const reviewRoutes: Routes = [
     providers: [
       importProvidersFrom(
         StoreModule.forFeature('review', fromReview.reviewReduser),
-        EffectsModule.forFeature([ReviewEffects])
+        EffectsModule.forFeature([ReviewEffects, SearchReviewEffects])
       ),
     ],
   },

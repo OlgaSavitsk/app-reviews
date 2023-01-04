@@ -15,6 +15,7 @@ import { UserEffects } from '@redux/effects/user.effects';
 import { ReviewEffects } from '@redux/effects/review.effect';
 import { reducers } from '@redux/reducers';
 import { AppComponent } from './app.component';
+import { SearchReviewEffects } from '@redux/effects/search-review.effect';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
@@ -32,7 +33,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       maxAge: 25,
       logOnly: environment.production,
     }),
-    EffectsModule.forRoot([UserEffects, ReviewEffects]),
+    EffectsModule.forRoot([UserEffects, ReviewEffects, SearchReviewEffects]),
     StoreRouterConnectingModule.forRoot(),
     TranslateModule.forRoot({
       loader: {

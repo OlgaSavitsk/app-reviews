@@ -57,4 +57,10 @@ export class ReviewControlService {
       .select(fromUser.selectReviewsStore)
       .pipe(map(({ reviews }) => reviews.filter((review) => review.name === name)));
   }
+
+  getSearchReview(): Observable<ReviewInfo[]> {
+    return this.store.select(fromUser.selectSearchReviewStore).pipe(
+      map(({ reviews }) => reviews)
+    );
+  }
 }
