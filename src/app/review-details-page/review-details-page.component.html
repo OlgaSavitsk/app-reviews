@@ -1,0 +1,40 @@
+<div class="details" *ngIf="review">
+  <button class="details__button_back">
+    <a routerLink="/home" routerLinkActive="active">
+      <img src="assets/icons/back-button.svg" alt="">
+    </a>
+  </button>
+  <div class="details__image">
+    <img [src]="imageUrl | async">
+  </div>
+  <div class="details__description">
+    <div class="date">
+      <span class="details__date">{{review.createdAt | date: 'EEEE, MMMM d, y'}}</span>
+
+      <span class="details__user">
+        <span>{{(user | async).username}</span>{{(review.like)}}
+        <mat-icon aria-hidden="false" [ngClass]="{'active': review.like}">thumb_up</mat-icon>
+      </span>
+    </div>
+
+    <div class="text-block">
+      <h2 class="details__title">{{ review.title }}</h2>
+
+      <div style="justify-content: space-between;" fxLayout="row">
+        <span class="score">Score: {{review.score}}/10</span>
+        <app-star [data]="review"></app-star>
+      </div>
+
+      <h3 class="details__subtitle">Description:</h3>
+      <div class="details__date template" [innerHTML]="template"></div>
+    </div>
+
+    <div fxFlexFill fxLayout="column wrap" fxLayoutGap="15px">
+      <div class="tags">Tags:
+        <mat-chip-listbox>
+          <mat-chip *ngFor="let tag of review.tags">{{tag}}</mat-chip>
+        </mat-chip-listbox>
+      </div>
+    </div>
+  </div>
+</div>

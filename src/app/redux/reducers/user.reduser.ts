@@ -114,11 +114,11 @@ export const userReduser = createReducer<UserState>(
         if (user.id === userId) {
           review = {
             ...review,
-            image: file,
+            userId,
           };
-          return { ...user, reviews: [...user.reviews, review] };
         }
-        return user;
+        return { ...user, reviews: [...user.reviews, review] };
+        // return user;
       }),
     })
   ),

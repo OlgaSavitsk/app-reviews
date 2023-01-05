@@ -24,7 +24,7 @@ import { marked } from 'marked';
 export class MarkdownEditorComponent implements OnInit {
   @Input() control!: FormControl<string>;
 
-  template: any = null;
+  template: string | null = null;
 
   action = 'preview';
 

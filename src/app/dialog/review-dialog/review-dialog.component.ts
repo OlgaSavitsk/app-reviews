@@ -5,15 +5,15 @@ import { Store } from '@ngrx/store';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SafeUrl } from '@angular/platform-browser';
+import '@github/markdown-toolbar-element';
 
 import { MaterialModule } from 'src/app/material/material.module';
 import * as ReviewAction from '@redux/actions/review.actions';
 import { DragDirective, FileHandle } from '@core/directives/drag.directive';
-import { FileService } from 'src/app/review/services/file.service';
+import { FileService } from '@review/services/file.service';
 import { defaultFilePath, FILM_CATEGORIES, MARKS, ReviewDialogAction } from 'src/app/app.constants';
-import { TagsSelectComponent } from 'src/app/review/components/tags-select/tags-select.component';
-import '@github/markdown-toolbar-element';
-import { MarkdownEditorComponent } from 'src/app/review/components/markdown-editor/markdown-editor.component';
+import { TagsSelectComponent } from '@review/components/tags-select/tags-select.component';
+import { MarkdownEditorComponent } from '@review/components/markdown-editor/markdown-editor.component';
 import { ReviewInfo } from 'src/app/models/review.interface';
 
 @Component({
@@ -33,13 +33,21 @@ import { ReviewInfo } from 'src/app/models/review.interface';
 })
 export class ReviewDialogComponent implements OnInit {
   reviewForm!: FormGroup;
+
   dialogAction = ReviewDialogAction.addDialogAction;
+
   action = this.translateService.instant('DIALOG.ADD_ACTION');
+
   buttonAction = this.translateService.instant('BUTTON.CANCEL');
+
   categories: string[] | undefined;
-  file: File | undefined;
+
+  file: File | undefined | null;
+
   defaultImage: SafeUrl | undefined;
+
   imageSrc: SafeUrl | undefined;
+
   marks: number[] = MARKS;
 
   constructor(
@@ -144,10 +152,11 @@ export class ReviewDialogComponent implements OnInit {
 
   onFileSelect(event: EventTarget | null) {
     const target = event as HTMLInputElement;
+    const { files } = target;
     if (target.files) {
-      this.file = target.files[0];
+      this.file = files?.item(0);
       this.reviewForm.patchValue({ image: this.file });
-      this.imageSrc = this.fileService.typedArrayToURL(this.file);
+      this.imageSrc = this.fileService.typedArrayToURL(this.file!);
     }
   }
 

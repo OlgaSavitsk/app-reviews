@@ -39,4 +39,18 @@ export const reviewReduser = createReducer<ReviewState>(
       loading: false,
     })
   )
+
+  // on(
+  //   SaveReviewSuccess,
+  //   (state, { review, userId, file }): AppState => ({
+  //     ...state,
+  //     review: {
+  //       ...state.review,
+  //       reviews: [...state.review.reviews, review = {
+  //         ...review,
+  //         userId
+  //       }]
+  //     }
+  //   })
+  // )
 );

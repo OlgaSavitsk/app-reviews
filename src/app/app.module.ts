@@ -13,9 +13,9 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { environment } from 'src/environments/environment';
 import { UserEffects } from '@redux/effects/user.effects';
 import { ReviewEffects } from '@redux/effects/review.effect';
-import { reducers } from '@redux/reducers';
-import { AppComponent } from './app.component';
+import { metaReducers, reducers } from '@redux/reducers';
 import { SearchReviewEffects } from '@redux/effects/search-review.effect';
+import { AppComponent } from './app.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
@@ -28,7 +28,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     BrowserAnimationsModule,
     AppComponent,
     NgOptimizedImage,
-    StoreModule.forRoot(reducers),
+    StoreModule.forRoot(reducers, {
+      metaReducers,
+    }),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production,

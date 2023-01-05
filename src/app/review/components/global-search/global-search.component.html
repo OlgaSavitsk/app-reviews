@@ -1,16 +1,20 @@
 <mat-form-field class="search" appearance="outline">
   <mat-label>{{ 'SEARCH' | translate }}</mat-label>
   <input matInput type="text" [(ngModel)]="searchValue" (input)="searchReview(searchValue)">
-  <button *ngIf="searchValue" matSuffix mat-icon-button aria-label="search" (click)="searchValue=''; foundTasks = []">
+  <button *ngIf="searchValue" matSuffix mat-icon-button aria-label="search"
+    (click)="searchValue=''; foundReviews = []; responseMessage = ''">
     <mat-icon>close</mat-icon>
   </button>
   <mat-icon matPrefix>search</mat-icon>
 
-  <mat-card class="cards-container" *ngIf="foundReviews.length">
+
+  <mat-card class="cards-container" *ngIf="foundReviews.length; else response">
     <mat-card class="card" *ngFor="let task of foundReviews" (click)="goToReview(task)">
-      <img mat-card-image class="image" [src]="imageSrc">
+      <img mat-card-image class="image" [src]="task.fileUrl | async">
       <mat-card-title>{{ task?.title }}</mat-card-title>
       <mat-card-content>{{ task?.description }}</mat-card-content>
     </mat-card>
   </mat-card>
+  <ng-template #response><span class="cards-container text" *ngIf="responseMessage">{{responseMessage}}</span>
+  </ng-template>
 </mat-form-field>

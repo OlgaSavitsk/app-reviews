@@ -21,9 +21,13 @@ import { ReviewInfo } from 'src/app/models/review.interface';
 })
 export class DetailsReviewComponent implements OnInit {
   imageSrc: SafeUrl | undefined;
+
   allTags: string[] | undefined;
+
   template: string | undefined;
+
   tags: string[] = this.dialogData.data.tags;
+
   rating!: number;
 
   constructor(

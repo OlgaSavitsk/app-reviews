@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
+import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
+import { TranslateModule } from '@ngx-translate/core';
+import { SafeUrl } from '@angular/platform-browser';
+import { map } from 'rxjs';
+
 import * as SearchReviewAction from '@redux/actions/search-review.action';
 import { ReviewInfo } from 'src/app/models/review.interface';
-import { CommonModule } from '@angular/common';
 import { MaterialModule } from 'src/app/material/material.module';
-import { TranslateModule } from '@ngx-translate/core';
-import { ReviewControlService } from '../../services/review-control.service';
-import { FileService } from '../../services/file.service';
-import { SafeUrl } from '@angular/platform-browser';
+import { ReviewControlService } from '@review/services/review-control.service';
+import { FileService } from '@review/services/file.service';
 
 export enum ReviewProp {
   name,
@@ -29,33 +30,42 @@ export const REVIEW = { property: ReviewProp };
   styleUrls: ['./global-search.component.scss'],
 })
 export class GlobalSearchComponent implements OnInit {
-  public searchValue: string = '';
+  public searchValue = '';
+
   public foundReviews: ReviewInfo[] = [];
+
   imageSrc: SafeUrl | undefined;
+
+  responseMessage = '';
 
   constructor(
     private store: Store,
     private router: Router,
     private reviewControlService: ReviewControlService,
-    private fileService: FileService,
+    public fileService: FileService
   ) {}
 
-  public ngOnInit() {
+  ngOnInit() {
     this.reviewControlService.getSearchReview().subscribe((reviews) => {
-      this.foundReviews = reviews
-      reviews.forEach(review =>  this.renderFileSrc(review.filePath))
+      this.foundReviews = reviews.map((review) => ({
+        ...review,
+        fileUrl: this.fileService.getReviewImage(review.filePath).pipe(map((file) => file)),
+      }));
     });
-   
+    this.reviewControlService.getErrorSearchReview().subscribe((error) => {
+      if (error) this.responseMessage = error.error.message;
+      this.foundReviews = [];
+    });
   }
 
-  public searchReview(searchValue: string): void {
+  searchReview(searchValue: string): void {
     if (!searchValue) {
       this.foundReviews = [];
+      this.responseMessage = '';
       return;
     }
     searchValue = searchValue.toLowerCase().trim();
     this.store.dispatch(SearchReviewAction.GetSearchReviews({ searchValue }));
-    
   }
 
   renderFileSrc(filePath: string) {
@@ -64,9 +74,11 @@ export class GlobalSearchComponent implements OnInit {
     });
   }
 
-  public goToReview(review: ReviewInfo) {
-    // if (task.boardId) {
-    //   this.router.navigate(['/boards', task.boardId]);
-    // }
+  goToReview(review: ReviewInfo) {
+    if (review.id) {
+      this.router.navigate([review.id]);
+      this.foundReviews = [];
+      this.responseMessage = '';
+    }
   }
 }

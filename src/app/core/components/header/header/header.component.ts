@@ -25,7 +25,7 @@ import { LangComponent } from '../lang/lang.component';
     NgOptimizedImage,
     LangComponent,
     TranslateModule,
-    GlobalSearchComponent
+    GlobalSearchComponent,
   ],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],

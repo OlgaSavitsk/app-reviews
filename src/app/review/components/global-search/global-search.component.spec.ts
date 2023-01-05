@@ -9,8 +9,7 @@ describe('GlobalSearchComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [GlobalSearchComponent],
-    })
-    .compileComponents();
+    }).compileComponents();
   });
 
   beforeEach(() => {

@@ -18,6 +18,12 @@
   z-index: 1000;
 }
 
+.text {
+  height: 100%;
+  text-align: center;
+  color:#663bb8
+}
+
 .mat-form-field {
   height: 60px;
 }
@@ -27,7 +33,6 @@
   border-radius: 3px;
   box-shadow: 0 0 20px #ccc;
   position: relative;
- // background-color: rgba(102, 59, 184, 0.3);
   cursor: pointer;
 
   &:after {

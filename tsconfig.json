@@ -36,6 +36,9 @@
       ],
       "@admin/*": [
         "src/app/admin/*"
+      ],
+      "@review/*": [
+        "src/app/review/*"
       ]
     }
   },

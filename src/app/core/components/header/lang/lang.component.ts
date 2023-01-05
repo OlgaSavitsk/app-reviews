@@ -27,7 +27,7 @@ export class LangComponent {
     const selectedLang = this.languageList
       .find((lang) => lang.code === target.value)
       ?.label.toString();
-    selectedLang && (this.siteLanguage = selectedLang);
+    if (selectedLang) this.siteLanguage = selectedLang;
     this.translateService.use(target.value);
   }
 }

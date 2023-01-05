@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { createAction, props } from '@ngrx/store';
 import { ReviewInfo } from 'src/app/models/review.interface';
 
@@ -15,5 +16,5 @@ export const GetSearchReviewsSuccess = createAction(
 
 export const GetSearchReviewsFailed = createAction(
   `${actionSource} search reviews failed`,
-  props<{ error: Error }>()
+  props<{ error: HttpErrorResponse }>()
 );

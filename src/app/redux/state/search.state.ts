@@ -1,9 +1,12 @@
-import { ReviewInfo } from "src/app/models/review.interface";
+import { HttpErrorResponse } from '@angular/common/http';
+import { ReviewInfo } from 'src/app/models/review.interface';
 
 export interface SearchReviewState {
-    reviews: ReviewInfo[]
-  }
-  
-  export const initialSearchReviewState: SearchReviewState = {
-    reviews: []
-  };
+  error: HttpErrorResponse | undefined;
+  reviews: ReviewInfo[];
+}
+
+export const initialSearchReviewState: SearchReviewState = {
+  reviews: [],
+  error: undefined,
+};

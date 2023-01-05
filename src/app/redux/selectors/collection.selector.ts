@@ -1,6 +1,8 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
+
 import { ReviewState } from '@redux/state/review.state';
 import { SearchReviewState } from '@redux/state/search.state';
+import { ReviewInfo } from 'src/app/models/review.interface';
 import { UserInfo } from 'src/app/models/user.interfaces';
 import { UserState } from '../state/user.state';
 
@@ -15,16 +17,13 @@ export const selectIsFetched = createSelector(
 
 export const selectUsers = createSelector(selectUserStore, (state: UserState) => state.users);
 
+export const selectLoading = createSelector(selectUserStore, (state: UserState) => state.loading);
+
 export const selectUserById = (userId: string) =>
   createSelector(selectUserStore, ({ users }) => {
     const userById = users.filter((user: UserInfo) => user.id === userId);
-    if (userById.length === 0) {
-      return null;
-    }
     return userById[0];
   });
-
-export const selectLoading = createSelector(selectUserStore, (state: UserState) => state.loading);
 
 export const selectReviewsStore = createFeatureSelector<ReviewState>('review');
 
@@ -42,7 +41,18 @@ export const selectLoadingReview = createSelector(
 
 export const selectSearchReviewStore = createFeatureSelector<SearchReviewState>('searchReview');
 
+export const selectReviewById = (reviewId: string) =>
+  createSelector(selectSearchReviewStore, ({ reviews }) => {
+    const reviewById = reviews.filter((review: ReviewInfo) => review.id === reviewId);
+    return reviewById[0];
+  });
+
 export const selectCurrentSearchReview = createSelector(
   selectSearchReviewStore,
   (state: SearchReviewState) => state.reviews
+);
+
+export const selectSearchErrorReview = createSelector(
+  selectSearchReviewStore,
+  (state: SearchReviewState) => state.error
 );

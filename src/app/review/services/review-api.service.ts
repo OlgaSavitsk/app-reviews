@@ -4,8 +4,6 @@ import { Store } from '@ngrx/store';
 import { Observable, map } from 'rxjs';
 
 import { ReviewInfo } from 'src/app/models/review.interface';
-import * as ReviewAction from '@redux/actions/review.actions';
-import * as fromUser from '@redux/selectors/collection.selector';
 
 @Injectable({
   providedIn: 'root',
@@ -25,20 +23,20 @@ export class ReviewApiService {
     });
   }
 
-  getCurrentReviews(): Observable<void[]> {
-    return this.store.select(fromUser.selectReviewsStore).pipe(
-      map(({ reviews }) =>
-        reviews.map((review) => {
-          this.store.dispatch(
-            ReviewAction.GetFile({
-              filePath: review.filePath,
-              reviewId: review.id,
-            })
-          );
-        })
-      )
-    );
-  }
+  // getCurrentReviews(): Observable<void[]> {
+  //   return this.store.select(fromUser.selectReviewsStore).pipe(
+  //     map(({ reviews }) =>
+  //       reviews.map((review) => {
+  //         this.store.dispatch(
+  //           ReviewAction.GetFile({
+  //             filePath: review.filePath,
+  //             reviewId: review.id,
+  //           })
+  //         );
+  //       })
+  //     )
+  //   );
+  // }
 
   getReviewById(id: string): Observable<ReviewInfo> {
     return this.http.get<ReviewInfo>(`review/${id}`, {
@@ -63,15 +61,11 @@ export class ReviewApiService {
   }
 
   getSearchReviews(searchValue: string): Observable<ReviewInfo[]> {
-   
-    return this.getSearchData(searchValue).pipe(
-      map((reviews: ReviewInfo[]) => reviews));
+    return this.getSearchData(searchValue).pipe(map((reviews: ReviewInfo[]) => reviews));
   }
 
   private getSearchData(searchValue: string): Observable<ReviewInfo[]> {
-    const params = new HttpParams()
-      .set('search', searchValue)
-       console.log('456', searchValue)
+    const params = new HttpParams().set('search', searchValue);
     return this.http.get<ReviewInfo[]>('review', { params });
   }
 }

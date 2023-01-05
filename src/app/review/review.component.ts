@@ -1,21 +1,22 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { UserApiService } from '@core/services/user-api.service';
-
+import { switchMap } from 'rxjs';
 import { Store } from '@ngrx/store';
+
 import { DialogService } from '@core/services/dialog.service';
+import * as ReviewAction from '@redux/actions/review.actions';
+import { selectUserById } from '@redux/selectors/collection.selector';
 import { displayedColumnsReviews } from '../app.constants';
 import { MaterialModule } from '../material/material.module';
 import { UserInfo } from '../models/user.interfaces';
 import { ReviewDialogComponent } from '../dialog/review-dialog/review-dialog.component';
 import { ReviewInfo } from '../models/review.interface';
-import * as ReviewAction from '../redux/actions/review.actions';
 import { RatingComponent } from './components/rating/rating.component';
 import { DetailsReviewComponent } from '../dialog/details-review/details-review.component';
 
@@ -26,47 +27,42 @@ import { DetailsReviewComponent } from '../dialog/details-review/details-review.
   templateUrl: './review.component.html',
   styleUrls: ['./review.component.scss'],
 })
-export class ReviewComponent implements OnInit {
+export class ReviewComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+
   displayedColumns = displayedColumnsReviews;
+
   dataSource: MatTableDataSource<ReviewInfo> | undefined;
-  // responseMessage: string = '';
-  userId: string | null = null;
+
   currentUser: UserInfo | undefined;
 
   constructor(
     private dialog: MatDialog,
-    private userService: UserApiService,
-    private router: ActivatedRoute,
+    private route: ActivatedRoute,
     private translateService: TranslateService,
     private dialogService: DialogService,
     private store: Store
   ) {}
 
   ngOnInit(): void {
-    this.router.params.subscribe((params) => {
-      const userId = params['id'];
-      this.userId = userId || null;
+    const fetchData$ = this.route.paramMap.pipe(
+      switchMap((params) => {
+        const id = params.get('id');
+        return this.store.select(selectUserById(id!));
+      })
+    );
+    fetchData$.subscribe((data) => {
+      if (data) {
+        this.currentUser = data;
+        this.dataSource = new MatTableDataSource(this.currentUser.reviews);
+      }
     });
-    this.renderData();
   }
 
-  renderData(): void {
-    this.userService.getCurrentUsers().subscribe({
-      next: (users: UserInfo[] | null) => {
-        this.currentUser = users?.find((user) => user.id === this.userId);
-        if (this.currentUser) {
-          this.dataSource = new MatTableDataSource(this.currentUser.reviews);
-          this.dataSource.paginator = this.paginator;
-        }
-      },
-      error: (error: Error) => {
-        if (error.message) {
-          // this.responseMessage = error.message;
-        }
-      },
-    });
+  ngAfterViewInit() {
+    if (this.dataSource) this.dataSource.paginator = this.paginator;
   }
 
   applyFilter(event: Event): void {
@@ -86,7 +82,7 @@ export class ReviewComponent implements OnInit {
     this.dialog.open(ReviewDialogComponent, {
       data: {
         action: this.translateService.instant('DIALOG.dataAddAction'),
-        data: this.userId,
+        data: this.currentUser?.id,
       },
       width: '100%',
     });
@@ -103,7 +99,7 @@ export class ReviewComponent implements OnInit {
   }
 
   detailsAction(element: ReviewInfo) {
-    const dialogRef = this.dialog.open(DetailsReviewComponent, {
+    this.dialog.open(DetailsReviewComponent, {
       data: {
         // action: this.translateService.instant('DIALOG.dataEditAction'),
         data: element,
