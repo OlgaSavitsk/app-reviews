@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  BASE_URL: 'https://review-project.onrender.com',
+  BASE_URL: 'https://app-reviews-server-production.up.railway.app',
 };
 
 /*

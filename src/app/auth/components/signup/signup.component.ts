@@ -75,11 +75,11 @@ export class SignupComponent implements OnInit, OnDestroy {
   }
 
   googleLogin() {
-    window.open('https://review-project.onrender.com/auth/google', '_self');
+    window.open('https://app-reviews-server-production.up.railway.app/auth/google', '_self');
   }
 
   githubLogin() {
-    window.open('https://review-project.onrender.com/auth/github', '_self');
+    window.open('https://app-reviews-server-production.up.railway.app/auth/github', '_self');
   }
 
   ngOnDestroy(): void {

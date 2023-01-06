@@ -57,11 +57,11 @@ export class SigninComponent implements OnInit, OnDestroy {
   }
 
   google() {
-    window.open('https://review-project.onrender.com/auth/google', '_self');
+    window.open('https://app-reviews-server-production.up.railway.app/auth/google', '_self');
   }
 
   github() {
-    window.open('https://review-project.onrender.com/auth/github', '_self');
+    window.open('https://app-reviews-server-production.up.railway.app/auth/github', '_self');
   }
 
   ngOnDestroy(): void {
