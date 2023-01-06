@@ -26,8 +26,8 @@
     "ROUT_LOGIN": "Already have an account? Login"
   },
   "REVIEW": {
-    "NAME": "Review name",
-    "TITLE": "Title",
+    "NAME": "Movie Title",
+    "TITLE": "Review Title",
     "RAITING": "Rating",
     "DETAILS": "Details",
     "CREATEAT": "Data Creation",

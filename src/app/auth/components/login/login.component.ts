@@ -45,7 +45,8 @@ export class SigninComponent implements OnInit, OnDestroy {
   onSubmit(): void {
     if (this.formGroup.valid) {
       this.authService.login(this.formGroup.value).subscribe({
-        next: () => {
+        next: (response) => {
+          console.log(response)
           this.router.navigateByUrl(Path.adminPage);
         },
         error: (err) => {
@@ -56,11 +57,11 @@ export class SigninComponent implements OnInit, OnDestroy {
   }
 
   google() {
-    window.open('http://localhost:4000/auth/google', '_self');
+    window.open('https://review-project.onrender.com/auth/google', '_self');
   }
 
   github() {
-    window.open('http://localhost:4000/auth/github', '_self');
+    window.open('https://review-project.onrender.com/auth/github', '_self');
   }
 
   ngOnDestroy(): void {

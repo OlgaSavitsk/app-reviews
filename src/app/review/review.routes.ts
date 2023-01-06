@@ -10,7 +10,6 @@ import { ReviewComponent } from './review.component';
 export const reviewRoutes: Routes = [
   {
     path: '',
-    pathMatch: 'full',
     component: ReviewComponent,
   },
   {

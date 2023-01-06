@@ -6,7 +6,7 @@ import { Path } from './app.constants';
 import { MainPageComponent } from './main-page/main-page.component';
 
 export const appRoutes: Routes = [
-  { path: '', redirectTo: Path.loginPage, pathMatch: 'full' },
+  { path: '', redirectTo: Path.mainPage, pathMatch: 'full' },
   {
     path: Path.mainPage,
     component: MainPageComponent,

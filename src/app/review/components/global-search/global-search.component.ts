@@ -12,16 +12,6 @@ import { MaterialModule } from 'src/app/material/material.module';
 import { ReviewControlService } from '@review/services/review-control.service';
 import { FileService } from '@review/services/file.service';
 
-export enum ReviewProp {
-  name,
-  title,
-  description,
-  tags,
-  category,
-}
-
-export const REVIEW = { property: ReviewProp };
-
 @Component({
   selector: 'app-global-search',
   standalone: true,

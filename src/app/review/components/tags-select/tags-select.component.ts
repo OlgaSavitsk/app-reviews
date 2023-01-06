@@ -39,7 +39,7 @@ export class TagsSelectComponent implements OnInit {
   ngOnInit(): void {
     this.store.dispatch(ReviewAction.GetReviewsTags());
     this.reviewControlService.getAllTags().subscribe((tags) => {
-      this.allTags = tags;
+      this.allTags = [...new Set(tags.flat())];
       this.filteredTags = this.tagControl.valueChanges.pipe(
         startWith(null),
         map((tag: string | null) => (tag ? this.filter(tag) : this.allTags.slice()))

@@ -7,7 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { switchMap } from 'rxjs';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 
 import { DialogService } from '@core/services/dialog.service';
 import * as ReviewAction from '@redux/actions/review.actions';
@@ -37,6 +37,7 @@ export class ReviewComponent implements OnInit, AfterViewInit {
   dataSource: MatTableDataSource<ReviewInfo> | undefined;
 
   currentUser: UserInfo | undefined;
+  userId: string | null | undefined;
 
   constructor(
     private dialog: MatDialog,
@@ -50,13 +51,15 @@ export class ReviewComponent implements OnInit, AfterViewInit {
     const fetchData$ = this.route.paramMap.pipe(
       switchMap((params) => {
         const id = params.get('id');
-        return this.store.select(selectUserById(id!));
+        this.userId = id
+        return this.store.pipe(select(selectUserById(id!)));
       })
     );
     fetchData$.subscribe((data) => {
       if (data) {
         this.currentUser = data;
         this.dataSource = new MatTableDataSource(this.currentUser.reviews);
+        this.dataSource.paginator = this.paginator
       }
     });
   }
@@ -82,7 +85,7 @@ export class ReviewComponent implements OnInit, AfterViewInit {
     this.dialog.open(ReviewDialogComponent, {
       data: {
         action: this.translateService.instant('DIALOG.dataAddAction'),
-        data: this.currentUser?.id,
+        data: this.userId,
       },
       width: '100%',
     });
@@ -99,7 +102,7 @@ export class ReviewComponent implements OnInit, AfterViewInit {
   }
 
   detailsAction(element: ReviewInfo) {
-    this.dialog.open(DetailsReviewComponent, {
+    const dialogRef = this.dialog.open(DetailsReviewComponent, {
       data: {
         // action: this.translateService.instant('DIALOG.dataEditAction'),
         data: element,

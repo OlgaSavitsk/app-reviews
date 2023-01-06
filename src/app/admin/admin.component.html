@@ -21,7 +21,7 @@
         <th mat-header-cell mat-sort-header *matHeaderCellDef>{{'ADMIN.NAME' | translate}}</th>
         <td mat-cell *matCellDef="let element">
           <div class="cell">
-            <img *ngIf="element.photos; else account" ngSrc="{{element.photos}}" [ngStyle]="{borderRadius:'100%'}"
+            <img class="user-icon" *ngIf="element.photos; else account" ngSrc="{{element.photos}}" [ngStyle]="{borderRadius:'100%'}"
               width="30" height="30">
             <ng-template #account>
               <mat-icon class="user-icon">account_circle</mat-icon>

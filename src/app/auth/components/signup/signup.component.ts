@@ -9,7 +9,6 @@ import { MaterialModule } from 'src/app/material/material.module';
 import { AuthService } from '@auth/services/auth.service';
 import { Path } from 'src/app/app.constants';
 import { TranslateModule } from '@ngx-translate/core';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-signup',
@@ -76,11 +75,11 @@ export class SignupComponent implements OnInit, OnDestroy {
   }
 
   googleLogin() {
-    window.open(`${environment.BASE_URL}/auth/google`, '_self');
+    window.open('https://review-project.onrender.com/auth/google', '_self');
   }
 
   githubLogin() {
-    window.open(`${environment.BASE_URL}/auth/github`, '_self');
+    window.open('https://review-project.onrender.com/auth/github', '_self');
   }
 
   ngOnDestroy(): void {

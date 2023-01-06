@@ -122,7 +122,7 @@ export class ReviewDialogComponent implements OnInit {
     this.store.dispatch(
       ReviewAction.SaveReview({
         review: reviewFormData,
-        userId: <string>this.dialogData.data,
+        userId: this.dialogData.data as string,
         file: this.file!,
       })
     );
