@@ -2,7 +2,6 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
-  OnDestroy,
   OnInit,
   QueryList,
   ViewChild,
@@ -10,7 +9,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
-import { map, Subscription } from 'rxjs';
+import { map } from 'rxjs';
 import { Router } from '@angular/router';
 
 import SortPipe from '@core/pipes/sort.pipe';
@@ -40,7 +39,7 @@ import { ReviewInfo } from '../models/review.interface';
   templateUrl: './main-page.component.html',
   styleUrls: ['./main-page.component.scss'],
 })
-export class MainPageComponent implements OnInit, AfterViewInit, OnDestroy {
+export class MainPageComponent implements OnInit, AfterViewInit {
   @ViewChild('widgetsContent', { static: false }) widgetsContent!: ElementRef;
   @ViewChildren('item') itemElements: QueryList<ReviewInfo> | undefined;
   reviews: ReviewInfo[] = [];
@@ -50,7 +49,6 @@ export class MainPageComponent implements OnInit, AfterViewInit, OnDestroy {
   allTags: string[] | undefined;
   tagsReviews: ReviewInfo[] = [];
   popularReviews!: ReviewInfo[];
-  subscription!: Subscription
 
   constructor(
     private store: Store,
@@ -83,11 +81,9 @@ export class MainPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   renderPopularReviews(): void {
-    const subscription1$ =this.reviewControlService.getAllReviews().subscribe((reviews) => {
-      console.log(reviews);
+    this.reviewControlService.getAllReviews().subscribe((reviews) => {
       this.popularReviews = reviews.map((review) => this.createReview(review));
     });
-    this.subscription.add(subscription1$);
   }
 
   createReview(review: ReviewInfo): ReviewInfo {
@@ -111,32 +107,26 @@ export class MainPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   renderTags(): void {
-    const subscription2$ = this.store.dispatch(ReviewAction.GetReviewsTags());
+    this.store.dispatch(ReviewAction.GetReviewsTags());
     this.reviewControlService.getAllTags().subscribe((tags) => {
       this.allTags = [...new Set(tags.flat())];
     });
-    this.subscription.add(subscription2$);
   }
 
   selectTag(tag: string): void {
     this.tagsReviews = [];
-    const subscription3$ =this.reviewControlService.getAllReviews().subscribe((reviews) => {
-      reviews.forEach((review) => {
+    this.reviewControlService.getAllReviews().subscribe((reviews) => {
+      this.reviews.forEach((review) => {
         if (review.tags.flat().includes(tag)) {
           this.tagsReviews.push(review);
         }
       });
     });
-    this.subscription.add(subscription3$);
   }
 
   toReviewDetails(review: ReviewInfo): void {
     if (review.id) {
       this.router.navigate([`${Path.detailsPage}/${review.id}`]);
     }
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe()
   }
 }
