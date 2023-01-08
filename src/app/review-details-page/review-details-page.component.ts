@@ -11,6 +11,7 @@ import * as ReviewAction from '@redux/actions/review.actions';
 import { selectReviewById } from '@redux/selectors/collection.selector';
 import { ReviewControlService } from '@review/services/review-control.service';
 import { RatingComponent } from '@review/components/rating/rating.component';
+import { LikeComponent } from '@review/components/like/like.component';
 import { ReviewInfo } from '../models/review.interface';
 import { MaterialModule } from '../material/material.module';
 import { UserInfo } from '../models/user.interfaces';
@@ -19,37 +20,32 @@ import { ChatComponent } from '../chat/chat.component';
 @Component({
   selector: 'app-review-details-page',
   standalone: true,
-  imports: [CommonModule, MaterialModule, RatingComponent, ChatComponent],
+  imports: [CommonModule, MaterialModule, RatingComponent, ChatComponent, LikeComponent],
   templateUrl: './review-details-page.component.html',
   styleUrls: ['./review-details-page.component.scss'],
 })
 export class ReviewDetailsPageComponent implements OnInit {
   review: ReviewInfo | undefined;
-
   imageUrl: Observable<SafeUrl> | undefined;
-
   allTags: string[] | undefined;
-
   template: string | undefined;
-
   user!: Observable<UserInfo>;
-
-  id: string | undefined
+  id: string | undefined;
 
   constructor(
     private route: ActivatedRoute,
     private store: Store,
     private fileService: FileService,
-    private reviewControlService: ReviewControlService,
+    private reviewControlService: ReviewControlService
   ) {}
 
   ngOnInit(): void {
     const fetchData$ = this.route.paramMap.pipe(
       switchMap((params) => {
         const id = params.get('id');
-        this.id = id!    
+        this.id = id!;
         return this.store.select(selectReviewById(id!));
-      }),
+      })
     );
     fetchData$.subscribe((data) => {
       if (data) {
@@ -58,7 +54,6 @@ export class ReviewDetailsPageComponent implements OnInit {
           .getReviewImage(this.review.filePath)
           .pipe(map((file) => file));
         this.user = this.reviewControlService.getUserById(data.userId).pipe();
-        console.log(this.user)
       }
     });
     this.renderDescription();

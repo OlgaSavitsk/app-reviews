@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { switchMap } from 'rxjs';
-import { select, Store } from '@ngrx/store';
+import { Subscription, switchMap } from 'rxjs';
+import { Store } from '@ngrx/store';
 
 import { DialogService } from '@core/services/dialog.service';
 import * as ReviewAction from '@redux/actions/review.actions';
@@ -27,17 +27,14 @@ import { DetailsReviewComponent } from '../dialog/details-review/details-review.
   templateUrl: './review.component.html',
   styleUrls: ['./review.component.scss'],
 })
-export class ReviewComponent implements OnInit, AfterViewInit {
+export class ReviewComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(MatSort) sort!: MatSort;
-
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-
   displayedColumns = displayedColumnsReviews;
-
   dataSource: MatTableDataSource<ReviewInfo> | undefined;
-
   currentUser: UserInfo | undefined;
   userId: string | null | undefined;
+  subscription!: Subscription;
 
   constructor(
     private dialog: MatDialog,
@@ -51,17 +48,18 @@ export class ReviewComponent implements OnInit, AfterViewInit {
     const fetchData$ = this.route.paramMap.pipe(
       switchMap((params) => {
         const id = params.get('id');
-        this.userId = id
-        return this.store.pipe(select(selectUserById(id!)));
+        this.userId = id;
+        return this.store.select(selectUserById(id!));
       })
     );
-    fetchData$.subscribe((data) => {
+    const subscription1$ = fetchData$.subscribe((data) => {
       if (data) {
         this.currentUser = data;
         this.dataSource = new MatTableDataSource(this.currentUser.reviews);
-        this.dataSource.paginator = this.paginator
+        this.dataSource.paginator = this.paginator;
       }
     });
+    this.subscription.add(subscription1$);
   }
 
   ngAfterViewInit() {
@@ -102,9 +100,8 @@ export class ReviewComponent implements OnInit, AfterViewInit {
   }
 
   detailsAction(element: ReviewInfo) {
-    const dialogRef = this.dialog.open(DetailsReviewComponent, {
+    this.dialog.open(DetailsReviewComponent, {
       data: {
-        // action: this.translateService.instant('DIALOG.dataEditAction'),
         data: element,
         username: this.currentUser?.username,
       },
@@ -113,7 +110,7 @@ export class ReviewComponent implements OnInit, AfterViewInit {
   }
 
   deleteAction(element: ReviewInfo) {
-    this.dialogService
+    const subscription2$ = this.dialogService
       .confirmDialog({
         param: 'CONFIRM.paramReview',
       })
@@ -122,5 +119,10 @@ export class ReviewComponent implements OnInit, AfterViewInit {
           this.store.dispatch(ReviewAction.DeleteReview({ id: element.id }));
         }
       });
+    this.subscription.add(subscription2$);
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

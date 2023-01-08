@@ -13,8 +13,8 @@
       <span class="details__date">{{review.createdAt | date: 'EEEE, MMMM d, y'}}</span>
 
       <span class="details__user">
-        <span>{{(user | async).username}}</span>{{(review.like)}}
-        <mat-icon aria-hidden="false" [ngClass]="{'active': review.like}">thumb_up</mat-icon>
+        <span>{{(user | async).username}}</span>
+        <app-like [data]="review"></app-like>
       </span>
     </div>
 

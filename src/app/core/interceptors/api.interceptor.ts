@@ -16,7 +16,7 @@ export const apiInterceptor: HttpInterceptorFn = (
   request: HttpRequest<unknown>,
   next: HttpHandlerFn
 ): Observable<HttpEvent<unknown>> => {
-  // const store = inject(Store);
+  const store = inject(Store);
   if (!request.url.includes('assets/i18n/')) {
     return next(
       request.clone({

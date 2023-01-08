@@ -45,6 +45,12 @@ export const selectReviewById = (reviewId: string) =>
     return reviewById[0];
   });
 
+export const selectReviewsByUserId = (userId: string) =>
+  createSelector(selectReviewsStore, ({ reviews }) => {
+    const reviewByUserId = reviews.filter((review: ReviewInfo) => review.userId === userId);
+    return reviewByUserId;
+  });
+
 export const selectSearchReviewStore = createFeatureSelector<SearchReviewState>('searchReview');
 
 export const selectCurrentSearchReview = createSelector(

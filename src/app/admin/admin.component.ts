@@ -2,6 +2,7 @@ import {
   AfterContentChecked,
   ChangeDetectorRef,
   Component,
+  OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
@@ -14,11 +15,12 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSort, Sort } from '@angular/material/sort';
 
 import { MaterialModule } from 'src/app/material/material.module';
-import { UserInfo } from 'src/app/models/user.interfaces';
+import { UserInfo, UserUpdate } from 'src/app/models/user.interfaces';
 import * as UserAction from '@redux/actions/user.actions';
 import { DateAgoPipe } from '@core/pipes/date-ago.pipe';
 import { UserApiService } from '@core/services/user-api.service';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { AdminControlComponent } from './component/admin-control/admin-control.component';
 import { BlockStatus, displayedColumnsUsers, Path } from '../app.constants';
 
@@ -36,17 +38,13 @@ import { BlockStatus, displayedColumnsUsers, Path } from '../app.constants';
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.scss'],
 })
-export class AdminComponent implements OnInit, AfterContentChecked {
+export class AdminComponent implements OnInit, AfterContentChecked, OnDestroy {
   @ViewChild(MatSort) sort!: MatSort;
-
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-
+  subscription!: Subscription;
   displayedColumns = displayedColumnsUsers;
-
   dataSource: MatTableDataSource<UserInfo> | undefined;
-
   selection = new SelectionModel<UserInfo>(true, []);
-
   selectedUsers!: UserInfo[];
 
   constructor(
@@ -58,7 +56,7 @@ export class AdminComponent implements OnInit, AfterContentChecked {
 
   ngOnInit(): void {
     this.store.dispatch(UserAction.GetUsers());
-    this.userService.getCurrentUsers().subscribe((users) => {
+    this.subscription = this.userService.getCurrentUsers().subscribe((users) => {
       this.dataSource = new MatTableDataSource(users);
       this.dataSource!.paginator = this.paginator;
     });
@@ -76,7 +74,10 @@ export class AdminComponent implements OnInit, AfterContentChecked {
 
   changeStatus(user: UserInfo): void {
     const status = user.status === BlockStatus.active ? BlockStatus.blocked : BlockStatus.active;
-    this.store.dispatch(UserAction.UpdateUser({ user, status }));
+    const updateDto: UserUpdate = {
+      status,
+    };
+    this.store.dispatch(UserAction.UpdateUser({ user, updateDto }));
   }
 
   isAllSelected(): boolean {
@@ -104,5 +105,9 @@ export class AdminComponent implements OnInit, AfterContentChecked {
 
   onSelectUser(id: string) {
     this.router.navigate(['/', Path.review, id]);
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

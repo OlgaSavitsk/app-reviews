@@ -23,7 +23,7 @@ export class AuthGuard implements CanActivate {
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     return this.userService.getCurrentUser().pipe(
       take(1),
-      map((user) => (user !== null ? true : this.router.parseUrl(Path.loginPage)))
+      map((user) => (user !== null ? true : this.router.parseUrl(Path.mainPage)))
     );
   }
 }

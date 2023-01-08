@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { UserInfo } from 'src/app/models/user.interfaces';
+import { UserInfo, UserUpdate } from 'src/app/models/user.interfaces';
 
 const actionSource = '[User]';
 
@@ -31,7 +31,7 @@ export const GetUsersFailed = createAction(
 
 export const UpdateUser = createAction(
   `${actionSource} update user status`,
-  props<{ user: UserInfo; status: UserInfo['status'] }>()
+  props<{ user: UserInfo; updateDto: UserUpdate }>()
 );
 
 export const UpdateUserFailed = createAction(

@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
-import { map } from 'rxjs';
+import { map, Subscription } from 'rxjs';
 
 import * as SearchReviewAction from '@redux/actions/search-review.action';
 import { ReviewInfo } from 'src/app/models/review.interface';
@@ -19,12 +19,11 @@ import { Path } from 'src/app/app.constants';
   templateUrl: './global-search.component.html',
   styleUrls: ['./global-search.component.scss'],
 })
-export class GlobalSearchComponent implements OnInit {
-  public searchValue = '';
-
-  public foundReviews: ReviewInfo[] = [];
-
+export class GlobalSearchComponent implements OnInit, OnDestroy {
+  searchValue = '';
+  foundReviews: ReviewInfo[] = [];
   responseMessage = '';
+  subscription!: Subscription;
 
   constructor(
     private store: Store,
@@ -34,16 +33,18 @@ export class GlobalSearchComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.reviewControlService.getSearchReview().subscribe((reviews) => {
+    const subscription1$ = this.reviewControlService.getSearchReview().subscribe((reviews) => {
       this.foundReviews = reviews.map((review) => ({
         ...review,
         fileUrl: this.fileService.getReviewImage(review.filePath).pipe(map((file) => file)),
       }));
     });
-    this.reviewControlService.getErrorSearchReview().subscribe((error) => {
+    const subscription2$ = this.reviewControlService.getErrorSearchReview().subscribe((error) => {
       if (error) this.responseMessage = error.error.message;
       this.foundReviews = [];
     });
+    this.subscription.add(subscription1$);
+    this.subscription.add(subscription2$);
   }
 
   searchReview(searchValue: string): void {
@@ -58,9 +59,13 @@ export class GlobalSearchComponent implements OnInit {
 
   goToReview(review: ReviewInfo) {
     if (review.id) {
-      this.router.navigate([Path.detailsPage +'/' + review.id]);
+      this.router.navigate([`${Path.detailsPage}/${review.id}`]);
       this.foundReviews = [];
       this.responseMessage = '';
     }
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe()
   }
 }

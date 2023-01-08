@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { filter, map, Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
-import { UserInfo } from 'src/app/models/user.interfaces';
+import { UserInfo, UserUpdate } from 'src/app/models/user.interfaces';
 import * as fromUser from '@redux/selectors/collection.selector';
 
 @Injectable({
@@ -27,8 +27,8 @@ export class UserApiService {
     return this.http.get<UserInfo>(`user/${id}`, { withCredentials: true });
   }
 
-  updateUserStatus(user: UserInfo, status: UserInfo['status']): Observable<UserInfo> {
-    return this.http.put<UserInfo>(`user/${user.id}`, { status }, { withCredentials: true });
+  updateUserStatus(user: UserInfo, updateDto: UserUpdate): Observable<UserInfo> {
+    return this.http.put<UserInfo>(`user/${user.id}`, updateDto, { withCredentials: true });
   }
 
   getUsers(): Observable<UserInfo[]> {

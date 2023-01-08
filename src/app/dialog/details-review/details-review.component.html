@@ -1,9 +1,7 @@
 <mat-dialog-content fxLayout="column" class="mat-typography">
   <div fxFlex fxLayout="column" class="wrapper">
     <div class="date">{{dialogData.data.createdAt | date: 'MMMM d, y'}}&nbsp;|&nbsp;{{dialogData.username}}
-      <span>{{dialogData.data.like}}
-        <mat-icon aria-hidden="false" [ngClass]="{'active': dialogData.data.like}">thumb_up</mat-icon>
-      </span>
+      <app-like [data]="dialogData.data"></app-like>
 
     </div>
     <div fxFlexFill fxLayout="column wrap" fxLayoutGap="15px">
@@ -32,22 +30,6 @@
   </div>
 </mat-dialog-content>
 <mat-divider></mat-divider>
-<mat-dialog-actions [align]="'center'">
-  <span>Comments ()</span>
   <div class="comment">
-    <div fxLayoutAlign="center center">
-      <!-- <img *ngIf="(user$ | async)!.photos; else account" ngSrc="{{(user$ | async)!.photos[0].value}}"
-        [ngStyle]="{borderRadius:'100%'}" width="40" height="40"> -->
-      <ng-template #account>
-        <mat-icon class="user-icon">account_circle</mat-icon>
-      </ng-template>
-    </div>
-    <div>
-      <span>Name</span>
-      <span>Comment</span>
-    </div>
-
+    <app-list-message [id]="dialogData.data.id"></app-list-message>
   </div>
-  <!-- <button mat-raised-button color="primary" (click)="submit()">{{action}}</button>
-  <button mat-raised-button color="primary" mat-dialog-close>{{buttonAction}}</button> -->
-</mat-dialog-actions>

@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class ChatService {
-  joined: boolean = false;
+  joined = false;
   socket: Socket;
   messagesResponse: MessageInfo[] = [];
   id: string | undefined;
@@ -19,10 +19,10 @@ export class ChatService {
   }
 
   getMessage(): void {
-    this.socket.emit('findAllMessages', {}, (response: any) => {
+    this.socket.emit('findAllMessages', {}, (response: MessageInfo[]) => {
       this.messagesResponse = response;
     });
-    this.socket.on('message', (response: any) => {
+    this.socket.on('message', (response: MessageInfo) => {
       this.messagesResponse.push(response);
       this.messagesResponse = this.messagesResponse.filter(
         (message) => message.reviewId === this.id
@@ -36,7 +36,7 @@ export class ChatService {
 
   join(name: string): void {
     this.id = name;
-    this.socket.emit('join', name, (response: any) => {
+    this.socket.emit('join', name, () => {
       this.joined = true;
     });
   }

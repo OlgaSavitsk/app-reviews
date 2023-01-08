@@ -16,6 +16,7 @@ export interface UserInfo {
   updatedAt: string;
   status: string;
   roles: string;
+  liked: string[];
   photos: {
     value: string;
   }[];
@@ -24,4 +25,9 @@ export interface UserInfo {
 
 export interface UserDetails {
   users: UserInfo[];
+}
+
+export interface UserUpdate {
+  status?: string;
+  liked?: string[];
 }

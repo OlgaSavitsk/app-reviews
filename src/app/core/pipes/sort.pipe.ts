@@ -4,7 +4,7 @@ import { ReviewInfo } from 'src/app/models/review.interface';
 
 @Pipe({
   name: 'sort',
-  standalone: true
+  standalone: true,
 })
 export default class SortPipe implements PipeTransform {
   transform(value: ReviewInfo[], param: string | undefined): ReviewInfo[] {

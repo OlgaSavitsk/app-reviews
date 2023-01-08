@@ -2,13 +2,14 @@ import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, Subject, Subscription, takeUntil } from 'rxjs';
 
 import { ValidationService } from '@core/services/validation.service';
 import { MaterialModule } from 'src/app/material/material.module';
 import { AuthService } from '@auth/services/auth.service';
 import { Path } from 'src/app/app.constants';
 import { TranslateModule } from '@ngx-translate/core';
+import { environment } from 'src/environments/environment.prod';
 
 @Component({
   selector: 'app-signup',
@@ -19,15 +20,11 @@ import { TranslateModule } from '@ngx-translate/core';
 })
 export class SignupComponent implements OnInit, OnDestroy {
   formGroup!: FormGroup;
-
   isSpinner = false;
-
   private ngUnsubscribe = new Subject();
-
   private errorMessage$ = new BehaviorSubject<string>('');
-
   errorMessage$$ = this.errorMessage$.pipe();
-  // roles = new FormControl({value: false, disabled: true});
+  subscription!: Subscription;
 
   constructor(
     private authService: AuthService,
@@ -61,7 +58,7 @@ export class SignupComponent implements OnInit, OnDestroy {
   onSubmit(e: Event): void {
     e.preventDefault();
     this.isSpinner = !this.isSpinner;
-    this.authService.register(this.formGroup.value).subscribe({
+    this.subscription = this.authService.register(this.formGroup.value).subscribe({
       next: () => {
         this.formGroup.reset();
         this.isSpinner = false;
@@ -75,15 +72,16 @@ export class SignupComponent implements OnInit, OnDestroy {
   }
 
   googleLogin() {
-    window.open('https://app-reviews-server-production.up.railway.app/auth/google', '_self');
+    window.open(environment.GOOGLE_URL, '_self');
   }
 
   githubLogin() {
-    window.open('https://app-reviews-server-production.up.railway.app/auth/github', '_self');
+    window.open(environment.GIT_HUB_URL, '_self');
   }
 
   ngOnDestroy(): void {
     this.ngUnsubscribe.next('');
     this.ngUnsubscribe.complete();
+    this.subscription.unsubscribe
   }
 }

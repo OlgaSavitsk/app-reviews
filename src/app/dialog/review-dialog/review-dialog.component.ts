@@ -35,21 +35,13 @@ import { ValidationService } from '@core/services/validation.service';
 })
 export class ReviewDialogComponent implements OnInit {
   reviewForm!: FormGroup;
-
   dialogAction = ReviewDialogAction.addDialogAction;
-
   action = this.translateService.instant('DIALOG.ADD_ACTION');
-
   buttonAction = this.translateService.instant('BUTTON.CANCEL');
-
   categories: string[] | undefined;
-
   file: File | undefined | null;
-
   defaultImage: SafeUrl | undefined;
-
   imageSrc: SafeUrl | undefined;
-
   marks: number[] = MARKS;
   private ngUnsubscribe = new Subject();
 

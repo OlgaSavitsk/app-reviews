@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ChatService } from '@core/services/chat.service';
@@ -13,7 +13,7 @@ import { TranslateModule } from '@ngx-translate/core';
   templateUrl: './new-message.component.html',
   styleUrls: ['./new-message.component.scss'],
 })
-export class NewMessageComponent {
+export class NewMessageComponent implements OnInit {
   formGroup!: FormGroup;
 
   constructor(public chatService: ChatService, private userService: UserApiService) {}

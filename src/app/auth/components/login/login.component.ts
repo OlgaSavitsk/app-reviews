@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, Subject, Subscription, takeUntil } from 'rxjs';
 
 import { AuthService } from '@auth/services/auth.service';
 import { CommonModule } from '@angular/common';
@@ -9,6 +9,7 @@ import { Router, RouterModule } from '@angular/router';
 import { ValidationService } from '@core/services/validation.service';
 import { Path } from 'src/app/app.constants';
 import { TranslateModule } from '@ngx-translate/core';
+import { environment } from 'src/environments/environment.prod';
 
 @Component({
   selector: 'app-signin',
@@ -19,12 +20,10 @@ import { TranslateModule } from '@ngx-translate/core';
 })
 export class SigninComponent implements OnInit, OnDestroy {
   formGroup!: FormGroup;
-
   private errorMessage$ = new BehaviorSubject<string>('');
-
   errorMessage$$ = this.errorMessage$.pipe();
-
   private ngUnsubscribe = new Subject();
+  subscription!: Subscription;
 
   constructor(
     private authService: AuthService,
@@ -44,9 +43,8 @@ export class SigninComponent implements OnInit, OnDestroy {
 
   onSubmit(): void {
     if (this.formGroup.valid) {
-      this.authService.login(this.formGroup.value).subscribe({
+      this.subscription = this.authService.login(this.formGroup.value).subscribe({
         next: (response) => {
-          console.log(response)
           this.router.navigateByUrl(Path.adminPage);
         },
         error: (err) => {
@@ -56,16 +54,17 @@ export class SigninComponent implements OnInit, OnDestroy {
     }
   }
 
-  google() {
-    window.open('https://app-reviews-server-production.up.railway.app/auth/google', '_self');
+  googleLogin() {
+    window.open(environment.GOOGLE_URL, '_self');
   }
 
-  github() {
-    window.open('https://app-reviews-server-production.up.railway.app/auth/github', '_self');
+  githubLogin() {
+    window.open(environment.GIT_HUB_URL, '_self');
   }
 
   ngOnDestroy(): void {
     this.ngUnsubscribe.next('');
     this.ngUnsubscribe.complete();
+    this.subscription.unsubscribe()
   }
 }

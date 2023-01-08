@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { filter, map, Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 import { ReviewInfo } from 'src/app/models/review.interface';
 import * as fromUser from '@redux/selectors/collection.selector';
@@ -26,9 +25,9 @@ export class ReviewControlService {
 
   constructor(private store: Store, private fileService: FileService) {}
 
-  addRating(dialogData: ReviewInfo) {
+  addRating(dialogData: ReviewInfo, reviewProp: string) {
     this.fileService.getReviewFile(dialogData.filePath).subscribe((file) => {
-      const reviewFormData = this.prepeareFormData(dialogData, file);
+      const reviewFormData = this.prepeareFormData(dialogData, file, reviewProp);
       this.store.dispatch(
         ReviewAction.UpdateReview({
           review: reviewFormData,
@@ -38,28 +37,24 @@ export class ReviewControlService {
     });
   }
 
-  setRating(dialogData: ReviewInfo): ReviewInfo {
-    return { ...dialogData, rating: this.ratingValue };
+  setRating(dialogData: ReviewInfo, reviewProp: string): ReviewInfo {
+    return { ...dialogData, [reviewProp]: this.ratingValue };
   }
 
-  prepeareFormData(dialogData: ReviewInfo, file: File) {
+  prepeareFormData(dialogData: ReviewInfo, file: File, reviewProp: string) {
     const formData = new FormData();
-    const review = this.setRating(dialogData);
+    const review = this.setRating(dialogData, reviewProp);
     formData.set('image', file);
     formData.set('review', JSON.stringify(review));
     return formData;
   }
 
   getAllReviews(): Observable<ReviewInfo[]> {
-    return this.store.select(fromUser.selectReviewsStore).pipe(
-      map(({reviews}) => reviews)
-    );
+    return this.store.select(fromUser.selectReviewsStore).pipe(map(({ reviews }) => reviews));
   }
 
   getReviews(): Observable<ReviewInfo[]> {
-    return this.store.select(fromUser.selectReviewsStore).pipe(
-      map(({reviews}) => reviews)
-    );
+    return this.store.select(fromUser.selectReviewsStore).pipe(map(({ reviews }) => reviews));
   }
 
   getAllTags(): Observable<string[]> {

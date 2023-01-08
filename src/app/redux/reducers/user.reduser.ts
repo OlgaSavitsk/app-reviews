@@ -58,13 +58,11 @@ export const userReduser = createReducer<UserState>(
     (state, { users }): UserState => ({
       ...state,
       users,
-      //loading: false,
     })
   ),
   on(GetUsersFailed, (state, { error }) => ({
     ...state,
     isFetched: true,
-   // loading: false,
     error,
   })),
   on(

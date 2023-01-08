@@ -6,7 +6,7 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
-import { map, Observable, take, tap } from 'rxjs';
+import { map, Observable, take } from 'rxjs';
 
 import { Path } from 'src/app/app.constants';
 import { UserApiService } from '@core/services/user-api.service';
@@ -17,16 +17,11 @@ import { UserApiService } from '@core/services/user-api.service';
 export class RoleGuard implements CanActivate {
   constructor(private router: Router, private userService: UserApiService) {}
 
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+  canActivate(): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     return this.userService.getCurrentUser().pipe(
       take(1),
       map((user) =>
-        user?.roles === 'admin'
-          ? true
-          :  this.router.parseUrl(Path.review + '/' + user?.id)
+        user?.roles === 'admin' ? true : this.router.parseUrl(`${Path.review}/${user?.id}`)
       )
     );
   }

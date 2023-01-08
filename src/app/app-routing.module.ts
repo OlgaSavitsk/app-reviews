@@ -19,6 +19,7 @@ export const appRoutes: Routes = [
   {
     path: Path.review,
     loadChildren: () => import('./review/review.routes').then((m) => m.reviewRoutes),
+    canActivate: [AuthGuard],
   },
   {
     path: Path.adminPage,
@@ -28,9 +29,7 @@ export const appRoutes: Routes = [
   {
     path: Path.detailsPage,
     loadChildren: () =>
-      import('./review-details-page/review-details.routes').then(
-        (m) => m.reviewDetailsRoutes
-      ),
+      import('./review-details-page/review-details.routes').then((m) => m.reviewDetailsRoutes),
   },
   { path: '**', component: PageNotFoundComponent },
 ];
