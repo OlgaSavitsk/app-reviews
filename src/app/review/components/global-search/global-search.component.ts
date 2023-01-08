@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
-import { SafeUrl } from '@angular/platform-browser';
 import { map } from 'rxjs';
 
 import * as SearchReviewAction from '@redux/actions/search-review.action';
@@ -11,6 +10,7 @@ import { ReviewInfo } from 'src/app/models/review.interface';
 import { MaterialModule } from 'src/app/material/material.module';
 import { ReviewControlService } from '@review/services/review-control.service';
 import { FileService } from '@review/services/file.service';
+import { Path } from 'src/app/app.constants';
 
 @Component({
   selector: 'app-global-search',
@@ -23,8 +23,6 @@ export class GlobalSearchComponent implements OnInit {
   public searchValue = '';
 
   public foundReviews: ReviewInfo[] = [];
-
-  imageSrc: SafeUrl | undefined;
 
   responseMessage = '';
 
@@ -58,15 +56,9 @@ export class GlobalSearchComponent implements OnInit {
     this.store.dispatch(SearchReviewAction.GetSearchReviews({ searchValue }));
   }
 
-  renderFileSrc(filePath: string) {
-    this.fileService.getReviewImage(filePath).subscribe((fileUrl) => {
-      this.imageSrc = fileUrl;
-    });
-  }
-
   goToReview(review: ReviewInfo) {
     if (review.id) {
-      this.router.navigate([review.id]);
+      this.router.navigate([Path.detailsPage +'/' + review.id]);
       this.foundReviews = [];
       this.responseMessage = '';
     }

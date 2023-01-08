@@ -10,23 +10,30 @@
   <span class="example-spacer"></span>
 
   <app-lang></app-lang>
+  <!-- <button *ngIf="(currentUser$ | async)!.roles === 'admin'" mat-flat-button color="primary" class="text-white"
+      routerLink='/admin'>{{ 'HEADER.ADMIN' | translate}}</button> -->
 
   <div fxLayout="row" class="registr-btns" *ngIf="(isLoggedIn$ | async) === false">
     <button mat-flat-button routerLink='/login'>{{ 'HEADER.LOGIN' | translate}}</button>
 
-    <button mat-flat-button color="primary" class="text-white" routerLink='/signup'>{{ 'HEADER.SIGNUP' | translate }}</button>
+    <button mat-flat-button color="primary" class="text-white" routerLink='/signup'>{{ 'HEADER.SIGNUP' | translate
+      }}</button>
   </div>
 
   <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="7px" *ngIf="isLoggedIn$ | async">
 
-    <div fxLayoutAlign="center center">
+    <div fxLayoutAlign="center center" routerLink="/review/{{(currentUser$ | async)!.id}}">
       <img *ngIf="(currentUser$ | async)!.photos; else account" ngSrc="{{(currentUser$ | async)!.photos[0].value}}"
-        [ngStyle]="{borderRadius:'100%'}" width="40" height="40">
+        [ngStyle]="{borderRadius:'100%'}" width="40" height="40" routerLink="/review/{{(currentUser$ | async)!.id}}">
       <ng-template #account>
-        <mat-icon class="user-icon">account_circle</mat-icon>
+        <mat-icon class=" user-icon">account_circle</mat-icon>
       </ng-template>
+      <span fxLayout="row" *ngIf="currentUser$ | async">{{(currentUser$ | async)!.username}}</span>
     </div>
-    <span fxLayout="row" *ngIf="currentUser$ | async">{{(currentUser$ | async)!.username}}</span>
-    <button mat-flat-button color="primary" class="text-white" (click)="logout()">{{ 'HEADER.LOGOUT' | translate}}</button>
+    <button *ngIf="(currentUser$ | async)!.roles === 'admin'" mat-flat-button color="primary" class="text-white"
+      routerLink='/admin'>{{ 'HEADER.ADMIN' | translate}}</button>
+    
+    <button mat-flat-button color="primary" class="text-white" (click)="logout()">{{ 'HEADER.LOGOUT' |
+      translate}}</button>
   </div>
 </mat-toolbar>

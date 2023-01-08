@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+
 import { MaterialModule } from 'src/app/material/material.module';
 import { ReviewInfo } from 'src/app/models/review.interface';
-import * as ReviewAction from '@redux/actions/review.actions';
-import { Store } from '@ngrx/store';
 import { ReviewControlService } from '../../services/review-control.service';
 
 @Component({
@@ -26,7 +26,6 @@ export class RatingComponent implements OnInit {
 
   ngOnInit(): void {
     this.rating = this.data.rating;
-    this.store.dispatch(ReviewAction.GetReviews());
     this.reviewControlService.getRatingOfArt(this.data.name).subscribe((reviews) => {
       const totalRating = reviews.map((review) => review.rating).filter(Boolean);
       const sumRating = totalRating.reduce((acc, rate) => acc + rate, 0);

@@ -6,6 +6,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SafeUrl } from '@angular/platform-browser';
 import '@github/markdown-toolbar-element';
+import { Subject, takeUntil } from 'rxjs';
 
 import { MaterialModule } from 'src/app/material/material.module';
 import * as ReviewAction from '@redux/actions/review.actions';
@@ -15,6 +16,7 @@ import { defaultFilePath, FILM_CATEGORIES, MARKS, ReviewDialogAction } from 'src
 import { TagsSelectComponent } from '@review/components/tags-select/tags-select.component';
 import { MarkdownEditorComponent } from '@review/components/markdown-editor/markdown-editor.component';
 import { ReviewInfo } from 'src/app/models/review.interface';
+import { ValidationService } from '@core/services/validation.service';
 
 @Component({
   selector: 'app-review-dialog',
@@ -49,13 +51,15 @@ export class ReviewDialogComponent implements OnInit {
   imageSrc: SafeUrl | undefined;
 
   marks: number[] = MARKS;
+  private ngUnsubscribe = new Subject();
 
   constructor(
     private store: Store,
     @Inject(MAT_DIALOG_DATA) public dialogData: { data: ReviewInfo | string; action: string },
     public dialogRef: MatDialogRef<ReviewDialogComponent>,
     private fileService: FileService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private validationService: ValidationService
   ) {}
 
   ngOnInit(): void {
@@ -67,6 +71,9 @@ export class ReviewDialogComponent implements OnInit {
     if (this.dialogData.action === this.translateService.instant('DIALOG.dataEditAction')) {
       this.renderEditData();
     }
+    this.reviewForm.valueChanges.pipe(takeUntil(this.ngUnsubscribe)).subscribe(() => {
+      this.validationService.setValidationErrors(this.reviewForm);
+    });
   }
 
   renderFileSrc(filePath: string): void {
@@ -98,11 +105,11 @@ export class ReviewDialogComponent implements OnInit {
     this.reviewForm = new FormGroup({
       name: new FormControl('', [Validators.required, Validators.minLength(1)]),
       title: new FormControl('', [Validators.required]),
-      category: new FormControl(''),
+      category: new FormControl('', [Validators.required]),
       score: new FormControl('', [Validators.required]),
       tags: new FormControl('', [Validators.required]),
       description: new FormControl('', [Validators.required]),
-      image: new FormControl(null),
+      image: new FormControl(null, [Validators.required]),
       like: new FormControl(null),
     });
   }
@@ -168,5 +175,10 @@ export class ReviewDialogComponent implements OnInit {
 
   addTags(tags: string[]) {
     this.reviewForm.patchValue({ tags });
+  }
+
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next('');
+    this.ngUnsubscribe.complete();
   }
 }

@@ -1,0 +1,9 @@
+<div class="container">
+	<form class="example-form form" [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+		<mat-form-field class="example-full-width" appearance="fill">
+			<mat-label>{{ 'REVIEW.COMMENT' | translate}}</mat-label>
+			<textarea matInput formControlName="messageText"></textarea>
+		</mat-form-field>
+		<button mat-button type="submit" class=" form__button" [disabled]="formGroup.invalid">SEND</button>
+	</form>
+</div>

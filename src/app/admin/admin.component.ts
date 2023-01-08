@@ -20,7 +20,7 @@ import { DateAgoPipe } from '@core/pipes/date-ago.pipe';
 import { UserApiService } from '@core/services/user-api.service';
 import { Router } from '@angular/router';
 import { AdminControlComponent } from './component/admin-control/admin-control.component';
-import { BlockStatus, displayedColumnsUsers } from '../app.constants';
+import { BlockStatus, displayedColumnsUsers, Path } from '../app.constants';
 
 @Component({
   selector: 'app-admin',
@@ -103,6 +103,6 @@ export class AdminComponent implements OnInit, AfterContentChecked {
   }
 
   onSelectUser(id: string) {
-    this.router.navigate(['/', 'review', id]);
+    this.router.navigate(['/', Path.review, id]);
   }
 }

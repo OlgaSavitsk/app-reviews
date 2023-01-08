@@ -1,0 +1,26 @@
+<div class="table-responsive flex-col col-md-6">
+  <table class="table email-table no-wrap table-hover v-middle mb-0 font-14">
+    <tbody>
+      <tr *ngFor="let message of chatService.messagesResponse | filter : id">
+        <td class="text-muted font-weight-bold">
+          <div fxLayoutAlign="center center">
+            <img *ngIf="(user | async)!.photos; else account" ngSrc="{{(user | async)!.photos[0].value}}"
+              [ngStyle]="{borderRadius:'100%'}" width="40" height="40">
+            <ng-template #account>
+              <mat-icon class="user-icon">account_circle</mat-icon>
+            </ng-template>
+          </div>
+        </td>
+        <td class="text-muted font-weight-bold">
+      <tr><span class="font-weight-bold" style="color: #1897c2;">{{(user | async).username}}</span></tr>
+      <tr>
+        <p>
+          {{message.text}}
+        </p>
+      </tr>
+      </td>
+      <td class="text-muted">{{message.createdAt | date: 'MM d, y, h:mm a'}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

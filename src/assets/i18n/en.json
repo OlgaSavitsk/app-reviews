@@ -3,7 +3,8 @@
     "LOGIN": "Logn In",
     "SIGNUP": "Sign Up",
     "LOGOUT": "Sign Out",
-    "ADD_REVIEW": "Add review"
+    "ADD_REVIEW": "Add review",
+    "ADMIN": "Admin dashboard"
   },
   "ADMIN": {
     "NAME": "Name",
@@ -14,6 +15,10 @@
     "ROLE": "Access",
     "SELECT": "Select All",
     "ACCESS": "Select a Role"
+  },
+  "MAIN": {
+    "NEW": "New Reviews",
+    "POPULAR": "Popular Reviews"
   },
   "Admin": "Administrator",
   "User": "User",
@@ -26,6 +31,9 @@
     "ROUT_LOGIN": "Already have an account? Login"
   },
   "REVIEW": {
+    "SUBTITLE": "YOUR REVIEWS",
+    "FILTER": "Filter",
+    "COMMENT": "Comment review",
     "NAME": "Movie Title",
     "TITLE": "Review Title",
     "RAITING": "Rating",

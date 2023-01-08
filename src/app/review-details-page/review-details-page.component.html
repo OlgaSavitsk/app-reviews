@@ -1,3 +1,4 @@
+
 <div class="details" *ngIf="review">
   <button class="details__button_back">
     <a routerLink="/home" routerLinkActive="active">
@@ -12,7 +13,7 @@
       <span class="details__date">{{review.createdAt | date: 'EEEE, MMMM d, y'}}</span>
 
       <span class="details__user">
-        <span>{{(user | async).username}</span>{{(review.like)}}
+        <span>{{(user | async).username}}</span>{{(review.like)}}
         <mat-icon aria-hidden="false" [ngClass]="{'active': review.like}">thumb_up</mat-icon>
       </span>
     </div>
@@ -38,3 +39,6 @@
     </div>
   </div>
 </div>
+
+<app-chat [id]="id"></app-chat>
+

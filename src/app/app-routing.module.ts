@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { AuthGuard } from '@core/guards/auth.guard';
 import { RoleGuard } from '@core/guards/role.guard';
 
 import { PageNotFoundComponent } from '@core/pages/page-not-found/page-not-found.component';
@@ -25,10 +26,10 @@ export const appRoutes: Routes = [
     canActivate: [RoleGuard],
   },
   {
-    path: ':id',
-    loadComponent: () =>
-      import('./review-details-page/review-details-page.component').then(
-        (m) => m.ReviewDetailsPageComponent
+    path: Path.detailsPage,
+    loadChildren: () =>
+      import('./review-details-page/review-details.routes').then(
+        (m) => m.reviewDetailsRoutes
       ),
   },
   { path: '**', component: PageNotFoundComponent },

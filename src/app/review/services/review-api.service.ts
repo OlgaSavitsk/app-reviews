@@ -17,26 +17,17 @@ export class ReviewApiService {
     });
   }
 
+  getReviewsPaginate(page?: number, limit?: number) {
+    return this.http.get(`review/paginate?page=${page}&limit=${limit}`, {
+      withCredentials: true,
+    });
+  }
+
   getAllReviewsTags(): Observable<string[]> {
     return this.http.get<string[]>('review/tags', {
       withCredentials: true,
     });
   }
-
-  // getCurrentReviews(): Observable<void[]> {
-  //   return this.store.select(fromUser.selectReviewsStore).pipe(
-  //     map(({ reviews }) =>
-  //       reviews.map((review) => {
-  //         this.store.dispatch(
-  //           ReviewAction.GetFile({
-  //             filePath: review.filePath,
-  //             reviewId: review.id,
-  //           })
-  //         );
-  //       })
-  //     )
-  //   );
-  // }
 
   getReviewById(id: string): Observable<ReviewInfo> {
     return this.http.get<ReviewInfo>(`review/${id}`, {

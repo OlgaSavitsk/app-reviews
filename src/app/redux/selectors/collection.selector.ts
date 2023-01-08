@@ -39,13 +39,13 @@ export const selectLoadingReview = createSelector(
   (state: ReviewState) => state.loading
 );
 
-export const selectSearchReviewStore = createFeatureSelector<SearchReviewState>('searchReview');
-
 export const selectReviewById = (reviewId: string) =>
-  createSelector(selectSearchReviewStore, ({ reviews }) => {
+  createSelector(selectReviewsStore, ({ reviews }) => {
     const reviewById = reviews.filter((review: ReviewInfo) => review.id === reviewId);
     return reviewById[0];
   });
+
+export const selectSearchReviewStore = createFeatureSelector<SearchReviewState>('searchReview');
 
 export const selectCurrentSearchReview = createSelector(
   selectSearchReviewStore,

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { map, Observable } from 'rxjs';
+import { filter, map, Observable } from 'rxjs';
 
 import { ReviewInfo } from 'src/app/models/review.interface';
 import * as fromUser from '@redux/selectors/collection.selector';
@@ -48,6 +48,18 @@ export class ReviewControlService {
     formData.set('image', file);
     formData.set('review', JSON.stringify(review));
     return formData;
+  }
+
+  getAllReviews(): Observable<ReviewInfo[]> {
+    return this.store.select(fromUser.selectReviewsStore).pipe(
+      map(({reviews}) => reviews)
+    );
+  }
+
+  getReviews(): Observable<ReviewInfo[]> {
+    return this.store.select(fromUser.selectReviewsStore).pipe(
+      map(({reviews}) => reviews)
+    );
   }
 
   getAllTags(): Observable<string[]> {

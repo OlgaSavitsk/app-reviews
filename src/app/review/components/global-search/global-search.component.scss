@@ -56,13 +56,13 @@ mat-card-title {
   left: 0;
   padding: 20px;
   position: absolute;
-  top: 80px;
+  top: 0;
   font: 16px roboto,sans-serif;
   z-index: 10;
 }
 
 mat-card-content {
-  bottom: 0;
+  top: 10%;
   color: #c6c6c6;
   font-size: 14px;
   font-weight: 500;

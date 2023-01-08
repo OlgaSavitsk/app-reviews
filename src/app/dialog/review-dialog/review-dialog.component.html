@@ -31,7 +31,7 @@
           <input matInput type="text" placeholder="{{'REVIEW.NEW_REVIEW.NAME' | translate}}" formControlName="name"
             autocomplete="off" required>
           <mat-error *ngIf="reviewForm.controls['name'].touched && reviewForm.controls['name'].invalid">
-            <!--  {{validationService.errorMessage}} -->
+             {{validationService.errorMessage}}
           </mat-error>
         </mat-form-field>
 
@@ -40,7 +40,7 @@
           <input matInput type="text" placeholder="{{'REVIEW.NEW_REVIEW.TITLE' | translate}}" formControlName="title"
             autocomplete="off" required>
           <mat-error *ngIf="reviewForm.controls['title'].touched && reviewForm.controls['title'].invalid">
-            <!--  {{validationService.errorMessage}} -->
+             {{validationService.errorMessage}}
           </mat-error>
         </mat-form-field>
 
@@ -50,7 +50,7 @@
             <mat-option *ngFor="let category of categories" [value]="category">{{category}}</mat-option>
           </mat-select>
           <mat-error *ngIf="reviewForm.controls['category'].touched && reviewForm.controls['category'].invalid">
-            <!--  {{validationService.errorMessage}} -->
+            {{validationService.errorMessage}}
           </mat-error>
         </mat-form-field>
 
@@ -59,6 +59,9 @@
           <select matNativeControl required formControlName="score">
             <option *ngFor="let mark of marks" [value]="mark">{{mark}}</option>
           </select>
+          <mat-error *ngIf="reviewForm.controls['category'].touched && reviewForm.controls['category'].invalid">
+            {{validationService.errorMessage}}
+          </mat-error>
         </mat-form-field>
 
         <app-markdown-editor [control]="reviewForm.controls['description']"></app-markdown-editor>
@@ -70,6 +73,6 @@
   </form>
 </mat-dialog-content>
 <mat-dialog-actions [align]="'end'">
-  <button mat-raised-button color="primary" (click)="submit()">{{action}}</button>
+  <button mat-raised-button color="primary" (click)="submit()" [disabled]="reviewForm.invalid">{{action}}</button>
   <button mat-raised-button color="primary" mat-dialog-close>{{buttonAction}}</button>
 </mat-dialog-actions>

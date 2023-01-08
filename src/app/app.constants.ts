@@ -4,9 +4,8 @@ export enum Path {
   loginPage = 'login',
   mainPage = 'home',
   review = 'review',
+  detailsPage = 'details',
 }
-
-export const STORAGE_NAME = 'userDate';
 
 export enum BlockStatus {
   blocked = 'blocked',
@@ -46,6 +45,11 @@ export enum ReviewDialogAction {
   editAction = 'Update',
   dataAddAction = 'Create Review',
   dataEditAction = 'Edit Review',
+}
+
+export enum SortParam {
+  dateParam = 'date',
+  scoreParam = 'score',
 }
 
 export const defaultFilePath = 'image-1672299937406.png';
