@@ -2,7 +2,6 @@ import {
   AfterContentChecked,
   ChangeDetectorRef,
   Component,
-  OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
@@ -20,7 +19,6 @@ import * as UserAction from '@redux/actions/user.actions';
 import { DateAgoPipe } from '@core/pipes/date-ago.pipe';
 import { UserApiService } from '@core/services/user-api.service';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
 import { AdminControlComponent } from './component/admin-control/admin-control.component';
 import { BlockStatus, displayedColumnsUsers, Path } from '../app.constants';
 
@@ -38,10 +36,9 @@ import { BlockStatus, displayedColumnsUsers, Path } from '../app.constants';
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.scss'],
 })
-export class AdminComponent implements OnInit, AfterContentChecked, OnDestroy {
+export class AdminComponent implements OnInit, AfterContentChecked {
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  subscription!: Subscription;
   displayedColumns = displayedColumnsUsers;
   dataSource: MatTableDataSource<UserInfo> | undefined;
   selection = new SelectionModel<UserInfo>(true, []);
@@ -56,7 +53,7 @@ export class AdminComponent implements OnInit, AfterContentChecked, OnDestroy {
 
   ngOnInit(): void {
     this.store.dispatch(UserAction.GetUsers());
-    this.subscription = this.userService.getCurrentUsers().subscribe((users) => {
+    this.userService.getCurrentUsers().subscribe((users) => {
       this.dataSource = new MatTableDataSource(users);
       this.dataSource!.paginator = this.paginator;
     });
@@ -75,8 +72,8 @@ export class AdminComponent implements OnInit, AfterContentChecked, OnDestroy {
   changeStatus(user: UserInfo): void {
     const status = user.status === BlockStatus.active ? BlockStatus.blocked : BlockStatus.active;
     const updateDto: UserUpdate = {
-      status,
-    };
+      status: status
+    }
     this.store.dispatch(UserAction.UpdateUser({ user, updateDto }));
   }
 
@@ -105,9 +102,5 @@ export class AdminComponent implements OnInit, AfterContentChecked, OnDestroy {
 
   onSelectUser(id: string) {
     this.router.navigate(['/', Path.review, id]);
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 }

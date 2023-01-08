@@ -1,8 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { Subscription } from 'rxjs';
 import { MaterialModule } from 'src/app/material/material.module';
 import { UserInfo } from 'src/app/models/user.interfaces';
 import * as UserAction from '../../../redux/actions/user.actions';
@@ -14,15 +13,15 @@ import * as UserAction from '../../../redux/actions/user.actions';
   templateUrl: './admin-control.component.html',
   styleUrls: ['./admin-control.component.scss'],
 })
-export class AdminControlComponent implements OnInit, OnDestroy {
+export class AdminControlComponent implements OnInit {
   @Input() selectedUser!: UserInfo[];
+
   roleList!: string[];
-  subscription!: Subscription;
 
   constructor(private translateService: TranslateService, private store: Store) {}
 
   ngOnInit(): void {
-    this.subscription = this.translateService
+    this.translateService
       .stream(['Admin', 'User'])
       .subscribe((roles) => (this.roleList = Object.values(roles)));
   }
@@ -33,9 +32,5 @@ export class AdminControlComponent implements OnInit, OnDestroy {
         this.store.dispatch(UserAction.DeleteUser({ id: user.id }))
       );
     }
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 }

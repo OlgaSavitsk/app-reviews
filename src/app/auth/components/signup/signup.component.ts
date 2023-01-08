@@ -18,13 +18,12 @@ import { environment } from 'src/environments/environment.prod';
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss'],
 })
-export class SignupComponent implements OnInit, OnDestroy {
+export class SignupComponent implements OnInit {
   formGroup!: FormGroup;
   isSpinner = false;
   private ngUnsubscribe = new Subject();
   private errorMessage$ = new BehaviorSubject<string>('');
   errorMessage$$ = this.errorMessage$.pipe();
-  subscription!: Subscription;
 
   constructor(
     private authService: AuthService,
@@ -58,7 +57,7 @@ export class SignupComponent implements OnInit, OnDestroy {
   onSubmit(e: Event): void {
     e.preventDefault();
     this.isSpinner = !this.isSpinner;
-    this.subscription = this.authService.register(this.formGroup.value).subscribe({
+    this.authService.register(this.formGroup.value).subscribe({
       next: () => {
         this.formGroup.reset();
         this.isSpinner = false;
@@ -77,11 +76,5 @@ export class SignupComponent implements OnInit, OnDestroy {
 
   githubLogin() {
     window.open(environment.GIT_HUB_URL, '_self');
-  }
-
-  ngOnDestroy(): void {
-    this.ngUnsubscribe.next('');
-    this.ngUnsubscribe.complete();
-    this.subscription.unsubscribe
   }
 }

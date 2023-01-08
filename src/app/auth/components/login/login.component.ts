@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { BehaviorSubject, Subject, Subscription, takeUntil } from 'rxjs';
+import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 
 import { AuthService } from '@auth/services/auth.service';
 import { CommonModule } from '@angular/common';
@@ -18,12 +18,11 @@ import { environment } from 'src/environments/environment.prod';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class SigninComponent implements OnInit, OnDestroy {
+export class SigninComponent implements OnInit {
   formGroup!: FormGroup;
   private errorMessage$ = new BehaviorSubject<string>('');
   errorMessage$$ = this.errorMessage$.pipe();
   private ngUnsubscribe = new Subject();
-  subscription!: Subscription;
 
   constructor(
     private authService: AuthService,
@@ -43,7 +42,7 @@ export class SigninComponent implements OnInit, OnDestroy {
 
   onSubmit(): void {
     if (this.formGroup.valid) {
-      this.subscription = this.authService.login(this.formGroup.value).subscribe({
+      this.authService.login(this.formGroup.value).subscribe({
         next: (response) => {
           this.router.navigateByUrl(Path.adminPage);
         },
@@ -60,11 +59,5 @@ export class SigninComponent implements OnInit, OnDestroy {
 
   githubLogin() {
     window.open(environment.GIT_HUB_URL, '_self');
-  }
-
-  ngOnDestroy(): void {
-    this.ngUnsubscribe.next('');
-    this.ngUnsubscribe.complete();
-    this.subscription.unsubscribe()
   }
 }
