@@ -9,7 +9,6 @@
   top: 110%;
   width: 300px;
   right: -53px;
-  max-height: 300px;
   overflow-y: scroll;
   overflow-x: hidden;
   display: flex;
@@ -82,5 +81,6 @@ mat-card-content {
   border-radius: 3px;
   object-fit: cover;
   object-position: top;
-  width: 300px;
+  width: 100%;
+  height: 200px;
 }

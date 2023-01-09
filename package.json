@@ -33,6 +33,7 @@
     "eslint-plugin-ngrx": "^2.1.4",
     "marked": "^4.2.5",
     "ngx-markdown": "^15.0.0",
+    "ngx-spinner": "^15.0.1",
     "rxjs": "~7.5.0",
     "socket.io-client": "^4.5.4",
     "tslib": "^2.3.0",

@@ -34,7 +34,7 @@ export class DetailsReviewComponent implements OnInit, OnDestroy {
   template: string | undefined;
   tags: string[] = this.dialogData.data.tags;
   rating!: number;
-  subscription!: Subscription;
+  subscription: Subscription | undefined;
 
   constructor(
     private store: Store,
@@ -54,7 +54,7 @@ export class DetailsReviewComponent implements OnInit, OnDestroy {
     const subscription1$ = this.fileService.getReviewImage(filePath).subscribe((fileUrl) => {
       this.imageSrc = fileUrl;
     });
-    this.subscription.add(subscription1$);
+    this.subscription?.add(subscription1$);
   }
 
   renderTags() {
@@ -62,7 +62,7 @@ export class DetailsReviewComponent implements OnInit, OnDestroy {
     const subscription2$ = this.reviewControlService.getAllTags().subscribe((tags) => {
       this.allTags = tags;
     });
-    this.subscription.add(subscription2$);
+    this.subscription?.add(subscription2$);
   }
 
   renderDescription() {
@@ -70,6 +70,6 @@ export class DetailsReviewComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.subscription?.unsubscribe();
   }
 }

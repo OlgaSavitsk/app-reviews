@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  OnDestroy,
   OnInit,
   QueryList,
   ViewChild,
@@ -9,8 +10,9 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
-import { map } from 'rxjs';
+import { map, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 
 import SortPipe from '@core/pipes/sort.pipe';
 import { FileService } from '@review/services/file.service';
@@ -35,11 +37,12 @@ import { ReviewInfo } from '../models/review.interface';
     MaterialModule,
     TagsSelectComponent,
     TranslateModule,
+    NgxSpinnerModule,
   ],
   templateUrl: './main-page.component.html',
   styleUrls: ['./main-page.component.scss'],
 })
-export class MainPageComponent implements OnInit, AfterViewInit {
+export class MainPageComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('widgetsContent', { static: false }) widgetsContent!: ElementRef;
   @ViewChildren('item') itemElements: QueryList<ReviewInfo> | undefined;
   reviews: ReviewInfo[] = [];
@@ -49,13 +52,15 @@ export class MainPageComponent implements OnInit, AfterViewInit {
   allTags: string[] | undefined;
   tagsReviews: ReviewInfo[] = [];
   popularReviews!: ReviewInfo[];
+  private subscription: Subscription | undefined;
 
   constructor(
     private store: Store,
     private reviewControlService: ReviewControlService,
     private reviewApiService: ReviewApiService,
     private fileService: FileService,
-    private router: Router
+    private router: Router,
+    private spinner: NgxSpinnerService
   ) {}
 
   ngOnInit() {
@@ -70,20 +75,26 @@ export class MainPageComponent implements OnInit, AfterViewInit {
   }
 
   renderNewReview(): void {
-    this.reviewApiService.getReviewsPaginate(this.page, this.limit).subscribe((review: any) => {
-      review.items.forEach((review: ReviewInfo) => {
-        this.reviews.push(this.createReview(review));
+    this.spinner.show();
+    const subscription1$ = this.reviewApiService
+      .getReviewsPaginate(this.page, this.limit)
+      .subscribe((review: any) => {
+        review.items.forEach((review: ReviewInfo) => {
+          this.reviews.push(this.createReview(review));
+        });
+        if (review.items.length === 0) {
+          this.page = 0;
+        }
+        this.spinner.hide();
       });
-      if (review.items.length === 0) {
-        this.page = 0;
-      }
-    });
+    this.subscription?.add(subscription1$);
   }
 
   renderPopularReviews(): void {
-    this.reviewControlService.getAllReviews().subscribe((reviews) => {
+    const scription2$ = this.reviewControlService.getAllReviews().subscribe((reviews) => {
       this.popularReviews = reviews.map((review) => this.createReview(review));
     });
+    this.subscription?.add(scription2$);
   }
 
   createReview(review: ReviewInfo): ReviewInfo {
@@ -108,9 +119,10 @@ export class MainPageComponent implements OnInit, AfterViewInit {
 
   renderTags(): void {
     this.store.dispatch(ReviewAction.GetReviewsTags());
-    this.reviewControlService.getAllTags().subscribe((tags) => {
+    const scription3$ = this.reviewControlService.getAllTags().subscribe((tags) => {
       this.allTags = [...new Set(tags.flat())];
     });
+    this.subscription?.add(scription3$);
   }
 
   selectTag(tag: string): void {
@@ -128,5 +140,10 @@ export class MainPageComponent implements OnInit, AfterViewInit {
     if (review.id) {
       this.router.navigate([`${Path.detailsPage}/${review.id}`]);
     }
+  }
+
+  
+  ngOnDestroy() {
+    this.subscription?.unsubscribe();
   }
 }

@@ -8,13 +8,13 @@
   <mat-icon matPrefix>search</mat-icon>
 
 
-  <mat-card class="cards-container" *ngIf="foundReviews.length; else response">
+  <div class="cards-container" *ngIf="foundReviews.length; else response">
     <mat-card class="card" *ngFor="let task of foundReviews" (click)="goToReview(task)">
       <img mat-card-image class="image" [src]="task.fileUrl | async">
       <mat-card-title>{{ task?.title }}</mat-card-title>
-      <mat-card-content>{{ task?.description }}</mat-card-content>
+      <mat-card-content>{{ task?.name }}</mat-card-content>
     </mat-card>
-  </mat-card>
+  </div>
   <ng-template #response><span class="cards-container text" *ngIf="responseMessage">{{responseMessage}}</span>
   </ng-template>
 </mat-form-field>

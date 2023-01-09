@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
-import { map } from 'rxjs';
+import { map, Subscription } from 'rxjs';
 
 import * as SearchReviewAction from '@redux/actions/search-review.action';
 import { ReviewInfo } from 'src/app/models/review.interface';
@@ -19,10 +19,11 @@ import { Path } from 'src/app/app.constants';
   templateUrl: './global-search.component.html',
   styleUrls: ['./global-search.component.scss'],
 })
-export class GlobalSearchComponent implements OnInit {
+export class GlobalSearchComponent implements OnInit, OnDestroy {
   searchValue = '';
   foundReviews: ReviewInfo[] = [];
   responseMessage = '';
+  private subscription: Subscription | undefined;
 
   constructor(
     private store: Store,
@@ -38,10 +39,11 @@ export class GlobalSearchComponent implements OnInit {
         fileUrl: this.fileService.getReviewImage(review.filePath).pipe(map((file) => file)),
       }));
     });
-    this.reviewControlService.getErrorSearchReview().subscribe((error) => {
+    const subscription1$ = this.reviewControlService.getErrorSearchReview().subscribe((error) => {
       if (error) this.responseMessage = error.error.message;
       this.foundReviews = [];
     });
+    this.subscription?.add(subscription1$);
   }
 
   searchReview(searchValue: string): void {
@@ -60,5 +62,9 @@ export class GlobalSearchComponent implements OnInit {
       this.foundReviews = [];
       this.responseMessage = '';
     }
+  }
+
+  ngOnDestroy() {
+    this.subscription?.unsubscribe();
   }
 }

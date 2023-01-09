@@ -18,7 +18,7 @@ import { environment } from 'src/environments/environment.prod';
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss'],
 })
-export class SignupComponent implements OnInit {
+export class SignupComponent implements OnInit, OnDestroy {
   formGroup!: FormGroup;
   isSpinner = false;
   private ngUnsubscribe = new Subject();
@@ -57,17 +57,20 @@ export class SignupComponent implements OnInit {
   onSubmit(e: Event): void {
     e.preventDefault();
     this.isSpinner = !this.isSpinner;
-    this.authService.register(this.formGroup.value).subscribe({
-      next: () => {
-        this.formGroup.reset();
-        this.isSpinner = false;
-        this.router.navigateByUrl(Path.loginPage);
-      },
-      error: (err) => {
-        this.errorMessage$.next(err.error.message);
-        this.isSpinner = false;
-      },
-    });
+    this.authService
+      .register(this.formGroup.value)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe({
+        next: () => {
+          this.formGroup.reset();
+          this.isSpinner = false;
+          this.router.navigateByUrl(Path.loginPage);
+        },
+        error: (err) => {
+          this.errorMessage$.next(err.error.message);
+          this.isSpinner = false;
+        },
+      });
   }
 
   googleLogin() {
@@ -76,5 +79,10 @@ export class SignupComponent implements OnInit {
 
   githubLogin() {
     window.open(environment.GIT_HUB_URL, '_self');
+  }
+
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next('');
+    this.ngUnsubscribe.complete();
   }
 }

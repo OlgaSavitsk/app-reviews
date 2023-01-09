@@ -69,13 +69,16 @@ export class ReviewDialogComponent implements OnInit {
   }
 
   renderFileSrc(filePath: string): void {
-    this.fileService.getReviewImage(filePath).subscribe((fileUrl) => {
-      if (filePath === defaultFilePath) {
-        this.defaultImage = fileUrl;
-      } else {
-        this.imageSrc = fileUrl;
-      }
-    });
+    this.fileService
+      .getReviewImage(filePath)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((fileUrl) => {
+        if (filePath === defaultFilePath) {
+          this.defaultImage = fileUrl;
+        } else {
+          this.imageSrc = fileUrl;
+        }
+      });
   }
 
   renderEditData() {
@@ -86,6 +89,7 @@ export class ReviewDialogComponent implements OnInit {
     this.reviewForm.patchValue(this.dialogData.data as ReviewInfo);
     this.fileService
       .getReviewFile((this.dialogData.data as ReviewInfo).filePath)
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((file) => {
         this.reviewForm.patchValue({
           image: file,

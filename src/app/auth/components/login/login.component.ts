@@ -18,7 +18,7 @@ import { environment } from 'src/environments/environment.prod';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class SigninComponent implements OnInit {
+export class SigninComponent implements OnInit, OnDestroy {
   formGroup!: FormGroup;
   private errorMessage$ = new BehaviorSubject<string>('');
   errorMessage$$ = this.errorMessage$.pipe();
@@ -42,14 +42,17 @@ export class SigninComponent implements OnInit {
 
   onSubmit(): void {
     if (this.formGroup.valid) {
-      this.authService.login(this.formGroup.value).subscribe({
-        next: (response) => {
-          this.router.navigateByUrl(Path.adminPage);
-        },
-        error: (err) => {
-          this.errorMessage$.next(err.error.message);
-        },
-      });
+      this.authService
+        .login(this.formGroup.value)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe({
+          next: (response) => {
+            this.router.navigateByUrl(Path.adminPage);
+          },
+          error: (err) => {
+            this.errorMessage$.next(err.error.message);
+          },
+        });
     }
   }
 
@@ -59,5 +62,10 @@ export class SigninComponent implements OnInit {
 
   githubLogin() {
     window.open(environment.GIT_HUB_URL, '_self');
+  }
+
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next('');
+    this.ngUnsubscribe.complete();
   }
 }

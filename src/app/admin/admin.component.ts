@@ -2,6 +2,7 @@ import {
   AfterContentChecked,
   ChangeDetectorRef,
   Component,
+  OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
@@ -21,6 +22,7 @@ import { UserApiService } from '@core/services/user-api.service';
 import { Router } from '@angular/router';
 import { AdminControlComponent } from './component/admin-control/admin-control.component';
 import { BlockStatus, displayedColumnsUsers, Path } from '../app.constants';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-admin',
@@ -36,13 +38,14 @@ import { BlockStatus, displayedColumnsUsers, Path } from '../app.constants';
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.scss'],
 })
-export class AdminComponent implements OnInit, AfterContentChecked {
+export class AdminComponent implements OnInit, AfterContentChecked, OnDestroy {
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   displayedColumns = displayedColumnsUsers;
   dataSource: MatTableDataSource<UserInfo> | undefined;
   selection = new SelectionModel<UserInfo>(true, []);
   selectedUsers!: UserInfo[];
+  private subscription: Subscription | undefined;
 
   constructor(
     private store: Store,
@@ -53,10 +56,11 @@ export class AdminComponent implements OnInit, AfterContentChecked {
 
   ngOnInit(): void {
     this.store.dispatch(UserAction.GetUsers());
-    this.userService.getCurrentUsers().subscribe((users) => {
+    const scription1$ = this.userService.getCurrentUsers().subscribe((users) => {
       this.dataSource = new MatTableDataSource(users);
       this.dataSource!.paginator = this.paginator;
     });
+    this.subscription?.add(scription1$);
   }
 
   ngAfterContentChecked(): void {
@@ -102,5 +106,9 @@ export class AdminComponent implements OnInit, AfterContentChecked {
 
   onSelectUser(id: string) {
     this.router.navigate(['/', Path.review, id]);
+  }
+ 
+  ngOnDestroy() {
+    this.subscription?.unsubscribe();
   }
 }
