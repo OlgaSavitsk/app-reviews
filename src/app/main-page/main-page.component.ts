@@ -125,7 +125,7 @@ export class MainPageComponent implements OnInit, AfterViewInit, OnDestroy {
   selectTag(tag: string): void {
     this.tagsReviews = [];
     this.reviewControlService.getAllReviews().subscribe((reviews) => {
-      reviews.forEach((review) => {
+      this.reviews.forEach((review) => {
         if (review.tags.flat().includes(tag)) {
           this.tagsReviews.push(review);
         }
