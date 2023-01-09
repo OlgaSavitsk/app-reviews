@@ -1,12 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { UserApiService } from '@core/services/user-api.service';
 import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
+
 import * as UserAction from '@redux/actions/user.actions';
 import { ReviewControlService } from '@review/services/review-control.service';
 import { MaterialModule } from 'src/app/material/material.module';
-import { ReviewInfo } from 'src/app/models/review.interface';
-import { UserInfo, UserUpdate } from 'src/app/models/user.interfaces';
+import { ReviewInfo, updateReview } from 'src/app/models/review.interface';
+import { UserInfo } from 'src/app/models/user.interfaces';
 
 @Component({
   selector: 'app-like',
@@ -15,11 +17,13 @@ import { UserInfo, UserUpdate } from 'src/app/models/user.interfaces';
   templateUrl: './like.component.html',
   styleUrls: ['./like.component.scss'],
 })
-export class LikeComponent implements OnInit {
+export class LikeComponent implements OnInit, OnDestroy {
   @Input() data!: ReviewInfo;
-  likes = this.data?.like;
+  private subscription: Subscription | undefined;
+  likes!: number;
   isActive!: boolean;
   currentUser!: UserInfo;
+  updateDto = updateReview;
 
   constructor(
     private reviewControlService: ReviewControlService,
@@ -28,28 +32,33 @@ export class LikeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.likes = this.data?.likes || 0;
     this.store.dispatch(UserAction.FetchUser());
-    this.userService.getCurrentUser().subscribe((user: UserInfo | null) => {
+    const subscription1$ = this.userService.getCurrentUser().subscribe((user: UserInfo | null) => {
       if (user) {
         this.currentUser = user;
       }
     });
-    this.likes = this.data?.like;
+    if (this.data.likedUser?.includes(this.currentUser?.id)) {
+      this.isActive = true;
+    }
+    this.subscription?.add(subscription1$);
   }
 
   updateLikes(i: number): void {
     this.isActive = !this.isActive;
-
     if (this.isActive) {
       this.likes = i + 1;
-      const updateDto: UserUpdate = {
-        liked: [this.data.id],
-      };
-      this.store.dispatch(UserAction.UpdateUser({ user: this.currentUser, updateDto }));
+      (this.updateDto!.likes = this.likes), (this.updateDto!.likedUser = this.currentUser?.id);
     } else {
       this.likes -= 1;
+      this.updateDto!.likes = this.likes;
+      this.updateDto!.likedUser = '';
     }
-    this.reviewControlService.ratingValue = this.likes;
-    this.reviewControlService.addRating(this.data!, 'like');
+    this.reviewControlService.addRating(this.data, this.updateDto!);
+  }
+
+  ngOnDestroy() {
+    this.subscription?.unsubscribe();
   }
 }

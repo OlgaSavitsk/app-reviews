@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { catchError, map, of, switchMap, mergeMap } from 'rxjs';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { SafeUrl } from '@angular/platform-browser';
+
 import { ReviewApiService } from 'src/app/review/services/review-api.service';
 import { ReviewInfo } from 'src/app/models/review.interface';
 import { FileService } from 'src/app/review/services/file.service';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import * as ReviewActions from '../actions/review.actions';
 
 @Injectable()
@@ -38,7 +39,6 @@ export class ReviewEffects {
       switchMap(({ review, userId, file }) =>
         this.reviewService.createReview(userId, review).pipe(
           map((review: ReviewInfo) => ReviewActions.SaveReviewSuccess({ review, userId, file }))
-          // catchError((error) => of(ReviewActions.GetReviewsFailed({ error }))),
         )
       )
     );
@@ -50,7 +50,6 @@ export class ReviewEffects {
       mergeMap(({ filePath, reviewId }) =>
         this.fileService.getReviewImage(filePath).pipe(
           map((filePath: SafeUrl) => ReviewActions.GetFileSuccess({ filePath, reviewId }))
-          // catchError((error) => of(ReviewActions.GetReviewsFailed({ error }))),
         )
       )
     );
@@ -89,6 +88,5 @@ export class ReviewEffects {
     private actions$: Actions,
     private reviewService: ReviewApiService,
     private fileService: FileService,
-    private sanitizer: DomSanitizer
   ) {}
 }

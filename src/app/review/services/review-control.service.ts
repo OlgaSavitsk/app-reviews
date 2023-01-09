@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { map, Observable } from 'rxjs';
 
-import { ReviewInfo } from 'src/app/models/review.interface';
+import { ReviewInfo, ReviewUpdate } from 'src/app/models/review.interface';
 import * as fromUser from '@redux/selectors/collection.selector';
 import * as ReviewAction from '@redux/actions/review.actions';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -25,9 +25,9 @@ export class ReviewControlService {
 
   constructor(private store: Store, private fileService: FileService) {}
 
-  addRating(dialogData: ReviewInfo, reviewProp: string) {
+  addRating(dialogData: ReviewInfo, data: ReviewUpdate) {
     this.fileService.getReviewFile(dialogData.filePath).subscribe((file) => {
-      const reviewFormData = this.prepeareFormData(dialogData, file, reviewProp);
+      const reviewFormData = this.prepeareFormData(dialogData, file, data);
       this.store.dispatch(
         ReviewAction.UpdateReview({
           review: reviewFormData,
@@ -37,13 +37,20 @@ export class ReviewControlService {
     });
   }
 
-  setRating(dialogData: ReviewInfo, reviewProp: string): ReviewInfo {
-    return { ...dialogData, [reviewProp]: this.ratingValue };
+  setRating(dialogData: ReviewInfo, { rating, likedUser, likes }: ReviewUpdate): ReviewInfo {
+    return {
+      ...dialogData,
+      likes: likes,
+      likedUser: likedUser
+        ? dialogData.likedUser.filter((userId) => userId === likedUser)
+        : [...(dialogData?.likedUser ?? []), likedUser],
+      rating: [...(dialogData?.rating ?? []), rating],
+    };
   }
 
-  prepeareFormData(dialogData: ReviewInfo, file: File, reviewProp: string) {
+  prepeareFormData(dialogData: ReviewInfo, file: File, data: ReviewUpdate) {
     const formData = new FormData();
-    const review = this.setRating(dialogData, reviewProp);
+    const review = this.setRating(dialogData, data);
     formData.set('image', file);
     formData.set('review', JSON.stringify(review));
     return formData;

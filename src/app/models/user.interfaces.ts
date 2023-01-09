@@ -16,7 +16,8 @@ export interface UserInfo {
   updatedAt: string;
   status: string;
   roles: string;
-  liked: string[];
+  // liked: number;
+  // likedUser: string[]
   photos: {
     value: string;
   }[];
@@ -28,6 +29,5 @@ export interface UserDetails {
 }
 
 export interface UserUpdate {
-  status?: string;
-  liked?: string[];
+  status?: string
 }

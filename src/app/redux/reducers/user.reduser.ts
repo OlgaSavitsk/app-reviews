@@ -94,7 +94,7 @@ export const userReduser = createReducer<UserState>(
     DeleteUserSuccess,
     (state, { id }): UserState => ({
       ...state,
-      users: state.users.filter((user) => user.id !== id),
+      users: state.users.filter((user) => user?.id !== id),
     })
   ),
 
@@ -116,7 +116,6 @@ export const userReduser = createReducer<UserState>(
           };
         }
         return { ...user, reviews: [...user.reviews, review] };
-        // return user;
       }),
     })
   ),
@@ -141,7 +140,6 @@ export const userReduser = createReducer<UserState>(
       }),
     })
   ),
-
   on(
     DeleteReview,
     (state): UserState => ({
@@ -171,7 +169,6 @@ export const userReduser = createReducer<UserState>(
       ...state,
     })
   ),
-
   on(
     SetFileSuccess,
     (state, { file, reviewId }): UserState => ({

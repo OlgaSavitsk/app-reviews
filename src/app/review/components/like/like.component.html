@@ -1,3 +1,7 @@
-<span>{{likes}}</span>
-<mat-icon aria-hidden="false" [ngClass]="{'active': isActive}" (click)="updateLikes(data?.like)">thumb_up
-</mat-icon>
+<div style="display: flex; align-items: end;" [matTooltip]="!currentUser ? 'Only authenticated users' : ''">
+    <span>{{likes}}</span>
+    <button mat-icon-button style="pointer-events: all" [disabled]="!currentUser" (click)="updateLikes(likes)">
+        <mat-icon [ngClass]="{'active': isActive}">thumb_up
+        </mat-icon>
+    </button>
+</div>

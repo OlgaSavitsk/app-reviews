@@ -63,7 +63,7 @@ export class MainPageComponent implements OnInit, AfterViewInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.store.dispatch(ReviewAction.GetReviews());
+    //this.store.dispatch(ReviewAction.GetReviews());
     this.renderNewReview();
     this.renderPopularReviews();
     this.renderTags();
@@ -122,12 +122,13 @@ export class MainPageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.subscription?.add(scription3$);
   }
 
-  selectTag(tag: string): void {
+  renderReviewsByTag(tag: string): void {
     this.tagsReviews = [];
     this.reviewControlService.getAllReviews().subscribe((reviews) => {
-      this.reviews.forEach((review) => {
-        if (review.tags.flat().includes(tag)) {
-          this.tagsReviews.push(review);
+      reviews.forEach((review) => {
+        const renderReview = this.createReview(review)
+        if (renderReview.tags.flat().includes(tag)) {
+          this.tagsReviews.push(renderReview);
         }
       });
     });
@@ -138,8 +139,7 @@ export class MainPageComponent implements OnInit, AfterViewInit, OnDestroy {
       this.router.navigate([`${Path.detailsPage}/${review.id}`]);
     }
   }
-
-  
+ 
   ngOnDestroy() {
     this.subscription?.unsubscribe();
   }

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { Store } from '@ngrx/store';
 
@@ -9,6 +9,7 @@ import { UserApiService } from '@core/services/user-api.service';
 import { map } from 'rxjs';
 import { UserInfo } from './models/user.interfaces';
 import * as UserAction from './redux/actions/user.actions';
+import * as ReviewAction from '@redux/actions/review.actions';
 
 @Component({
   selector: 'app-root',
@@ -27,6 +28,7 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.store.dispatch(UserAction.FetchUser());
     this.store.dispatch(UserAction.GetUsers());
+    this.store.dispatch(ReviewAction.GetReviews());
     this.userService
       .getCurrentUser()
       .pipe(map((user: UserInfo | null) => (this.currentName = user?.username)));

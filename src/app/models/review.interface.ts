@@ -11,7 +11,7 @@ export interface ReviewInfo extends IObjectKeys {
   category: string;
   description: string;
   tags: string[];
-  rating: number;
+  rating: number[];
   img: string;
   createdAt: string;
   action?: string;
@@ -20,5 +20,18 @@ export interface ReviewInfo extends IObjectKeys {
   filePath: string;
   fileUrl: SafeUrl;
   score: number;
-  like: number;
+  likes: number;
+  likedUser: string[];
 }
+
+export interface ReviewUpdate {
+  likes: number;
+  likedUser: string;
+  rating: number;
+}
+
+export const updateReview: ReviewUpdate = {
+  likes: 0,
+  likedUser: '',
+  rating: 0,
+};

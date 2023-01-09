@@ -33,17 +33,18 @@ export class GlobalSearchComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.reviewControlService.getSearchReview().subscribe((reviews) => {
+    const subscription1$ = this.reviewControlService.getSearchReview().subscribe((reviews) => {
       this.foundReviews = reviews.map((review) => ({
         ...review,
        fileUrl: this.fileService.getReviewImage(review.filePath).pipe(map((file) => file)),
       }));
     });
-    const subscription1$ = this.reviewControlService.getErrorSearchReview().subscribe((error) => {
+    const subscription2$ = this.reviewControlService.getErrorSearchReview().subscribe((error) => {
       if (error) this.responseMessage = error.error.message;
       this.foundReviews = [];
     });
    this.subscription?.add(subscription1$);
+   this.subscription?.add(subscription2$);
   }
 
   searchReview(searchValue: string): void {

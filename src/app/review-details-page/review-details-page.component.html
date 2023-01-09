@@ -13,7 +13,7 @@
       <span class="details__date">{{review.createdAt | date: 'EEEE, MMMM d, y'}}</span>
 
       <span class="details__user">
-        <span>{{(user | async).username}}</span>
+        <span>{{(user | async)?.username}}</span>
         <app-like [data]="review"></app-like>
       </span>
     </div>
@@ -32,8 +32,8 @@
 
     <div fxFlexFill fxLayout="column wrap" fxLayoutGap="15px">
       <div class="tags">Tags:
-        <mat-chip-listbox>
-          <mat-chip *ngFor="let tag of review.tags">{{tag}}</mat-chip>
+        <mat-chip-listbox *ngFor="let tag of review.tags">
+          <mat-chip >{{tag}}</mat-chip>
         </mat-chip-listbox>
       </div>
     </div>

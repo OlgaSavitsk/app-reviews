@@ -51,14 +51,14 @@
 <div class="tags">
   <div>
     <mat-chip-listbox>
-      <mat-chip *ngFor="let tag of allTags" (click)="selectTag(tag)">{{tag}}</mat-chip>
+      <mat-chip *ngFor="let tag of allTags" (click)="renderReviewsByTag(tag)">{{tag}}</mat-chip>
     </mat-chip-listbox>
   </div>
 
   <div class="score-container" *ngIf="tagsReviews">
     <div class="card" *ngFor="let review of tagsReviews">
-      <div class="review">
-        <a href="">
+      <div class="review" (click)="toReviewDetails(review)">
+        <a>
           <img [src]="review.fileUrl | async">
         </a>
         <div class="review-info">

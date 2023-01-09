@@ -40,7 +40,8 @@
 
   &__user {
     display: flex;
-    align-items: center;
+    align-items: end;
+    column-gap: 10px;
 
     span {
       color: #000;
