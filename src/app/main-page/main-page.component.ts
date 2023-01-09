@@ -60,7 +60,6 @@ export class MainPageComponent implements OnInit, AfterViewInit, OnDestroy {
     private reviewApiService: ReviewApiService,
     private fileService: FileService,
     private router: Router,
-    private spinner: NgxSpinnerService
   ) {}
 
   ngOnInit() {
@@ -75,7 +74,6 @@ export class MainPageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   renderNewReview(): void {
-    this.spinner.show();
     const subscription1$ = this.reviewApiService
       .getReviewsPaginate(this.page, this.limit)
       .subscribe((review: any) => {
@@ -85,7 +83,6 @@ export class MainPageComponent implements OnInit, AfterViewInit, OnDestroy {
         if (review.items.length === 0) {
           this.page = 0;
         }
-        this.spinner.hide();
       });
     this.subscription?.add(subscription1$);
   }
@@ -128,7 +125,7 @@ export class MainPageComponent implements OnInit, AfterViewInit, OnDestroy {
   selectTag(tag: string): void {
     this.tagsReviews = [];
     this.reviewControlService.getAllReviews().subscribe((reviews) => {
-      this.reviews.forEach((review) => {
+      reviews.forEach((review) => {
         if (review.tags.flat().includes(tag)) {
           this.tagsReviews.push(review);
         }

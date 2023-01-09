@@ -1,6 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { Observable, map } from 'rxjs';
 
 import { ReviewInfo } from 'src/app/models/review.interface';
@@ -9,7 +8,7 @@ import { ReviewInfo } from 'src/app/models/review.interface';
   providedIn: 'root',
 })
 export class ReviewApiService {
-  constructor(private http: HttpClient, private store: Store) {}
+  constructor(private http: HttpClient) {}
 
   getAllReviews(): Observable<ReviewInfo[]> {
     return this.http.get<ReviewInfo[]>('review', {
