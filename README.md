@@ -1,27 +1,9 @@
 # App
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.0.0.
+Implemented user authorization with a password and social networks, an administrator page with the ability to delete or block a user, search by application, a user page with the ability to create, delete and edit a review, drag and drop image upload, add comments in real time, application, interface translation applications in two languages.
 
-## Development server
+The server part was implemented with a database connection using TypeORM, a web socket was connected to send messages in real time, cookie-based authentication, Docker was used to configure and develop the environment.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+[Back-end](https://github.com/OlgaSavitsk/app-reviews-server/tree/develop)
 
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+[Deploy](https://app-review-d36e65.netlify.app)
