@@ -1,0 +1,26 @@
+:host {
+    display: flex;
+    flex-direction: row;
+    align-items: end;
+    column-gap: 5px;
+    margin: 0;
+}
+
+.active {
+    color: #1897c2;
+    cursor: pointer;
+}
+
+.mat-mdc-icon-button.mat-mdc-button-base {
+    width: 20px;
+    height: 36px;
+}
+
+.mdc-icon-button {
+    background-color: transparent;
+}
+
+.mat-mdc-icon-button {
+    --mat-mdc-button-persistent-ripple-color: rgba(0, 0, 0, 0);;
+    --mat-mdc-button-ripple-color: rgba(0, 0, 0, 0.1);
+}

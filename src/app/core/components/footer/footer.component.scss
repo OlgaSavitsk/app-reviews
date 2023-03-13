@@ -1,0 +1,29 @@
+:host {
+  display: flex;
+  width: 100%;
+  background-color: #121c1e;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  text-decoration: none;
+  line-height: 45px;
+  color: white;
+
+  &__img {
+    display: block;
+    margin-right: 10px;
+  }
+
+  &__text {
+    font-size: 21px;
+    color: white;
+  }
+}
+
+.github {
+  width: 40px;
+  height: 100%;
+}

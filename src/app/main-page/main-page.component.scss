@@ -1,0 +1,158 @@
+:host {
+  flex: 1 1 auto;
+  max-width: 1200px;
+  width: 100%;
+  margin-top: 90px;
+}
+
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 70px;
+}
+
+.slider {
+  display: flex;
+  margin: 0;
+  width: 2400px;
+  scroll-behavior: smooth;
+}
+
+.slider-container {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  max-width: 1200px;
+  min-height: 80px;
+  overflow: hidden;
+  scroll-behavior: smooth;
+}
+
+.score-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+h1,
+h3 {
+  text-align: start;
+}
+
+h3 {
+  color: #333;
+  font-family: Montserrat, sans-serif;
+}
+
+.subtitle {
+  align-items: center;
+  justify-content: space-between;
+}
+
+span {
+  font-family: Montserrat, sans-serif;
+  font-weight: 500;
+  font-style: normal;
+  font-size: 20px;
+  color: #1897c2;
+  margin: 0;
+}
+
+.card {
+  flex: none;
+  width: 300px;
+  float: left;
+  padding: 0.75rem;
+  margin: 0;
+  overflow: hidden;
+  scroll-behavior: smooth;
+}
+
+.review {
+  border-radius: 5px;
+
+  a {
+    display: block;
+    position: relative;
+    color: #1897c2;
+    transition: all .2s;
+    text-decoration: none;
+    padding-top: 133.3333%;
+    cursor: pointer;
+  }
+
+  img {
+    height: 100%;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+}
+
+.direction-right {
+  left: -3%;
+  top: 40%;
+  position: absolute;
+  z-index: 2;
+  display: block;
+  width: 24px;
+  height: 100%;
+  background-position: -48px 50%;
+  cursor: pointer;
+}
+
+.direction-left {
+  cursor: pointer;
+  right: -3%;
+  position: absolute;
+  z-index: 2;
+  top: 40%;
+  display: block;
+  width: 24px;
+  height: 100%;
+  background-position: -96px 50%;
+}
+
+.review-info {
+  div {
+    display: flex;
+    flex-direction: column;
+    text-align: start;
+    row-gap: 7px;
+    padding: 5px 0;
+  }
+}
+
+h5,
+h6 {
+  font-family: Montserrat, sans-serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.direction-right {
+  width: 24px;
+  height: 100%;
+  line-height: 24px;
+  margin: 0;
+  cursor: pointer;
+}
+
+.direction-left {
+  width: 24px;
+  height: 100%;
+  line-height: 24px;
+  margin: 0;
+  cursor: pointer;
+}
+
+.tags {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 50px 50px;
+}

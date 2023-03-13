@@ -1,0 +1,72 @@
+.date {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  color: #BBB;
+  font-size: 14px;
+  font-weight: 400;
+  padding-bottom: 7px;
+}
+
+mat-icon {
+  margin: 0;
+  cursor: pointer;
+}
+
+div {
+  width: 100%;
+}
+
+span {
+  margin: 0;
+}
+
+h1,
+.description {
+  text-align: start;
+}
+
+h1 {
+  color: black;
+}
+
+.exmpl {
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.exmpl img {
+  width: 100%;
+}
+
+.file-wrapper {
+  width: 100%;
+  height: 300px;
+  min-width: 300px;
+}
+
+.tags {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: #1897c2;
+
+  .mdc-evolution-chip-set {
+    margin: 0 7px;
+  }
+}
+
+.score {
+  color: #1897c2;
+}
+
+.active {
+  color: aquamarine;
+}
+
+.comment {
+  padding: 20px 0;
+}

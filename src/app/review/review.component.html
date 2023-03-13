@@ -1,0 +1,77 @@
+<mat-card fxLayoutAlign="space-between">
+  <b><span>{{ 'REVIEW.SUBTITLE' | translate}}</span></b>
+  <button mat-raised-button color="primary" (click)="addAction()">
+    {{'REVIEW.ADD' | translate}}
+  </button>
+</mat-card>
+<hr>
+<mat-card>
+  <mat-form-field class="filter">
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+  </mat-form-field>
+</mat-card>
+
+<div>
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource!" matSort (matSortChange)="sortChange($event)">
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef>{{'REVIEW.NAME' | translate}}</th>
+        <td mat-cell *matCellDef="let element">
+          <div class="cell">
+            <ng-template #account>
+              <mat-icon class="user-icon">account_circle</mat-icon>
+            </ng-template>
+            {{element.name}}
+          </div>
+
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'REVIEW.TITLE' | translate}} </th>
+        <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="rating">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{'REVIEW.RAITING' | translate}}</th>
+        <td style="width: 15%;" mat-cell *matCellDef="let element">
+          <app-star [data]="element" (ratingEmiter)="addRating($event)"></app-star>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="details">
+        <th mat-header-cell *matHeaderCellDef>{{'REVIEW.DETAILS' | translate}} </th>
+        <td mat-cell *matCellDef="let element">
+          <button  mat-stroked-button (click)="detailsAction(element)">{{'REVIEW.VIEW_BUTTON' | translate}}</button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="createdAt">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{'REVIEW.CREATEAT' | translate}}</th>
+        <td mat-cell *matCellDef="let element"> {{element.createdAt | date: 'MMMM d, y'}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef>{{'REVIEW.ACTION' | translate}}</th>
+        <td mat-cell *matCellDef="let element" class="action-link">
+          <button mat-icon-button color="primary" matTooltip="Edit" (click)="editAction(element)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="primary" matTooltip="Delete" (click)="deleteAction(element)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="table-row"></tr>
+    </table>
+    <mat-paginator showFirstLastButtons="true" hidePageSize="true" [pageSizeOptions]="[5, 10, 20]"
+      aria-label="Select page">
+    </mat-paginator>
+  </div>
+</div>

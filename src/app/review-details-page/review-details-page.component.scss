@@ -1,0 +1,156 @@
+:host {
+  flex: 1 1 auto;
+  max-width: 1200px;
+  width: 100%;
+  margin-top: 90px;
+}
+
+.details {
+  max-width: 1200px;
+  width: 100%;
+  margin: 44px auto;
+  display: flex;
+  background: #e5e5e5;
+  box-shadow: 5px 5px 20px rgba(51, 51, 51, 0.25);
+  border-radius: 0px 5px 5px 0px;
+  border-bottom: 5px solid;
+
+  &__image {
+    max-width: 729px;
+
+    img {
+      width: 100%;
+      object-fit: cover;
+      object-position: top;
+    }
+  }
+
+  &__description {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px 35px;
+  }
+
+  &__date {
+    font-size: 12px;
+    text-align: left;
+    padding-top: 7px;
+    color: #828282;
+  }
+
+  &__user {
+    display: flex;
+    align-items: end;
+    column-gap: 10px;
+
+    span {
+      color: #000;
+      text-align: center;
+    }
+  }
+
+  &__title {
+    text-align: left;
+    font-weight: bold;
+    font-size: 24px;
+    color: #000000;
+  }
+
+  &__subtitle {
+    font-size: 14px;
+    text-align: left;
+  }
+
+  &__button_back {
+    display: flex;
+    align-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 5px 0 0 5px;
+    border: none;
+    margin: 0;
+    padding: 6px;
+    cursor: pointer;
+  }
+}
+
+.material-icons {
+  font-size: 19px;
+  margin: 0 5px;
+}
+
+mat-card-content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 300px;
+}
+
+.mat-card-subtitle {
+  margin: 0px;
+}
+
+.date {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  color: #BBB;
+  font-size: 14px;
+  font-weight: 400;
+  padding-bottom: 7px;
+}
+
+mat-icon {
+  margin: 0;
+  cursor: pointer;
+}
+
+div {
+  width: 100%;
+}
+
+span {
+  margin: 0;
+}
+
+h1,
+.description {
+  text-align: start;
+}
+
+h1 {
+  color: black;
+}
+
+.file-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 100px;
+}
+
+.mat-card-image {
+  max-width: calc(100% - 40px);
+  background-position: center;
+  background-size: contain;
+}
+
+.tags {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: #1897c2;
+
+  .mdc-evolution-chip-set {
+    margin: 0 7px;
+  }
+}
+
+.score {
+  color: #1897c2;
+}
+
+.active {
+  color: aquamarine;
+}

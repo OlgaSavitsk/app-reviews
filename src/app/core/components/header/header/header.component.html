@@ -1,0 +1,39 @@
+<mat-toolbar fxLayoutGap="20px" class="header" appHeaderAnimate>
+  <div fxLayoutGap="7px" class="logo-container" routerLink="/">
+    <img class="logo" ngSrc="assets/icons/logo.svg" width="45" height="45">
+    <div fxLayout="column">
+      <span class="logo-text">SpareTime</span>
+      <span class="logo-text subtext">SHELVE</span>
+    </div>
+  </div>
+  <app-global-search></app-global-search>
+  <span class="example-spacer"></span>
+
+  <app-lang></app-lang>
+  <!-- <button *ngIf="(currentUser$ | async)!.roles === 'admin'" mat-flat-button color="primary" class="text-white"
+      routerLink='/admin'>{{ 'HEADER.ADMIN' | translate}}</button> -->
+
+  <div fxLayout="row" class="registr-btns" *ngIf="(isLoggedIn$ | async) === false">
+    <button mat-flat-button routerLink='/login'>{{ 'HEADER.LOGIN' | translate}}</button>
+
+    <button mat-flat-button color="primary" class="text-white" routerLink='/signup'>{{ 'HEADER.SIGNUP' | translate
+      }}</button>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="7px" *ngIf="isLoggedIn$ | async">
+
+    <div fxLayoutAlign="center center" routerLink="/review/{{(currentUser$ | async)!.id}}">
+      <img *ngIf="(currentUser$ | async)!.photos; else account" ngSrc="{{(currentUser$ | async)!.photos[0].value}}"
+        [ngStyle]="{borderRadius:'100%'}" width="40" height="40" routerLink="/review/{{(currentUser$ | async)!.id}}">
+      <ng-template #account>
+        <mat-icon class=" user-icon">account_circle</mat-icon>
+      </ng-template>
+      <span fxLayout="row" *ngIf="currentUser$ | async">{{(currentUser$ | async)!.username}}</span>
+    </div>
+    <button *ngIf="(currentUser$ | async)!.roles === 'admin'" mat-flat-button color="primary" class="text-white"
+      routerLink='/admin'>{{ 'HEADER.ADMIN' | translate}}</button>
+    
+    <button mat-flat-button color="primary" class="text-white" (click)="logout()">{{ 'HEADER.LOGOUT' |
+      translate}}</button>
+  </div>
+</mat-toolbar>

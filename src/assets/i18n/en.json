@@ -1,0 +1,100 @@
+{
+  "HEADER": {
+    "LOGIN": "Logn In",
+    "SIGNUP": "Sign Up",
+    "LOGOUT": "Sign Out",
+    "ADD_REVIEW": "Add review",
+    "ADMIN": "Admin dashboard"
+  },
+  "ADMIN": {
+    "NAME": "Name",
+    "EMAIL": "Email",
+    "CREATEAT": "Registration Data",
+    "LOGINDATE": "Login Data",
+    "STATUS": "Status",
+    "ROLE": "Access",
+    "SELECT": "Select All",
+    "ACCESS": "Select a Role"
+  },
+  "MAIN": {
+    "NEW": "New Reviews",
+    "POPULAR": "Popular Reviews"
+  },
+  "Admin": "Administrator",
+  "User": "User",
+  "AUTH": {
+    "NAME": "Name",
+    "EMAIL": "Email",
+    "PASSWORD": "Password",
+    "CONNECT": "connect with",
+    "ROUT_REGISTR": "Don't have accaunt? Sign Up",
+    "ROUT_LOGIN": "Already have an account? Login"
+  },
+  "REVIEW": {
+    "SUBTITLE": "YOUR REVIEWS",
+    "FILTER": "Filter",
+    "COMMENT": "Comment review",
+    "NAME": "Movie Title",
+    "TITLE": "Review Title",
+    "RAITING": "Rating",
+    "DETAILS": "Details",
+    "CREATEAT": "Data Creation",
+    "ACTION": "Action",
+    "ADD": "Add Review",
+    "DESCRIPTION": "Description",
+    "TAG": "Tags",
+    "CATEGORY": "Category",
+    "SCORE": "Score",
+    "VIEW_BUTTON": "View Details",
+    "NEW_REVIEW": {
+      "CREATE": "Create review",
+      "TITLE": "Enter title",
+      "DESCRIPTION": "Enter Your review",
+      "NAME": "Enter name",
+      "TAG": "Select tags",
+      "CATEGORY": "Select a category"
+    }
+  },
+  "DIALOG": {
+    "ADD_ACTION": "Add",
+    "EDIT_ACTION": "Edit",
+    "EDIT_BUTTON": "Update",
+    "dataAddAction": "Create Review",
+    "dataEditAction": "Edit Review"
+  },
+  "feature": "Feature film",
+  "series": "TV series",
+  "action": "Action",
+  "adventure": "Adventure",
+  "comedy": "Comedy",
+  "drama": "Drama",
+  "horror": "Horror",
+  "musical": "Musical",
+  "biography": "Biography",
+  "sci-fi": "Sci-fi",
+  "triller": "Triller",
+  "family": "Family",
+  "documentary": "Documentary",
+  "BUTTON": {
+    "LANG": "EN",
+    "CONTINUE": "Continue",
+    "CREATE": "Create",
+    "SAVE": "Save",
+    "CANCEL": "Cancel",
+    "CLOSE": "Close",
+    "UPDATE": "UPDATE",
+    "DELETE": "Delete",
+    "CHOOSE": "Choose image",
+    "UPLOAD": "UPLOAD",
+    "DOWNLOAD": "DOWNLOAD",
+    "SEARCH": "Search"
+  },
+  "CONFIRM": {
+    "title": "Data will be deleted permanently",
+    "message": "Do you really want to delete {{param}}?",
+    "paramReview": "review",
+    "CANCEL": "CANCEL",
+    "DELETE": "DELETE"
+  },
+  "SEARCH": "Search"
+}

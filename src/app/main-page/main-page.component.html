@@ -1,0 +1,84 @@
+<div class="container">
+  <h1>{{ 'MAIN.NEW' | translate}}</h1>
+  <mat-icon class="direction-right activ-right" (click)="setBack()">keyboard_arrow_left</mat-icon>
+  <div #widgetsContent class="slider-container">
+    <div class="slider">
+      <div #item class="card" *ngFor="let review of reviews | sort : 'date'" (click)="toReviewDetails(review)">
+        <div class="review">
+          <a>
+            <img [src]="review.fileUrl | async">
+          </a>
+          <div class="review-info">
+            <div>
+              <span>{{review.title}}</span>
+              <h3>{{review.username | async}}</h3>
+            </div>
+            <div fxLayout="column">
+              <h3>{{review.createdAt | date: 'MMMM d, y, h:mm a'}}</h3>
+              <app-star [data]="review"></app-star>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <mat-icon class="direction-left activ-left" (click)="setNext()">keyboard_arrow_right</mat-icon>
+</div>
+
+<div>
+  <h1>{{ 'MAIN.POPULAR' | translate}}</h1>
+  <div class="score-container">
+    <div class="card" *ngFor="let review of popularReviews | sort : 'score'" (click)="toReviewDetails(review)">
+      <div class="review">
+        <a>
+          <img [src]="review.fileUrl | async">
+        </a>
+        <div class="review-info">
+          <div fxLayout="column">
+            <span>{{review.title}}</span>
+            <h3>{{review.username | async}}</h3>
+          </div>
+          <div class="subtitle" fxLayout="row">
+            <span>{{review.score}} / 10</span>
+            <app-star [data]="review"></app-star>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="tags">
+  <div>
+    <mat-chip-listbox>
+      <mat-chip *ngFor="let tag of allTags" (click)="renderReviewsByTag(tag)">{{tag}}</mat-chip>
+    </mat-chip-listbox>
+  </div>
+
+  <div class="score-container" *ngIf="tagsReviews">
+    <div class="card" *ngFor="let review of tagsReviews">
+      <div class="review" (click)="toReviewDetails(review)">
+        <a>
+          <img [src]="review.fileUrl | async">
+        </a>
+        <div class="review-info">
+          <div fxLayout="column">
+            <span>{{review.title}}</span>
+            <h3>{{review.username | async}}</h3>
+          </div>
+          <div class="subtitle" fxLayout="row">
+            <span>{{review.score}} / 10</span>
+            <app-star [data]="review"></app-star>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff"
+  type="square-jelly-box"
+></ngx-spinner>

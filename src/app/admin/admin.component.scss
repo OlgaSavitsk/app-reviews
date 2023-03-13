@@ -1,0 +1,63 @@
+:host {
+  display: flex;
+  flex: 1 1 auto;
+  max-width: 1200px;
+  width: 100%;
+}
+
+.container {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  row-gap: 7px;
+  width: 100%;
+}
+
+.mat-elevation-z8 {
+  width: 100%;
+}
+
+#tac {
+  content: 'All';
+}
+
+.cell {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  column-gap: 6px;
+}
+
+.user-icon {
+  width: 30px;
+  height: 30px;
+  margin: 0;
+  font-size: 30px;
+  color: #ffd740;
+  cursor: pointer;
+  transition: color 0.2s ease-in-out;
+}
+
+.mat-mdc-standard-chip {
+  --mdc-chip-elevated-container-color: aquamarine;
+}
+
+.mat-mdc-text-field-wrapper {
+  width: 50% !important;
+}
+
+.table-row {
+  transition: all .2s;
+  cursor: pointer;
+}
+
+.table-row:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.table-row:active {
+  transform: translate(0em, 0.1em);
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+}

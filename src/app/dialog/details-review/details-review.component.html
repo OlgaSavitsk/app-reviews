@@ -1,0 +1,35 @@
+<mat-dialog-content fxLayout="column" class="mat-typography">
+  <div fxFlex fxLayout="column" class="wrapper">
+    <div class="date">{{dialogData.data.createdAt | date: 'MMMM d, y'}}&nbsp;|&nbsp;{{dialogData.username}}
+      <app-like [data]="dialogData.data"></app-like>
+
+    </div>
+    <div fxFlexFill fxLayout="column wrap" fxLayoutGap="15px">
+      <div class="file-wrapper exmpl">
+        <img mat-card-image class="image" [src]="imageSrc">
+      </div>
+      <div>
+        <div style="justify-content: space-between;" fxLayout="row">
+          <span>{{dialogData.data.name}}</span>
+          <app-star [data]="dialogData.data"></app-star>
+        </div>
+
+        <div class="tags">Tags:
+           <mat-chip-listbox>
+            <mat-chip *ngFor="let tag of tags">{{tag}}</mat-chip>
+          </mat-chip-listbox>
+        </div>
+
+        <h1>{{dialogData.data.title}}</h1>
+        <div fxLayout="column" fxLayoutAlign="center start">
+          <span class="score">Score: {{dialogData.data.score}}/10</span>
+          <div class="description" [innerHTML]="template"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-divider></mat-divider>
+  <div class="comment">
+    <app-list-message [id]="dialogData.data.id"></app-list-message>
+  </div>
