@@ -3,9 +3,9 @@
   <mat-icon class="direction-right activ-right" (click)="setBack()">keyboard_arrow_left</mat-icon>
   <div #widgetsContent class="slider-container">
     <div class="slider">
-      <div #item class="card" *ngFor="let review of reviews | sort : 'date'" (click)="toReviewDetails(review)">
+      <div #item class="card" *ngFor="let review of reviews | sort : 'date'">
         <div class="review">
-          <a>
+          <a (click)="toReviewDetails(review)">
             <img [src]="review.fileUrl | async">
           </a>
           <div class="review-info">
@@ -28,9 +28,9 @@
 <div>
   <h1>{{ 'MAIN.POPULAR' | translate}}</h1>
   <div class="score-container">
-    <div class="card" *ngFor="let review of popularReviews | sort : 'score'" (click)="toReviewDetails(review)">
+    <div class="card" *ngFor="let review of popularReviews | sort : 'score'">
       <div class="review">
-        <a>
+        <a (click)="toReviewDetails(review)">
           <img [src]="review.fileUrl | async">
         </a>
         <div class="review-info">

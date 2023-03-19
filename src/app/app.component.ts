@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { Store } from '@ngrx/store';
 
@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.store.dispatch(UserAction.FetchUser());
     this.store.dispatch(UserAction.GetUsers());
-    this.store.dispatch(ReviewAction.GetReviews());
+   this.store.dispatch(ReviewAction.GetReviews());
     this.userService
       .getCurrentUser()
       .pipe(map((user: UserInfo | null) => (this.currentName = user?.username)));

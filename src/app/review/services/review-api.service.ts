@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { Observable, map, finalize } from 'rxjs';
 
 import { ReviewInfo } from 'src/app/models/review.interface';
 
@@ -8,7 +9,7 @@ import { ReviewInfo } from 'src/app/models/review.interface';
   providedIn: 'root',
 })
 export class ReviewApiService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private spinner: NgxSpinnerService) {}
 
   getAllReviews(): Observable<ReviewInfo[]> {
     return this.http.get<ReviewInfo[]>('review', {
@@ -17,9 +18,13 @@ export class ReviewApiService {
   }
 
   getReviewsPaginate(page?: number, limit?: number) {
+    this.spinner.show()
     return this.http.get(`review/paginate?page=${page}&limit=${limit}`, {
       withCredentials: true,
-    });
+    })
+    .pipe(
+      finalize(() => this.spinner.hide())
+  );
   }
 
   getAllReviewsTags(): Observable<string[]> {

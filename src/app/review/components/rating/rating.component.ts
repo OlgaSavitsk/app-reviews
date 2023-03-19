@@ -1,11 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { AveragingService } from '@core/services/averaging.service';
 
 import { MaterialModule } from 'src/app/material/material.module';
 import { ReviewInfo, updateReview } from 'src/app/models/review.interface';
 import { ReviewControlService } from '../../services/review-control.service';
-import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-star',
@@ -14,7 +13,7 @@ import { Store } from '@ngrx/store';
   templateUrl: './rating.component.html',
   styleUrls: ['./rating.component.scss'],
 })
-export class RatingComponent implements OnInit {
+export class RatingComponent implements OnInit, OnChanges {
   @Input() data!: ReviewInfo;
   updateDto = updateReview;
   rating = 0;
@@ -24,12 +23,15 @@ export class RatingComponent implements OnInit {
   constructor(
     private reviewControlService: ReviewControlService,
     private averagingService: AveragingService,
-    private store: Store
   ) {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes)
+  }
 
   ngOnInit(): void {
     this.averageRating = this.averagingService.averaging(this.data.name, 0);
-    this.rating = this.averageRating   
+    this.rating = this.averageRating 
   }
 
   updateRating(i: number): void {

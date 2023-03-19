@@ -134,6 +134,10 @@ export class MainPageComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
+  disabled(event: Event) {
+    event.preventDefault()
+  }
+
   toReviewDetails(review: ReviewInfo): void {
     if (review.id) {
       this.router.navigate([`${Path.detailsPage}/${review.id}`]);
