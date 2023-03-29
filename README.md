@@ -1,4 +1,4 @@
-# App
+# Web Portal For Reviews (movies and series)
 
 Technology: Angular, Redux, NestJS, PostgreSQL;
 
