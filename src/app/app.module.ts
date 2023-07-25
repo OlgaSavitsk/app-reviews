@@ -18,7 +18,7 @@ import { SearchReviewEffects } from '@redux/effects/search-review.effect';
 import { AppComponent } from './app.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
 @NgModule({
