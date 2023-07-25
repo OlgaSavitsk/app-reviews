@@ -39,7 +39,7 @@ export const apiInterceptor: HttpInterceptorFn = (
   }
   return next(
     request.clone({
-      url: `${request.url}/`,
+      url: `${request.url}`,
     })
   );
 };
