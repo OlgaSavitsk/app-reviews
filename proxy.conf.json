@@ -1,0 +1,8 @@
+{
+  "/auth": {
+    "target": "https://review-project.onrender.com/",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}

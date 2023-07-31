@@ -46,7 +46,7 @@ export class SigninComponent implements OnInit, OnDestroy {
         .login(this.formGroup.value)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe({
-          next: (response) => {
+          next: () => {
             this.router.navigateByUrl(Path.adminPage);
           },
           error: (err) => {
